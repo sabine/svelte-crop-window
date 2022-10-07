@@ -13,6 +13,7 @@
     import { fade } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
     import type { CropShape, Media } from './types';
+    import { AnimatePosition } from './animation';
 
     export let crop_shape: CropShape = 'rect';
 
@@ -20,14 +21,8 @@
 
     export let show_lines = false;
 
-    export let outer_size: Size = {
-        width: 1,
-        height: 1
-    };
-    export let crop_window_size: Size = {
-        width: 1,
-        height: 1
-    };
+    export let outer_size: Size;
+    export let crop_window_size: Size;
 
     let dispatch = createEventDispatcher();
 
@@ -51,7 +46,7 @@
 
         pending_scale_offset = add_point(pending_scale_offset, offset);
         pending_scale = new_scale;
-        abort_animation();
+        animation.abort();
     }
 
     export function rotate(target: Point, degrees: number) {
@@ -61,12 +56,12 @@
 
         let t = rotate_point_around_center(target, image_points.center, pending_rotation);
         pending_rotate_offset = mul_point(sub_point(target, t), 1.0 / crop_window_size.width);
-        abort_animation();
+        animation.abort();
     }
 
     export function pan(vector: Point) {
         pending_pan = add_point(pending_pan, mul_point(vector, 1.0 / crop_window_size.width));
-        abort_animation();
+        animation.abort();
     }
 
     export function complete_manipulation(snap_back?: boolean) {
@@ -200,62 +195,6 @@
     export let scale: number;
     let pending_scale: number = 1;
 
-    function easeInOutCubic(x: number): number {
-        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-    }
-
-    let animation: {
-        start: DOMHighResTimeStamp | null;
-        start_position: Point | undefined;
-        end_position: Point | undefined;
-        start_scale: number;
-        end_scale: number;
-    } = {
-        start: null,
-        start_position: undefined,
-        end_position: undefined,
-        start_scale: 1,
-        end_scale: 1
-    };
-    let rafTimeout: number | null = null;
-    function animate() {
-        //console.log("animate", animation);
-        if (rafTimeout) window.cancelAnimationFrame(rafTimeout);
-        rafTimeout = window.requestAnimationFrame((timestamp: DOMHighResTimeStamp) => {
-            if (!animation.start) animation.start = timestamp;
-
-            const elapsed = Math.min((timestamp - animation.start) / 400, 1.0);
-            let z = easeInOutCubic(elapsed);
-
-            if (!animation.start_position || !animation.end_position)
-                throw 'animation lacks start or end position';
-
-            position = {
-                x: animation.start_position.x * (1 - z) + z * animation.end_position.x,
-                y: animation.start_position.y * (1 - z) + z * animation.end_position.y
-            };
-            scale = animation.start_scale * (1 - z) + z * animation.end_scale;
-
-            if (elapsed < 1.0) {
-                animate();
-            } else {
-                complete_manipulation(false);
-                if (rafTimeout) window.cancelAnimationFrame(rafTimeout);
-            }
-        });
-    }
-    function abort_animation() {
-        if (rafTimeout) window.cancelAnimationFrame(rafTimeout);
-
-        animation = {
-            start: null,
-            start_position: undefined,
-            end_position: undefined,
-            start_scale: 1,
-            end_scale: 1
-        };
-    }
-
     export let center_point: Point;
 
     let image_top_left_rotated: Point;
@@ -263,6 +202,16 @@
     let top_right_croparea_rotated: Point;
     let bottom_left_croparea_rotated: Point;
     let bottom_right_croparea_rotated: Point;
+
+    let animation = new AnimatePosition(
+        (p, s) => {
+            position = p;
+            scale = s;
+        },
+        () => {
+            complete_manipulation(false);
+        }
+    );
 
     function make_image_cover_crop_area() {
         if (!media_size) return;
@@ -404,16 +353,12 @@
         let offset = mul_point(rotate_point(correction, rotation), 1 / crop_window_size.width);
         //console.log("pan offset", offset);
 
-        animation.start = null;
-        animation.start_position = position;
-        animation.end_position = add_point(position, offset);
-        animation.start_scale = scale;
-        if (required_scale > 1) {
-            animation.end_scale = scale * required_scale;
-        } else {
-            animation.end_scale = scale;
-        }
-        animate();
+        animation.start(
+            position,
+            add_point(position, offset),
+            scale,
+            required_scale > 1 ? scale * required_scale : scale
+        );
 
         calculate_image_points();
     }
