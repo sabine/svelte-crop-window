@@ -13,7 +13,7 @@
     import { fade } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
     import type { CropShape, Media } from './types';
-    import { AnimatePosition } from './animation';
+    import { AnimatePosition } from './animate_position';
 
     export let crop_shape: CropShape = 'rect';
 
