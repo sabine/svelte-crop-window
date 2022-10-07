@@ -19,8 +19,6 @@
     function media_loaded() {
         const media_el = image_el || video_el;
 
-        //console.log("media_loaded", media_el);
-
         if (media_el) {
             const naturalWidth = image_el?.naturalWidth || video_el?.videoWidth || 0;
             const naturalHeight = image_el?.naturalHeight || video_el?.videoHeight || 0;
@@ -29,7 +27,6 @@
                 width: naturalWidth,
                 height: naturalHeight,
             };
-            //console.log("media_size", media_size);
             dispatch('media_size', media_size);
         }
     }
@@ -74,7 +71,8 @@
 <style>
     img,
     video {
-        outline: 1px solid transparent;
+        /*outline: 1px solid transparent;
+        box-sizing: content-box;*/
         display: block;
     }
 </style>

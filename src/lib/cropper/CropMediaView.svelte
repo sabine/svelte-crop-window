@@ -446,10 +446,11 @@ top: ${(outer_size.height - crop_window_size.height) / 2}px;
         <div
             style={`border: 1px solid var(--outline-color);
         position:absolute;
+        box-sizing:border-box;
         height: ${crop_window_size.height}px;
         width: ${crop_window_size.width}px;
-        left: ${(outer_size.width - crop_window_size.width) / 2 - 1}px;
-        top: ${(outer_size.height - crop_window_size.height) / 2 - 1}px;`}
+        left: ${(outer_size.width - crop_window_size.width) / 2}px;
+        top: ${(outer_size.height - crop_window_size.height) / 2}px;`}
         />
 
         {#if show_bars}
@@ -472,8 +473,8 @@ top: ${(outer_size.height - crop_window_size.height) / 2}px;
     position:absolute;
     height: ${crop_window_size.height}px;
     width: ${crop_window_size.width / 3}px;
-    left: ${(outer_size.width - crop_window_size.width) / 2 + crop_window_size.width / 3 - 1}px;
-    top: ${(outer_size.height - crop_window_size.height) / 2 - 1}px;`}
+    left: ${(outer_size.width - crop_window_size.width) / 2 + crop_window_size.width / 3}px;
+    top: ${(outer_size.height - crop_window_size.height) / 2}px;`}
             />
             <div
                 in:fade={{ duration: 100 }}
@@ -482,8 +483,8 @@ top: ${(outer_size.height - crop_window_size.height) / 2}px;
     position:absolute;
     height: ${crop_window_size.height / 3}px;
     width: ${crop_window_size.width}px;
-    left: ${(outer_size.width - crop_window_size.width) / 2 - 1}px;
-    top: ${(outer_size.height - crop_window_size.height) / 2 + crop_window_size.height / 3 - 1}px;`}
+    left: ${(outer_size.width - crop_window_size.width) / 2}px;
+    top: ${(outer_size.height - crop_window_size.height) / 2 + crop_window_size.height / 3}px;`}
             />
         {/if}
     </div>
@@ -577,8 +578,8 @@ top: ${(outer_size.height - crop_window_size.height) / 2}px;
 
     .crop-window {
         position: absolute;
-        /*border: 1px solid var(--outline-color);*/
-        box-sizing: border-box;
+        /*border: 1px solid var(--outline-color);
+        box-sizing: border-box;*/
         box-shadow: 0 0 0 9999em;
         color: var(--overlay-color);
     }

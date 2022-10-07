@@ -1,8 +1,7 @@
 <script lang="ts">
     import CropMediaView from './CropMediaView.svelte';
-    import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import {
-        add_point,
         get_angle_between_points,
         sub_point,
         type CropShape,
@@ -145,14 +144,18 @@
             }, 1600);
         }
     });
+
+    // prevent Safari on iOS >= 10 to zoom the page
+    function prevent_safari_zoom(e: Event) {
+        e.preventDefault();
+    }
 </script>
 
-<!-- on:gesturestart|preventDefault={()=>null} prevents Safari on iOS >= 10 to zoom the page -->
 <div
     bind:this={outer_el}
     class="outer"
-    on:gesturestart|preventDefault={() => null}
-    on:gesturechange|preventDefault={() => null}
+    on:gesturestart={prevent_safari_zoom}
+    on:gesturechange={prevent_safari_zoom}
     use:mouse_draggable
     on:wheel|nonpassive={on_wheel}
     on:mouse_draggable_move={mouse_dragmove}
