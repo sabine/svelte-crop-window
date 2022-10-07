@@ -120,11 +120,7 @@
         complete_manipulation();
     }
 
-    let dispatch = createEventDispatcher();
-
     function init() {
-        crop_media_el.init();
-        dispatch('init_existing_crop');
         crop_media_el.complete_manipulation();
     }
 

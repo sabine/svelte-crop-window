@@ -24,7 +24,6 @@ export function add_point(...args: Point[]): Point {
         r.x += args[i].x;
         r.y += args[i].y;
     }
-
     return r;
 }
 

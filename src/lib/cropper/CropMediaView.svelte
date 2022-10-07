@@ -157,11 +157,6 @@
         }
     }
 
-    export function init() {
-        //console.log("TransformMediaView init");
-        calculate_image_points();
-    }
-
     function set_media_size(e: CustomEvent<Size>) {
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
     }
