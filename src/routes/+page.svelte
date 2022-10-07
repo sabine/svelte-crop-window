@@ -24,7 +24,6 @@
 		<Cropper
 			bind:value={crop}
 			media={{ url, content_type }}
-			aspect={crop.aspect}
 			{crop_shape}
 			on:change
 		/>

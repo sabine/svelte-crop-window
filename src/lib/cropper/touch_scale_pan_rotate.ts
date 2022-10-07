@@ -69,13 +69,13 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
         rotation_accumulated = 0;
         pan_accumulated = { x: 0, y: 0 };
         scale_accumulated = 1;
-        
+
         if (touches.length > 1) {
             node.dispatchEvent(new CustomEvent('number_of_touch_points_changed', {
                 detail: null
             }));
         }
-        
+
 
         window.addEventListener('touchmove', handle_touchmove);
         window.addEventListener('touchend', handle_touchend);

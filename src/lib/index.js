@@ -1,1 +1,1 @@
-export { default as Cropper} from "./cropper/Cropper.svelte";
+export { default as Cropper } from "./cropper/Cropper.svelte";

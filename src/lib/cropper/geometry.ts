@@ -2,6 +2,7 @@ export type Size = {
     width: number;
     height: number;
 };
+
 export type CropShape = "rect" | "round";
 
 export type Point = {
@@ -16,11 +17,17 @@ export function rotate_point(p: Point, rotation: number): Point {
         y: p.y * Math.cos(rot) + p.x * Math.sin(rot),
     };
 }
-export function add_point(p: Point, offset: Point): Point {
-    return {
-        x: p.x + offset.x,
-        y: p.y + offset.y,
-    };
+export function add_point(...args: Point[]): Point {
+    let r: Point = {
+        x: 0,
+        y: 0,
+    }
+    for (var i = 0; i < args.length; i++) {
+        r.x += args[i].x;
+        r.y += args[i].y;
+    }
+
+    return r;
 }
 
 export function sub_point(p: Point, offset: Point): Point {
@@ -32,8 +39,8 @@ export function sub_point(p: Point, offset: Point): Point {
 
 export function mul_point(p: Point, v: number): Point {
     return {
-        x: p.x*v,
-        y: p.y*v,
+        x: p.x * v,
+        y: p.y * v,
     }
 }
 
@@ -70,14 +77,3 @@ export function get_angle_between_points(a: Point, b: Point): number {
 export function get_distance_between_points(a: Point, b: Point): number {
     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
 }
-
-/*
-function round(f: number): number {
-    return +f.toPrecision(6);
-}
-
-function clamp(value: number, min: number, max: number) {
-    return Math.min(Math.max(value, min), max);
-}
-
-*/

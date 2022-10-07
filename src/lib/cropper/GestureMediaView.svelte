@@ -1,40 +1,36 @@
 <script lang="ts">
-    import CropMediaView from "./CropMediaView.svelte";
-    import { createEventDispatcher, onDestroy, onMount } from "svelte";
+    import CropMediaView from './CropMediaView.svelte';
+    import { createEventDispatcher, onDestroy, onMount } from 'svelte';
     import {
         add_point,
         get_angle_between_points,
         sub_point,
         type CropShape,
         type Point,
-        type Size,
-    } from "./geometry";
-    import { browser } from "$app/environment";
-    import { keep_delaying_while_triggered } from "./throttle";
+        type Size
+    } from './geometry';
+    import { browser } from '$app/environment';
+    import { keep_delaying_while_triggered } from './throttle';
     import {
         touch_scale_pan_rotate,
-        type TouchScalePanRotateEvent,
-    } from "./touch_scale_pan_rotate";
+        type TouchScalePanRotateEvent
+    } from './touch_scale_pan_rotate';
     import {
         pos_from_mouse_or_touch_event,
         mouse_draggable,
-        type MouseDragMoveEvent,
-    } from "./mouse_events";
+        type MouseDragMoveEvent
+    } from './mouse_events';
+    import type { Media } from './types';
 
-    export let crop_shape: CropShape = "rect";
+    export let media: Media;
+
     export let aspect: number = 1;
-
-    if (crop_shape == "round" && aspect != 1)
-        throw "round crops must be circles!";
-
-    export let media: {
-        content_type: "image" | "video";
-        url: string;
-    };
-
     export let scale: number;
     export let rotation: number;
     export let position: Point;
+
+    export let crop_shape: CropShape = 'rect';
+    if (crop_shape == 'round' && aspect != 1) throw 'round crops must be circles!';
 
     let gesture_in_progress: boolean = false;
 
@@ -45,11 +41,11 @@
 
     export let outer_size: Size = {
         width: 1,
-        height: 1,
+        height: 1
     };
     export let crop_window_size: Size = {
         width: 1,
-        height: 1,
+        height: 1
     };
 
     let mouse_dragstart: Point | undefined;
@@ -58,7 +54,7 @@
         if (e.detail.mouse_button == 0) {
             let mouse_pan = {
                 x: e.detail.dx || 0,
-                y: e.detail.dy || 0,
+                y: e.detail.dy || 0
             };
 
             crop_media_el.pan(mouse_pan);
@@ -96,7 +92,7 @@
 
         const zoom_point = add_point(pos_from_mouse_or_touch_event(e), {
             x: -rect.x,
-            y: -rect.y,
+            y: -rect.y
         });
 
         gesture_in_progress = true;
@@ -129,16 +125,11 @@
         complete_manipulation();
     }
 
-    // this is to prevent Safari on iOS >= 10 to zoom the page
-    const prevent_zoom_safari = (e: Event) => e.preventDefault();
-
     let dispatch = createEventDispatcher();
 
     function init() {
-        //console.log("GestureMediaView init");
-
         crop_media_el.init();
-        dispatch("init_existing_crop");
+        dispatch('init_existing_crop');
         crop_media_el.complete_manipulation();
     }
 
@@ -155,47 +146,37 @@
             end_gesture = keep_delaying_while_triggered(() => {
                 gesture_in_progress = false;
             }, 1600);
-
-            outer_el.addEventListener("wheel", on_wheel, {
-                passive: false,
-            });
-            outer_el.addEventListener("gesturestart", prevent_zoom_safari);
-            outer_el.addEventListener("gesturechange", prevent_zoom_safari);
-        }
-    });
-
-    onDestroy(() => {
-        if (browser) {
-            outer_el.removeEventListener("wheel", on_wheel);
-            outer_el.removeEventListener("gesturestart", prevent_zoom_safari);
-            outer_el.removeEventListener("gesturechange", prevent_zoom_safari);
         }
     });
 </script>
 
+<!-- on:gesturestart|preventDefault={()=>null} prevents Safari on iOS >= 10 to zoom the page -->
 <div
-    bind:this="{outer_el}"
+    bind:this={outer_el}
     class="outer"
+    on:gesturestart|preventDefault={() => null}
+    on:gesturechange|preventDefault={() => null}
     use:mouse_draggable
-    on:mouse_draggable_move="{mouse_dragmove}"
-    on:mouse_draggable_end="{mouse_dragend}"
+    on:wheel|nonpassive={on_wheel}
+    on:mouse_draggable_move={mouse_dragmove}
+    on:mouse_draggable_end={mouse_dragend}
     use:touch_scale_pan_rotate
-    on:touch_scale_pan_rotate="{touch_scale_pan_rotate_handler}"
-    on:number_of_touch_points_changed="{number_of_touch_points_changed}"
-    on:touchend_scale_pan_rotate="{touchend_handler}"
+    on:touch_scale_pan_rotate={touch_scale_pan_rotate_handler}
+    on:number_of_touch_points_changed={number_of_touch_points_changed}
+    on:touchend_scale_pan_rotate={touchend_handler}
 >
     <CropMediaView
-        bind:this="{crop_media_el}"
+        bind:this={crop_media_el}
         bind:outer_size
-        crop_shape="{crop_shape}"
-        bind:show_bars="{gesture_in_progress}"
+        {crop_shape}
+        bind:show_bars={gesture_in_progress}
         bind:crop_window_size
         bind:media
         bind:scale
         bind:rotation
         bind:position
-        center_point="{center_point}"
-        on:media_size="{init}"
+        {center_point}
+        on:media_size={init}
         on:crop
     />
     <!-- {#if image_top_left_rotated}

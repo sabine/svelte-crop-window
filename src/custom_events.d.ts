@@ -14,5 +14,9 @@ declare namespace svelte.JSX {
         ontouch_scale_pan_rotate?: (e: TouchScalePanRotateEvent) => void;
         onnumber_of_touch_points_changed?: (e: CustomEvent<null>) => void;
         ontouchend_scale_pan_rotate?: (e: CustomEvent<null>) => void;
+
+
+        ongesturestart?: (e: Event) => void;
+        ongesturechange?: (e: Event) => void;
     }
 }

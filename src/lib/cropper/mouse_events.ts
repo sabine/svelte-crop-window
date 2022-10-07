@@ -81,7 +81,7 @@ export function mouse_draggable(node: HTMLElement) {
         y = p.y;
         let detail: MouseDragMove = {
             x, y, dx, dy,
-            mouse_button: mouse_button||0,
+            mouse_button: mouse_button || 0,
         };
         node.dispatchEvent(new CustomEvent('mouse_draggable_move', {
             detail
@@ -97,7 +97,7 @@ export function mouse_draggable(node: HTMLElement) {
         let detail: MouseDragStartEnd = {
             x: p.x,
             y: p.y,
-            mouse_button: mouse_button||0,
+            mouse_button: mouse_button || 0,
         };
         node.dispatchEvent(new CustomEvent('mouse_draggable_end', {
             detail

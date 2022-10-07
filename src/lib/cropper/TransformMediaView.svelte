@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from "svelte";
+    import { createEventDispatcher, onMount } from 'svelte';
+    import type { Media } from './types';
 
-    export let media: {
-        content_type: "image" | "video";
-        url: string;
-    };
+    export let media: Media;
 
     export let position: {
         x: number;
@@ -24,19 +22,17 @@
         //console.log("media_loaded", media_el);
 
         if (media_el) {
-            const naturalWidth =
-                image_el?.naturalWidth || video_el?.videoWidth || 0;
-            const naturalHeight =
-                image_el?.naturalHeight || video_el?.videoHeight || 0;
+            const naturalWidth = image_el?.naturalWidth || video_el?.videoWidth || 0;
+            const naturalHeight = image_el?.naturalHeight || video_el?.videoHeight || 0;
             const media_aspect = naturalWidth / naturalHeight;
 
             let media_size = {
                 width: naturalWidth,
                 height: naturalHeight,
-                aspect: media_aspect,
+                aspect: media_aspect
             };
             //console.log("media_size", media_size);
-            dispatch("media_size", media_size);
+            dispatch('media_size', media_size);
         }
     }
 
@@ -47,18 +43,18 @@
     });
 </script>
 
-{#if media && media.content_type == "image"}
+{#if media && media.content_type == 'image'}
     <img
         on:load={media_loaded}
         bind:this={image_el}
         src={media.url}
-        alt={""}
+        alt={''}
         style={`transform: translateX(-50%) translateY(-50%) rotate(${rotation}deg);` +
             `height: ${height}px;` +
             `margin-left: ${position.x}px;` +
             `margin-top: ${position.y}px;`}
     />
-{:else if media && media.content_type == "video"}
+{:else if media && media.content_type == 'video'}
     <video
         autoPlay
         loop
