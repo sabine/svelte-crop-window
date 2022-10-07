@@ -71,8 +71,6 @@
 <style>
     img,
     video {
-        /*outline: 1px solid transparent;
-        box-sizing: content-box;*/
         display: block;
     }
 </style>

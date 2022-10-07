@@ -3,7 +3,6 @@
     import {
         rotate_point_around_center,
         add_point,
-        type CropShape,
         type Size,
         sub_point,
         rotate_point,
@@ -13,7 +12,7 @@
     import type { Point } from './geometry';
     import { fade } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
-    import type { Media } from './types';
+    import type { CropShape, Media } from './types';
 
     export let crop_shape: CropShape = 'rect';
 
@@ -347,21 +346,29 @@
         }
 
         let crop_area_max_x = Math.max(
-            Math.max(top_left_croparea_rotated.x, top_right_croparea_rotated.x),
-            Math.max(bottom_left_croparea_rotated.x, bottom_right_croparea_rotated.x)
+            top_left_croparea_rotated.x,
+            top_right_croparea_rotated.x,
+            bottom_left_croparea_rotated.x,
+            bottom_right_croparea_rotated.x
         );
         let crop_area_min_x = Math.min(
-            Math.min(top_left_croparea_rotated.x, top_right_croparea_rotated.x),
-            Math.min(bottom_left_croparea_rotated.x, bottom_right_croparea_rotated.x)
+            top_left_croparea_rotated.x,
+            top_right_croparea_rotated.x,
+            bottom_left_croparea_rotated.x,
+            bottom_right_croparea_rotated.x
         );
 
         let crop_area_max_y = Math.max(
-            Math.max(top_left_croparea_rotated.y, top_right_croparea_rotated.y),
-            Math.max(bottom_left_croparea_rotated.y, bottom_right_croparea_rotated.y)
+            top_left_croparea_rotated.y,
+            top_right_croparea_rotated.y,
+            bottom_left_croparea_rotated.y,
+            bottom_right_croparea_rotated.y
         );
         let crop_area_min_y = Math.min(
-            Math.min(top_left_croparea_rotated.y, top_right_croparea_rotated.y),
-            Math.min(bottom_left_croparea_rotated.y, bottom_right_croparea_rotated.y)
+            top_left_croparea_rotated.y,
+            top_right_croparea_rotated.y,
+            bottom_left_croparea_rotated.y,
+            bottom_right_croparea_rotated.y
         );
 
         let crop_area_width = crop_area_max_x - crop_area_min_x;

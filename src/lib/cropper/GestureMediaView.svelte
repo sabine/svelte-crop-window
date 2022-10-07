@@ -4,7 +4,6 @@
     import {
         get_angle_between_points,
         sub_point,
-        type CropShape,
         type Point,
         type Size
     } from './geometry';
@@ -19,7 +18,7 @@
         mouse_draggable,
         type MouseDragMoveEvent
     } from './mouse_events';
-    import type { Media } from './types';
+    import type { CropShape, Media } from './types';
 
     export let media: Media;
 

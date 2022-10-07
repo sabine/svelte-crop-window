@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { CropShape, Point, Size } from './geometry';
+    import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { createEventDispatcher, onMount } from 'svelte';
-    import type { Media } from './types';
+    import type { CropShape, Media } from './types';
 
     export let media: Media;
 
@@ -40,10 +40,6 @@
         dispatch('change');
     }
 
-    function init() {
-        gesture_el.apply(value);
-    }
-
     onMount(() => {
         compute_window_sizes();
     });
@@ -69,7 +65,6 @@
                   };
     }
 
-    let gesture_el: GestureMediaView;
     let outer_el: HTMLDivElement;
 </script>
 
@@ -82,18 +77,16 @@
 --outer-width:${outer_size?.width || 0}px;`}>
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
-            bind:this={gesture_el}
             {crop_shape}
             bind:aspect={value.aspect}
             bind:scale={value.scale}
             bind:rotation={value.rotation}
             bind:position={value.position}
             {media}
-            bind:crop_window_size
-            bind:outer_size
-            bind:center_point
+            {crop_window_size}
+            {outer_size}
+            {center_point}
             on:crop={crop}
-            on:init_existing_crop={init}
         />
     {/if}
 </div>

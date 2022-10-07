@@ -3,8 +3,6 @@ export type Size = {
     height: number;
 };
 
-export type CropShape = "rect" | "round";
-
 export type Point = {
     x: number;
     y: number;
