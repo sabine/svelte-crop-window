@@ -18,7 +18,7 @@
 
     export let media: Media;
 
-    export let show_bars = false;
+    export let show_lines = false;
 
     export let outer_size: Size = {
         width: 1,
@@ -440,30 +440,14 @@
     />
     <div class="inner">
         <div class="crop-window" class:round={crop_shape == 'round'} />
-        <!-- box -->
         <div class="box" />
 
-        {#if show_bars}
-            <!-- bars -->
+        {#if show_lines}
+            <div class="vertical-lines" in:fade={{ duration: 100 }} out:fade={{ duration: 1000 }} />
             <div
+                class="horizontal-lines"
                 in:fade={{ duration: 100 }}
                 out:fade={{ duration: 1000 }}
-                style={`border-left: 1px solid var(--outline-color);border-right: 1px solid var(--outline-color);
-position:absolute;
-height: var(--crop-window-height);
-width: calc(var(--crop-window-width) / 3);
-left: calc((var(--outer-width) - var(--crop-window-width)) / 2 + var(--crop-window-width) / 3);
-top: calc((var(--outer-height) - var(--crop-window-height)) / 2);`}
-            />
-            <div
-                in:fade={{ duration: 100 }}
-                out:fade={{ duration: 1000 }}
-                style={`border-top: 1px solid var(--outline-color);border-bottom: 1px solid var(--outline-color);
-position:absolute;
-height: calc(var(--crop-window-height) / 3);
-width: var(--crop-window-width);
-left: calc((var(--outer-width) - var(--crop-window-width)) / 2);
-top: calc((var(--outer-height) - var(--crop-window-height)) / 2 + var(--crop-window-height) / 3);`}
             />
         {/if}
     </div>
@@ -572,6 +556,30 @@ top: calc((var(--outer-height) - var(--crop-window-height)) / 2 + var(--crop-win
     .box {
         border: 1px solid var(--outline-color);
         box-sizing: border-box;
+    }
+
+    .horizontal-lines {
+        border-top: 1px solid var(--outline-color);
+        border-bottom: 1px solid var(--outline-color);
+        position: absolute;
+        height: calc(var(--crop-window-height) / 3);
+        width: var(--crop-window-width);
+        left: calc((var(--outer-width) - var(--crop-window-width)) / 2);
+        top: calc(
+            (var(--outer-height) - var(--crop-window-height)) / 2 + var(--crop-window-height) / 3
+        );
+    }
+
+    .vertical-lines {
+        border-left: 1px solid var(--outline-color);
+        border-right: 1px solid var(--outline-color);
+        position: absolute;
+        height: var(--crop-window-height);
+        width: calc(var(--crop-window-width) / 3);
+        left: calc(
+            (var(--outer-width) - var(--crop-window-width)) / 2 + var(--crop-window-width) / 3
+        );
+        top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
     }
 
     /*

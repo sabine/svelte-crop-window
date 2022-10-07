@@ -168,7 +168,7 @@
         bind:this={crop_media_el}
         bind:outer_size
         {crop_shape}
-        bind:show_bars={gesture_in_progress}
+        bind:show_lines={gesture_in_progress}
         bind:crop_window_size
         bind:media
         bind:scale
