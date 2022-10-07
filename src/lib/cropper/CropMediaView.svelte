@@ -77,10 +77,7 @@
         scale = scale * pending_scale;
         pending_scale = 1;
 
-        position = add_point(
-            position,
-            add_point(pending_pan, add_point(pending_rotate_offset, pending_scale_offset))
-        );
+        position = add_point(position, pending_pan, pending_rotate_offset, pending_scale_offset);
         pending_pan = { x: 0, y: 0 };
         pending_rotate_offset = { x: 0, y: 0 };
         pending_scale_offset = { x: 0, y: 0 };
@@ -427,10 +424,7 @@
         position={add_point(
             center_point,
             mul_point(
-                add_point(
-                    position,
-                    add_point(pending_pan, add_point(pending_rotate_offset, pending_scale_offset))
-                ),
+                add_point(position, pending_pan, pending_rotate_offset, pending_scale_offset),
                 crop_window_size.width
             )
         )}

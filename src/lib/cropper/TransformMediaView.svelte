@@ -24,12 +24,10 @@
         if (media_el) {
             const naturalWidth = image_el?.naturalWidth || video_el?.videoWidth || 0;
             const naturalHeight = image_el?.naturalHeight || video_el?.videoHeight || 0;
-            const media_aspect = naturalWidth / naturalHeight;
 
             let media_size = {
                 width: naturalWidth,
                 height: naturalHeight,
-                aspect: media_aspect
             };
             //console.log("media_size", media_size);
             dispatch('media_size', media_size);
@@ -48,7 +46,7 @@
         on:load={media_loaded}
         bind:this={image_el}
         src={media.url}
-        alt={''}
+        alt={'image to be cropped'}
         style={`transform: translateX(-50%) translateY(-50%) rotate(${rotation}deg);` +
             `height: ${height}px;` +
             `margin-left: ${position.x}px;` +

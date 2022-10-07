@@ -90,10 +90,7 @@
 
         let rect = outer_el.getBoundingClientRect();
 
-        const zoom_point = add_point(pos_from_mouse_or_touch_event(e), {
-            x: -rect.x,
-            y: -rect.y
-        });
+        const zoom_point = sub_point(pos_from_mouse_or_touch_event(e), rect);
 
         gesture_in_progress = true;
 
