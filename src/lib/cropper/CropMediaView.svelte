@@ -432,59 +432,31 @@
         on:media_size={set_media_size}
     />
     <div class="inner">
-        <div
-            class="crop-window"
-            class:round={crop_shape == 'round'}
-            style={`
-height: ${crop_window_size.height}px;
-width: ${crop_window_size.width}px;
-left: ${(outer_size.width - crop_window_size.width) / 2}px;
-top: ${(outer_size.height - crop_window_size.height) / 2}px;
-`}
-        />
+        <div class="crop-window" class:round={crop_shape == 'round'} />
         <!-- box -->
-        <div
-            style={`border: 1px solid var(--outline-color);
-        position:absolute;
-        box-sizing:border-box;
-        height: ${crop_window_size.height}px;
-        width: ${crop_window_size.width}px;
-        left: ${(outer_size.width - crop_window_size.width) / 2}px;
-        top: ${(outer_size.height - crop_window_size.height) / 2}px;`}
-        />
+        <div class="box" />
 
         {#if show_bars}
-            <!-- crosshair -->
-            <!--<div
-                in:fade={{ duration: 100 }}
-                out:fade={{ duration: 1000 }}
-                style="background: var(--outline-color); height:1px;width:17px; position:absolute; left: calc(50% - 8.5px); top: calc(50% - 0.5px)"
-            />
-            <div
-                in:fade={{ duration: 100 }}
-                out:fade={{ duration: 1000 }}
-                style="background: var(--outline-color); height:17px;width:1px; position:absolute; left: calc(50% - 0.5px); top: calc(50% - 8.5px)"
-            />-->
             <!-- bars -->
             <div
                 in:fade={{ duration: 100 }}
                 out:fade={{ duration: 1000 }}
                 style={`border-left: 1px solid var(--outline-color);border-right: 1px solid var(--outline-color);
-    position:absolute;
-    height: ${crop_window_size.height}px;
-    width: ${crop_window_size.width / 3}px;
-    left: ${(outer_size.width - crop_window_size.width) / 2 + crop_window_size.width / 3}px;
-    top: ${(outer_size.height - crop_window_size.height) / 2}px;`}
+position:absolute;
+height: var(--crop-window-height);
+width: calc(var(--crop-window-width) / 3);
+left: calc((var(--outer-width) - var(--crop-window-width)) / 2 + var(--crop-window-width) / 3);
+top: calc((var(--outer-height) - var(--crop-window-height)) / 2);`}
             />
             <div
                 in:fade={{ duration: 100 }}
                 out:fade={{ duration: 1000 }}
                 style={`border-top: 1px solid var(--outline-color);border-bottom: 1px solid var(--outline-color);
-    position:absolute;
-    height: ${crop_window_size.height / 3}px;
-    width: ${crop_window_size.width}px;
-    left: ${(outer_size.width - crop_window_size.width) / 2}px;
-    top: ${(outer_size.height - crop_window_size.height) / 2 + crop_window_size.height / 3}px;`}
+position:absolute;
+height: calc(var(--crop-window-height) / 3);
+width: var(--crop-window-width);
+left: calc((var(--outer-width) - var(--crop-window-width)) / 2);
+top: calc((var(--outer-height) - var(--crop-window-height)) / 2 + var(--crop-window-height) / 3);`}
             />
         {/if}
     </div>
@@ -576,13 +548,25 @@ top: ${(outer_size.height - crop_window_size.height) / 2}px;
         border-radius: 50%;
     }
 
-    .crop-window {
+    .crop-window,
+    .box {
         position: absolute;
-        /*border: 1px solid var(--outline-color);
-        box-sizing: border-box;*/
+        height: var(--crop-window-height);
+        width: var(--crop-window-width);
+        left: calc((var(--outer-width) - var(--crop-window-width)) / 2);
+        top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
+    }
+
+    .crop-window {
         box-shadow: 0 0 0 9999em;
         color: var(--overlay-color);
     }
+
+    .box {
+        border: 1px solid var(--outline-color);
+        box-sizing: border-box;
+    }
+
     /*
     .p {
         background-color: red;

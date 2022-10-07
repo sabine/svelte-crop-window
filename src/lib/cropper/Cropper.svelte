@@ -75,7 +75,11 @@
 
 <svelte:window on:resize={compute_window_sizes} />
 
-<div bind:this={outer_el} class="outer">
+<div bind:this={outer_el} class="outer"
+  style={`--crop-window-height:${crop_window_size?.height || 0}px;
+--crop-window-width:${crop_window_size?.width || 0}px;
+--outer-height:${outer_size?.height || 0}px;
+--outer-width:${outer_size?.width || 0}px;`}>
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             bind:this={gesture_el}
