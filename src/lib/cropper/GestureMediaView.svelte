@@ -1,13 +1,7 @@
 <script lang="ts">
     import CropMediaView from './CropMediaView.svelte';
-    import { createEventDispatcher, onMount } from 'svelte';
-    import {
-        get_angle_between_points,
-        sub_point,
-        type Point,
-        type Size
-    } from './geometry';
-    import { browser } from '$app/environment';
+    import { onMount } from 'svelte';
+    import { get_angle_between_points, sub_point, type Point, type Size } from './geometry';
     import { keep_delaying_while_triggered } from './throttle';
     import {
         touch_scale_pan_rotate,
@@ -35,16 +29,9 @@
     let outer_el: HTMLDivElement;
     let crop_media_el: CropMediaView;
 
-    export let center_point = { x: 1, y: 1 };
-
-    export let outer_size: Size = {
-        width: 1,
-        height: 1
-    };
-    export let crop_window_size: Size = {
-        width: 1,
-        height: 1
-    };
+    export let center_point: Point;
+    export let outer_size: Size;
+    export let crop_window_size: Size;
 
     let mouse_dragstart: Point | undefined;
     function mouse_dragmove(e: MouseDragMoveEvent) {
@@ -128,16 +115,14 @@
     let end_gesture: () => void;
 
     onMount(() => {
-        if (browser) {
-            complete_manipulation = keep_delaying_while_triggered(() => {
-                end_gesture();
-                crop_media_el.complete_manipulation();
-            }, 200);
+        complete_manipulation = keep_delaying_while_triggered(() => {
+            end_gesture();
+            crop_media_el.complete_manipulation();
+        }, 200);
 
-            end_gesture = keep_delaying_while_triggered(() => {
-                gesture_in_progress = false;
-            }, 1600);
-        }
+        end_gesture = keep_delaying_while_triggered(() => {
+            gesture_in_progress = false;
+        }, 1600);
     });
 
     // prevent Safari on iOS >= 10 to zoom the page
