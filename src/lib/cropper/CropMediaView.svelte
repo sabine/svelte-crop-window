@@ -100,7 +100,8 @@
                     },
                     rotation
                 ),
-                offset
+                offset,
+                center_point
             );
 
             let top_right = add_point(
@@ -109,10 +110,10 @@
                         x: width / 2,
                         y: -height / 2
                     },
-
                     rotation
                 ),
-                offset
+                offset,
+                center_point
             );
 
             let bottom_right = add_point(
@@ -121,10 +122,10 @@
                         x: width / 2,
                         y: height / 2
                     },
-
                     rotation
                 ),
-                offset
+                offset,
+                center_point
             );
 
             let bottom_left = add_point(
@@ -133,18 +134,18 @@
                         x: -width / 2,
                         y: height / 2
                     },
-
                     rotation
                 ),
-                offset
+                offset,
+                center_point
             );
 
             image_points = {
-                top_left: add_point(top_left, center_point),
-                top_right: add_point(top_right, center_point),
-                bottom_right: add_point(bottom_right, center_point),
-                bottom_left: add_point(bottom_left, center_point),
-                center: add_point(get_center(top_left, bottom_right), center_point)
+                top_left,
+                top_right,
+                bottom_right,
+                bottom_left,
+                center: add_point(get_center(top_left, bottom_right))
             };
 
             //console.log("image_points", image_points);
@@ -154,13 +155,18 @@
 
     function set_media_size(e: CustomEvent<Size>) {
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
+        complete_manipulation(true);
     }
 
-    export function set(p: Point, r: number, s: number) {
-        position = p;
-        rotation = r;
-        scale = s;
-    }
+    let animation = new AnimatePosition(
+        (p, s) => {
+            position = p;
+            scale = s;
+        },
+        () => {
+            complete_manipulation(false);
+        }
+    );
 
     let media_size: {
         width: number;
@@ -202,16 +208,6 @@
     let top_right_croparea_rotated: Point;
     let bottom_left_croparea_rotated: Point;
     let bottom_right_croparea_rotated: Point;
-
-    let animation = new AnimatePosition(
-        (p, s) => {
-            position = p;
-            scale = s;
-        },
-        () => {
-            complete_manipulation(false);
-        }
-    );
 
     function make_image_cover_crop_area() {
         if (!media_size) return;

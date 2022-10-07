@@ -55,6 +55,8 @@
 
             mouse_dragstart = p;
 
+            console.log("rotate", center_point, mouse_rotate);
+
             crop_media_el.rotate(center_point, mouse_rotate);
         }
         gesture_in_progress = true;
