@@ -27,3 +27,5 @@ npm run dev -- --open
 ## Acknowledgements
 
 Big thanks goes to the Android library https://github.com/Yalantis/uCrop for being a great inspiration and to the developers for sharing their thought process in their [legendary blog post](https://yalantis.com/blog/how-we-created-ucrop-our-own-image-cropping-library-for-android/).
+
+The library that inspired me to start working on my own crop component is https://github.com/ValentinH/svelte-easy-crop. I probably would never have gotten started in the first place had I not found and studied this neat little library.
