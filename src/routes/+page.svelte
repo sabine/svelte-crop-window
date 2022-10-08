@@ -1,6 +1,6 @@
 <script lang="ts">
     import Cropper from '$lib/cropper/Cropper.svelte';
-    import type { Media, Options } from '$lib/cropper/types';
+    import { defaultOptions, type Media, type Options } from '$lib/cropper/types';
 
     let media: Media = {
         content_type: 'video',
@@ -8,6 +8,7 @@
     };
 
     let options: Options = {
+        ...defaultOptions,
         shape: 'rect'
     };
 

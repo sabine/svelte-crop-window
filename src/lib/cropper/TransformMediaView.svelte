@@ -69,7 +69,7 @@
 {/if}
 
 <div>
-{rotation}, {position.y}, {position.y}, {height}
+{rotation}, {position.x}, {position.y}, {height}
 </div>
 
 <style>

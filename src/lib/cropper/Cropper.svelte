@@ -59,7 +59,9 @@
     style={`--crop-window-height:${crop_window_size?.height || 0}px;
 --crop-window-width:${crop_window_size?.width || 0}px;
 --outer-height:${outer_size?.height || 0}px;
---outer-width:${outer_size?.width || 0}px;`}
+--outer-width:${outer_size?.width || 0}px;
+--outline-color:${options.outline_color};
+--overlay-color:${options.overlay_color};`}
 >
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView

@@ -388,7 +388,7 @@
             {/if}
         </div>
     </div>
-    <!-- 
+    <!--
     {#if image_points}
     <div
         class="p"
@@ -426,7 +426,7 @@
         <div
             style="position:absolute;left:{image_top_left_rotated.x -
                 2}px;top: {image_top_left_rotated.y +
-                media_size.height * scale -
+                media_size.height * value.scale -
                 2}px; width: 5px; height:5px; background:lime"
         />
     {/if}
@@ -458,7 +458,7 @@
                 2}px; width: 5px; height:5px; background:lime"
         />
     {/if}
--->
+    -->
 {/if}
 
 <style>

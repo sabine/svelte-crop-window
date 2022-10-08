@@ -161,8 +161,6 @@
         overflow: hidden;
         position: relative;
         background: transparent;
-        --outline-color: rgba(255, 255, 255, 0.4);
-        --overlay-color: rgba(0, 0, 0, 0.7);
         cursor: crosshair;
     }
 </style>
