@@ -31,8 +31,6 @@
     let dispatch = createEventDispatcher();
 
     function crop(e: CustomEvent<{ position: Point; rotation: number; scale: number }>) {
-        //console.log("crop", e.detail);
-
         value.position = e.detail.position;
         value.scale = e.detail.scale;
         value.rotation = e.detail.rotation;

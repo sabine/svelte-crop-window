@@ -81,7 +81,6 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
         window.addEventListener('touchend', handle_touchend);
     }
     function handle_touchmove(event: TouchEvent) {
-        //console.log("handle_touchmove", touches);
         if (event.touches.length == 1) {
             const old_focal_point = touch_by_identifier(event.touches[0].identifier);
             const focal_point = point_from_touch(event.touches[0]);

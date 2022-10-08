@@ -51,7 +51,6 @@
 
     export function rotate(target: Point, degrees: number) {
         if (!image_points) throw 'image points not defined';
-        //console.log("rotate", target, image_points.center, degrees);
         pending_rotation = pending_rotation + degrees;
 
         let t = rotate_point_around_center(target, image_points.center, pending_rotation);
@@ -75,8 +74,6 @@
         pending_pan = { x: 0, y: 0 };
         pending_rotate_offset = { x: 0, y: 0 };
         pending_scale_offset = { x: 0, y: 0 };
-
-        calculate_image_points();
 
         if (snap_back || snap_back === undefined) {
             make_image_cover_crop_area();
@@ -147,9 +144,6 @@
                 bottom_left,
                 center: add_point(get_center(top_left, bottom_right))
             };
-
-            //console.log("image_points", image_points);
-            dispatch('image_points');
         }
     }
 
@@ -173,15 +167,6 @@
         height: number;
         aspect: number;
     };
-    export let image_points:
-        | {
-              top_left: Point;
-              top_right: Point;
-              bottom_right: Point;
-              bottom_left: Point;
-              center: Point;
-          }
-        | undefined = undefined;
 
     export let position: Point;
     let pending_pan: Point = {
@@ -203,6 +188,15 @@
 
     export let center_point: Point;
 
+    let image_points:
+        | {
+              top_left: Point;
+              top_right: Point;
+              bottom_right: Point;
+              bottom_left: Point;
+              center: Point;
+          }
+        | undefined = undefined;
     let image_top_left_rotated: Point;
     let top_left_croparea_rotated: Point;
     let top_right_croparea_rotated: Point;
@@ -211,6 +205,9 @@
 
     function make_image_cover_crop_area() {
         if (!media_size) return;
+
+        calculate_image_points();
+
         if (!image_points) return;
         if (!outer_size) return;
         if (!crop_window_size) return;
@@ -345,9 +342,7 @@
                 Math.min(image_top_left_rotated.y + size.height - crop_area_max_y, 0)
         };
 
-        //console.log("correction");
         let offset = mul_point(rotate_point(correction, rotation), 1 / crop_window_size.width);
-        //console.log("pan offset", offset);
 
         animation.start(
             position,
@@ -355,8 +350,6 @@
             scale,
             required_scale > 1 ? scale * required_scale : scale
         );
-
-        calculate_image_points();
     }
 </script>
 
