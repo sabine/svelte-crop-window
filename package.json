@@ -1,10 +1,20 @@
 {
 	"name": "svelte-media-crop",
 	"version": "0.0.1",
+    "description": "A Svelte component to crop images and videos with touch and mouse gestures",
+    "homepage": "https://github.com/sabine/svelte-media-crop",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/sabine/svelte-media-crop"
+    },
     "main": "dist/lib/index.js",
     "module": "dist/lib/index.mjs",
     "svelte": "src/lib/index.js",
-	"scripts": {
+
+    "author": "Sabine Schmaltz <info@sabineschmaltz.de>",
+    "license": "MIT",
+
+    "scripts": {
 		"dev": "vite dev --port 3000 --host",
 		"build": "svelte-kit sync && svelte-package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
