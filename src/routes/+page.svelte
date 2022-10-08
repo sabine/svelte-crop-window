@@ -3,8 +3,8 @@
     import type { Media, Options } from '$lib/cropper/types';
 
     let media: Media = {
-        content_type: 'image',
-        url: '/hintersee-3601004.jpg'
+        content_type: 'video',
+        url: '/Mountain - 8837.mp4'
     };
 
     let options: Options = {

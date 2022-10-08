@@ -68,7 +68,17 @@
     </video>
 {/if}
 
+<div>
+{rotation}, {position.y}, {position.y}, {height}
+</div>
+
 <style>
+    div {
+        position:fixed;
+        right:0;
+        top:0;
+        background-color: yellow;
+    }
     img,
     video {
         display: block;
