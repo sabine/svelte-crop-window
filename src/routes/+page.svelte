@@ -14,7 +14,7 @@
 
     let value = {
         position: { x: 0, y: 0 },
-        aspect: 1.20,
+        aspect: 1.2,
         rotation: 0,
         scale: 1.0
     };
@@ -32,7 +32,8 @@
     {JSON.stringify(value)}
 
     <p>
-        Image from pixabay: <a href="https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/"
+        Image from pixabay: <a
+            href="https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/"
             >https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/</a
         >
     </p>

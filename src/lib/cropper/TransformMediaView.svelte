@@ -69,14 +69,14 @@
 {/if}
 
 <div>
-{rotation}, {position.x}, {position.y}, {height}
+    {rotation}, {position.x}, {position.y}, {height}
 </div>
 
 <style>
     div {
-        position:fixed;
-        right:0;
-        top:0;
+        position: fixed;
+        right: 0;
+        top: 0;
         background-color: yellow;
     }
     img,

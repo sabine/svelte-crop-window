@@ -1,29 +1,33 @@
-export function pos_from_mouse_or_touch_event(event: MouseEvent | TouchEvent): { x: number, y: number; } {
+export function pos_from_mouse_or_touch_event(event: MouseEvent | TouchEvent): {
+    x: number;
+    y: number;
+} {
     let pos: MouseEvent | Touch;
     if (event.type === 'touchstart') {
         pos = (event as TouchEvent).touches[0];
-    }
-    else {
+    } else {
         if (event.type === 'touchmove') {
             pos = (event as TouchEvent).changedTouches[0];
-        }
-        else {
+        } else {
             pos = event as MouseEvent;
         }
     }
     return {
         x: pos.clientX,
-        y: pos.clientY,
+        y: pos.clientY
     };
 }
 
 export type MouseDragMove = {
-    x: number, y: number,
-    dx: number, dy: number;
+    x: number;
+    y: number;
+    dx: number;
+    dy: number;
     mouse_button: number;
 };
 export type MouseDragStartEnd = {
-    x: number, y: number,
+    x: number;
+    y: number;
     mouse_button: number;
 };
 
@@ -59,12 +63,14 @@ export function mouse_draggable(node: HTMLElement) {
             let detail: MouseDragStartEnd = {
                 x: p.x,
                 y: p.y,
-                mouse_button,
+                mouse_button
             };
 
-            node.dispatchEvent(new CustomEvent('mouse_draggable_start', {
-                detail
-            }));
+            node.dispatchEvent(
+                new CustomEvent('mouse_draggable_start', {
+                    detail
+                })
+            );
             window.addEventListener('mousemove', handle_dragmove);
             window.addEventListener('mouseup', handle_dragend);
         }
@@ -79,12 +85,17 @@ export function mouse_draggable(node: HTMLElement) {
         x = p.x;
         y = p.y;
         let detail: MouseDragMove = {
-            x, y, dx, dy,
-            mouse_button: mouse_button || 0,
+            x,
+            y,
+            dx,
+            dy,
+            mouse_button: mouse_button || 0
         };
-        node.dispatchEvent(new CustomEvent('mouse_draggable_move', {
-            detail
-        }));
+        node.dispatchEvent(
+            new CustomEvent('mouse_draggable_move', {
+                detail
+            })
+        );
     }
     function handle_dragend(event: MouseEvent) {
         event.preventDefault();
@@ -96,11 +107,13 @@ export function mouse_draggable(node: HTMLElement) {
         let detail: MouseDragStartEnd = {
             x: p.x,
             y: p.y,
-            mouse_button: mouse_button || 0,
+            mouse_button: mouse_button || 0
         };
-        node.dispatchEvent(new CustomEvent('mouse_draggable_end', {
-            detail
-        }));
+        node.dispatchEvent(
+            new CustomEvent('mouse_draggable_end', {
+                detail
+            })
+        );
         window.removeEventListener('mousemove', handle_dragmove);
         window.removeEventListener('mouseup', handle_dragend);
     }

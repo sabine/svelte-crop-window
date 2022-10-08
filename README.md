@@ -5,7 +5,6 @@ A component for cropping images and videos that supports touch pinch, zoom, and 
 ![image crop](https://github.com/sabine/svelte-media-crop/blob/main/docs/cropper.gif?raw=true)
 ![image crop](https://github.com/sabine/svelte-media-crop/blob/main/docs/video_crop.gif?raw=true)
 
-
 Currently looking for contributors to help bring this into a good shape so other people than just me can use it.
 
 If you can do code-review, that's very welcome.
@@ -22,7 +21,6 @@ npm run dev
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
-
 
 ## Acknowledgements
 

@@ -1,4 +1,4 @@
-import type { Point } from "./geometry";
+import type { Point } from './geometry';
 
 function easeInOutCubic(x: number): number {
     return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -20,7 +20,6 @@ export let NO_ANIMATION: AnimationState = {
     end_scale: 1
 };
 
-
 function animate(animation: AnimatePosition) {
     if (animation.rafTimeout) window.cancelAnimationFrame(animation.rafTimeout);
     animation.rafTimeout = window.requestAnimationFrame((timestamp: DOMHighResTimeStamp) => {
@@ -37,7 +36,8 @@ function animate(animation: AnimatePosition) {
                 x: animation.start_position.x * (1 - z) + z * animation.end_position.x,
                 y: animation.start_position.y * (1 - z) + z * animation.end_position.y
             },
-            animation.start_scale * (1 - z) + z * animation.end_scale);
+            animation.start_scale * (1 - z) + z * animation.end_scale
+        );
 
         if (elapsed < 1.0) {
             animate(animation);
@@ -57,7 +57,12 @@ export class AnimatePosition {
 
     rafTimeout: number | null = null;
 
-    start = (start_position: Point, end_position: Point, start_scale: number, end_scale: number) => {
+    start = (
+        start_position: Point,
+        end_position: Point,
+        start_scale: number,
+        end_scale: number
+    ) => {
         this.start_time = null;
         this.start_position = start_position;
         this.end_position = end_position;
@@ -76,7 +81,7 @@ export class AnimatePosition {
         this.end_scale = 1;
     };
 
-    on_progress: ((position: Point, scale: number) => void);
+    on_progress: (position: Point, scale: number) => void;
     on_end: () => void;
 
     constructor(on_progress: (position: Point, scale: number) => void, on_end: () => void) {

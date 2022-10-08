@@ -1,13 +1,20 @@
-import { add_point, get_angle_between_points, get_center, get_distance_between_points, sub_point, type Point } from './geometry';
+import {
+    add_point,
+    get_angle_between_points,
+    get_center,
+    get_distance_between_points,
+    sub_point,
+    type Point
+} from './geometry';
 
 export type TouchScalePanRotateEvent = {
     detail: TouchScalePanRotate;
 };
 export type TouchScalePanRotate = {
-    focal_point: Point,
-    pan: Point,
-    rotation: number,
-    scale: number,
+    focal_point: Point;
+    pan: Point;
+    rotation: number;
+    scale: number;
 };
 
 const MIN_ROTATION: number = 25;
@@ -27,7 +34,7 @@ function pan_unlocked(p: Point): boolean {
 }
 
 export function touch_scale_pan_rotate(node: HTMLElement) {
-    let touches: { p: Point, identifier: number; }[] = [];
+    let touches: { p: Point; identifier: number }[] = [];
     let rafTimeout: number | undefined;
     let rotation_accumulated: number = 0;
     let pan_accumulated: Point = { x: 0, y: 0 };
@@ -35,14 +42,17 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
 
     function point_from_touch(t: Touch): Point {
         let rect = node.getBoundingClientRect();
-        return sub_point({
-            x: t.clientX,
-            y: t.clientY
-        }, rect);
+        return sub_point(
+            {
+                x: t.clientX,
+                y: t.clientY
+            },
+            rect
+        );
     }
 
     function update_touch(t: Touch) {
-        let existing_touch_index = touches.findIndex(tt => tt.identifier == t.identifier);
+        let existing_touch_index = touches.findIndex((tt) => tt.identifier == t.identifier);
         if (existing_touch_index != -1) {
             touches[existing_touch_index].p = point_from_touch(t);
         } else {
@@ -51,7 +61,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
     }
 
     function touch_by_identifier(identifier: number): Point | undefined {
-        let existing_touch_index = touches.findIndex(tt => tt.identifier == identifier);
+        let existing_touch_index = touches.findIndex((tt) => tt.identifier == identifier);
         if (existing_touch_index != -1) {
             return touches[existing_touch_index].p;
         }
@@ -70,9 +80,11 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
         scale_accumulated = 1;
 
         if (touches.length > 1) {
-            node.dispatchEvent(new CustomEvent('number_of_touch_points_changed', {
-                detail: null
-            }));
+            node.dispatchEvent(
+                new CustomEvent('number_of_touch_points_changed', {
+                    detail: null
+                })
+            );
         }
 
         window.addEventListener('touchmove', handle_touchmove);
@@ -84,7 +96,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
             const old_focal_point = touch_by_identifier(event.touches[0].identifier);
             const focal_point = point_from_touch(event.touches[0]);
 
-            if (!focal_point) throw "no focal_point";
+            if (!focal_point) throw 'no focal_point';
             let pan = { x: 0, y: 0 };
             if (old_focal_point) {
                 pan = sub_point(focal_point, old_focal_point);
@@ -94,7 +106,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
                 focal_point,
                 pan,
                 rotation: 0,
-                scale: 1,
+                scale: 1
             };
 
             dispatch_touch_scale_pan_rotate(e, event.touches);
@@ -112,7 +124,8 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
 
             let rotation: number = 0;
             if (old1 && old2) {
-                rotation = get_angle_between_points(new1, new2) - get_angle_between_points(old1, old2);;
+                rotation =
+                    get_angle_between_points(new1, new2) - get_angle_between_points(old1, old2);
                 if (!rotation_unlocked(rotation_accumulated)) {
                     rotation_accumulated += rotation;
                 }
@@ -128,7 +141,9 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
 
             let scale: number = 1;
             if (old1 && old2) {
-                scale = get_distance_between_points(new1, new2) / get_distance_between_points(old1, old2);
+                scale =
+                    get_distance_between_points(new1, new2) /
+                    get_distance_between_points(old1, old2);
                 if (!scale_unlocked(scale_accumulated)) {
                     scale_accumulated *= scale;
                 }
@@ -138,7 +153,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
                 focal_point,
                 pan: pan_unlocked(pan_accumulated) ? pan : { x: 0, y: 0 },
                 rotation: rotation_unlocked(rotation_accumulated) ? rotation : 0,
-                scale: scale_unlocked(scale_accumulated) ? scale : 1,
+                scale: scale_unlocked(scale_accumulated) ? scale : 1
             };
 
             dispatch_touch_scale_pan_rotate(e, event.touches);
@@ -165,9 +180,11 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
             update_touch(t);
         }
 
-        node.dispatchEvent(new CustomEvent('touchend_scale_pan_rotate', {
-            detail: null
-        }));
+        node.dispatchEvent(
+            new CustomEvent('touchend_scale_pan_rotate', {
+                detail: null
+            })
+        );
         window.removeEventListener('touchmove', handle_touchmove);
         window.removeEventListener('touchend', handle_touchend);
     }
