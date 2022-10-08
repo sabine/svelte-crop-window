@@ -27,10 +27,15 @@
             zoom_target,
             add_point(
                 center_point,
-                value.position,
-                pending_pan,
-                pending_rotate_offset,
-                pending_scale_offset
+                mul_point(
+                    add_point(
+                        value.position,
+                        pending_pan,
+                        pending_rotate_offset,
+                        pending_scale_offset
+                    ),
+                    crop_window_size.width
+                )
             )
         );
         let new_scale = zoom * pending_scale;

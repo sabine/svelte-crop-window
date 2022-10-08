@@ -4,7 +4,7 @@
 
     let media: Media = {
         content_type: 'image',
-        url: '/succulents-3693409_1920.jpg'
+        url: '/hintersee-3601004.jpg'
     };
 
     let options: Options = {
@@ -22,7 +22,7 @@
 <div style="width:100%;height:30em">
     <h1>svelte-media-crop</h1>
 
-    <p>A component for cropping images and videos.</p>
+    <p>A crop window with touch and mouse gestures to zoom, pan and rotate an image or video.</p>
 
     <div style="height:100%;width:100%">
         <Cropper bind:value {media} {options} on:change />
@@ -31,8 +31,8 @@
     {JSON.stringify(value)}
 
     <p>
-        Succulents on pixabay: <a href="https://pixabay.com/images/id-3693409/"
-            >https://pixabay.com/images/id-3693409/</a
+        Image from pixabay: <a href="https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/"
+            >https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/</a
         >
     </p>
 </div>
