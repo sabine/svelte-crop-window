@@ -1,6 +1,12 @@
 import type { Point } from "./geometry";
 
-export type CropShape = "rect" | "round";
+export type Options = {
+    shape: "rect" | "round";
+};
+
+export const defaultOptions: Options = {
+    shape: 'rect',
+}
 
 export type Value = {
     position: Point;

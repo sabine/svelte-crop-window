@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
-    import { createEventDispatcher, onMount } from 'svelte';
-    import type { CropShape, Value, Media } from './types';
+    import { onMount } from 'svelte';
+    import { type Value, type Media, type Options, defaultOptions } from './types';
 
     export let media: Media;
 
-    export let crop_shape: CropShape = 'rect';
+    export let options: Options = defaultOptions;
 
     export let value: Value = {
         position: { x: 0, y: 0 },
@@ -15,7 +15,7 @@
         scale: 1.0
     };
 
-    if (crop_shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
+    if (options.shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
 
     export let crop_window_margin: number = 10;
 
@@ -60,7 +60,7 @@
 --outer-width:${outer_size?.width || 0}px;`}>
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
-            {crop_shape}
+            {options}
             bind:value
             {media}
             {crop_window_size}

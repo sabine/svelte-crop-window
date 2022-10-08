@@ -11,15 +11,15 @@
     } from './geometry';
     import type { Point } from './geometry';
     import { fade } from 'svelte/transition';
-    import type { CropShape, Media, Value } from './types';
+    import type { Options, Media, Value } from './types';
     import { AnimatePosition } from './animate_position';
 
 
     export let media: Media;
 
-    export let crop_shape: CropShape = 'rect';
-    export let show_lines = false;
+    export let options: Options;
 
+    export let show_lines = false;
     export let outer_size: Size;
     export let crop_window_size: Size;
 
@@ -221,7 +221,7 @@
             width: crop_window_size.width * media_size.aspect * value.scale
         };
 
-        if (crop_shape == 'rect') {
+        if (options.shape == 'rect') {
             let left_croparea = (outer_size.width - crop_window_size.width) / 2;
             let right_croparea =
                 (outer_size.width - crop_window_size.width) / 2 + crop_window_size.width;
@@ -368,7 +368,7 @@
         on:media_size={set_media_size}
     />
     <div class="inner">
-        <div class="crop-window" class:round={crop_shape == 'round'} />
+        <div class="crop-window" class:round={options.shape == 'round'} />
         <div class="box" />
 
         {#if show_lines}

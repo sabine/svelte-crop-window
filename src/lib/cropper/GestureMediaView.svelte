@@ -12,14 +12,13 @@
         mouse_draggable,
         type MouseDragMoveEvent
     } from './mouse_events';
-    import type { CropShape, Media, Value } from './types';
+    import type { Options, Media, Value } from './types';
 
     export let media: Media;
 
     export let value: Value;
 
-    export let crop_shape: CropShape = 'rect';
-    if (crop_shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
+    export let options: Options;
 
     let outer_el: HTMLDivElement;
     let crop_media_el: CropMediaView;
@@ -146,7 +145,7 @@
     <CropMediaView
         bind:this={crop_media_el}
         bind:outer_size
-        {crop_shape}
+        {options}
         bind:show_lines={gesture_in_progress}
         bind:crop_window_size
         bind:media

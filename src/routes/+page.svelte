@@ -1,15 +1,17 @@
 <script lang="ts">
     import Cropper from '$lib/cropper/Cropper.svelte';
-    import type { CropShape, Media } from '$lib/cropper/types';
+    import type { Media, Options } from '$lib/cropper/types';
 
     let media: Media = {
         content_type: "image",
         url: '/succulents-3693409_1920.jpg'
     };
 
-    let crop_shape: CropShape = 'rect';
+    let options: Options = {
+		shape: 'rect'
+	};
 
-    let crop = {
+    let value = {
         position: { x: 0, y: 0 },
         aspect: 1.0,
         rotation: 0,
@@ -23,10 +25,10 @@
     <p>A component for cropping images and videos.</p>
 
     <div style="height:100%;width:100%">
-        <Cropper bind:value={crop} {media} {crop_shape} on:change />
+        <Cropper bind:value {media} {options} on:change />
     </div>
 
-	{JSON.stringify(crop)}
+	{JSON.stringify(value)}
 
     <p>
         Succulents on pixabay: <a href="https://pixabay.com/images/id-3693409/"
