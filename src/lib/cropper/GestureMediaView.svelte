@@ -109,10 +109,6 @@
 
     /* */
 
-    function init() {
-        crop_media_el.complete_manipulation();
-    }
-
     let complete_manipulation: () => void;
     let end_gesture: () => void;
 
@@ -156,8 +152,6 @@
         bind:media
         bind:value
         {center_point}
-        on:media_size={init}
-        on:crop
     />
 </div>
 

@@ -23,16 +23,6 @@
     let crop_window_size: Size;
     let center_point: Point;
 
-    let dispatch = createEventDispatcher();
-
-    function crop(e: CustomEvent<{ position: Point; rotation: number; scale: number }>) {
-        value.position = e.detail.position;
-        value.scale = e.detail.scale;
-        value.rotation = e.detail.rotation;
-
-        dispatch('change');
-    }
-
     onMount(() => {
         compute_window_sizes();
     });
@@ -76,7 +66,6 @@
             {crop_window_size}
             {outer_size}
             {center_point}
-            on:crop={crop}
         />
     {/if}
 </div>

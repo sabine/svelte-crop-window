@@ -76,7 +76,6 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
             }));
         }
 
-
         window.addEventListener('touchmove', handle_touchmove);
         window.addEventListener('touchend', handle_touchend);
     }

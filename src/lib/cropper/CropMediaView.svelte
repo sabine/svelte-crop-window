@@ -11,20 +11,17 @@
     } from './geometry';
     import type { Point } from './geometry';
     import { fade } from 'svelte/transition';
-    import { createEventDispatcher } from 'svelte';
     import type { CropShape, Media, Value } from './types';
     import { AnimatePosition } from './animate_position';
 
-    export let crop_shape: CropShape = 'rect';
 
     export let media: Media;
 
+    export let crop_shape: CropShape = 'rect';
     export let show_lines = false;
 
     export let outer_size: Size;
     export let crop_window_size: Size;
-
-    let dispatch = createEventDispatcher();
 
     export function zoom(zoom: number, zoom_target: Point) {
         let t = sub_point(
@@ -82,12 +79,6 @@
 
         if (snap_back || snap_back === undefined) {
             make_image_cover_crop_area();
-        } else {
-            dispatch('crop', {
-                rotation: value.rotation,
-                scale: value.scale,
-                position: value.position
-            });
         }
     }
 
@@ -326,11 +317,6 @@
             crop_area_min_y >= image_top_left_rotated.y &&
             crop_area_max_y <= image_top_left_rotated.y + size.height
         ) {
-            dispatch('crop', {
-                rotation: value.rotation,
-                scale: value.scale,
-                position: value.position
-            });
             return;
         }
 

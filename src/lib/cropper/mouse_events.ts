@@ -17,7 +17,6 @@ export function pos_from_mouse_or_touch_event(event: MouseEvent | TouchEvent): {
     };
 }
 
-
 export type MouseDragMove = {
     x: number, y: number,
     dx: number, dy: number;

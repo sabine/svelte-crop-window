@@ -26,6 +26,8 @@
         <Cropper bind:value={crop} {media} {crop_shape} on:change />
     </div>
 
+	{JSON.stringify(crop)}
+
     <p>
         Succulents on pixabay: <a href="https://pixabay.com/images/id-3693409/"
             >https://pixabay.com/images/id-3693409/</a
