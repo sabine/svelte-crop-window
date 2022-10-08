@@ -12,7 +12,7 @@
     import type { Point } from './geometry';
     import { fade } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
-    import type { CropShape, Media } from './types';
+    import type { CropShape, Media, Value } from './types';
     import { AnimatePosition } from './animate_position';
 
     export let crop_shape: CropShape = 'rect';
@@ -31,7 +31,7 @@
             zoom_target,
             add_point(
                 center_point,
-                position,
+                value.position,
                 pending_pan,
                 pending_rotate_offset,
                 pending_scale_offset
@@ -64,13 +64,18 @@
     }
 
     export function complete_manipulation(snap_back?: boolean) {
-        rotation = rotation + pending_rotation;
+        value.rotation = value.rotation + pending_rotation;
         pending_rotation = 0;
 
-        scale = scale * pending_scale;
+        value.scale = value.scale * pending_scale;
         pending_scale = 1;
 
-        position = add_point(position, pending_pan, pending_rotate_offset, pending_scale_offset);
+        value.position = add_point(
+            value.position,
+            pending_pan,
+            pending_rotate_offset,
+            pending_scale_offset
+        );
         pending_pan = { x: 0, y: 0 };
         pending_rotate_offset = { x: 0, y: 0 };
         pending_scale_offset = { x: 0, y: 0 };
@@ -78,16 +83,20 @@
         if (snap_back || snap_back === undefined) {
             make_image_cover_crop_area();
         } else {
-            dispatch('crop', { rotation, scale, position });
+            dispatch('crop', {
+                rotation: value.rotation,
+                scale: value.scale,
+                position: value.position
+            });
         }
     }
 
     function calculate_image_points() {
         if (media_size != null) {
-            let height = crop_window_size.width * scale;
-            let width = crop_window_size.width * media_size.aspect * scale;
+            let height = crop_window_size.width * value.scale;
+            let width = crop_window_size.width * media_size.aspect * value.scale;
 
-            let offset = mul_point(position, crop_window_size.width);
+            let offset = mul_point(value.position, crop_window_size.width);
 
             let top_left = add_point(
                 rotate_point(
@@ -95,7 +104,7 @@
                         x: -width / 2,
                         y: -height / 2
                     },
-                    rotation
+                    value.rotation
                 ),
                 offset,
                 center_point
@@ -107,7 +116,7 @@
                         x: width / 2,
                         y: -height / 2
                     },
-                    rotation
+                    value.rotation
                 ),
                 offset,
                 center_point
@@ -119,7 +128,7 @@
                         x: width / 2,
                         y: height / 2
                     },
-                    rotation
+                    value.rotation
                 ),
                 offset,
                 center_point
@@ -131,7 +140,7 @@
                         x: -width / 2,
                         y: height / 2
                     },
-                    rotation
+                    value.rotation
                 ),
                 offset,
                 center_point
@@ -154,8 +163,8 @@
 
     let animation = new AnimatePosition(
         (p, s) => {
-            position = p;
-            scale = s;
+            value.position = p;
+            value.scale = s;
         },
         () => {
             complete_manipulation(false);
@@ -168,7 +177,7 @@
         aspect: number;
     };
 
-    export let position: Point;
+    export let value: Value;
     let pending_pan: Point = {
         x: 0,
         y: 0
@@ -181,9 +190,7 @@
         x: 0,
         y: 0
     };
-    export let rotation: number;
     let pending_rotation: number = 0;
-    export let scale: number;
     let pending_scale: number = 1;
 
     export let center_point: Point;
@@ -215,12 +222,12 @@
         image_top_left_rotated = rotate_point_around_center(
             image_points.top_left,
             center_point,
-            -rotation
+            -value.rotation
         );
 
         let size = {
-            height: crop_window_size.width * scale,
-            width: crop_window_size.width * media_size.aspect * scale
+            height: crop_window_size.width * value.scale,
+            width: crop_window_size.width * media_size.aspect * value.scale
         };
 
         if (crop_shape == 'rect') {
@@ -237,7 +244,7 @@
                     y: top_croparea
                 },
                 center_point,
-                -rotation
+                -value.rotation
             );
             top_right_croparea_rotated = rotate_point_around_center(
                 {
@@ -245,7 +252,7 @@
                     y: top_croparea
                 },
                 center_point,
-                -rotation
+                -value.rotation
             );
             bottom_left_croparea_rotated = rotate_point_around_center(
                 {
@@ -253,7 +260,7 @@
                     y: bottom_croparea
                 },
                 center_point,
-                -rotation
+                -value.rotation
             );
             bottom_right_croparea_rotated = rotate_point_around_center(
                 {
@@ -261,7 +268,7 @@
                     y: bottom_croparea
                 },
                 center_point,
-                -rotation
+                -value.rotation
             );
         } else {
             top_left_croparea_rotated = sub_point(center_point, {
@@ -319,7 +326,11 @@
             crop_area_min_y >= image_top_left_rotated.y &&
             crop_area_max_y <= image_top_left_rotated.y + size.height
         ) {
-            dispatch('crop', { rotation, scale, position });
+            dispatch('crop', {
+                rotation: value.rotation,
+                scale: value.scale,
+                position: value.position
+            });
             return;
         }
 
@@ -342,13 +353,16 @@
                 Math.min(image_top_left_rotated.y + size.height - crop_area_max_y, 0)
         };
 
-        let offset = mul_point(rotate_point(correction, rotation), 1 / crop_window_size.width);
+        let offset = mul_point(
+            rotate_point(correction, value.rotation),
+            1 / crop_window_size.width
+        );
 
         animation.start(
-            position,
-            add_point(position, offset),
-            scale,
-            required_scale > 1 ? scale * required_scale : scale
+            value.position,
+            add_point(value.position, offset),
+            value.scale,
+            required_scale > 1 ? value.scale * required_scale : value.scale
         );
     }
 </script>
@@ -356,15 +370,15 @@
 {#if crop_window_size && outer_size}
     <TransformMediaView
         {media}
-        height={scale * pending_scale * crop_window_size.width}
+        height={value.scale * pending_scale * crop_window_size.width}
         position={add_point(
             center_point,
             mul_point(
-                add_point(position, pending_pan, pending_rotate_offset, pending_scale_offset),
+                add_point(value.position, pending_pan, pending_rotate_offset, pending_scale_offset),
                 crop_window_size.width
             )
         )}
-        rotation={rotation + pending_rotation}
+        rotation={value.rotation + pending_rotation}
         on:media_size={set_media_size}
     />
     <div class="inner">

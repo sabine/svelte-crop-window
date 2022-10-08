@@ -2,18 +2,13 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { createEventDispatcher, onMount } from 'svelte';
-    import type { CropShape, Media } from './types';
+    import type { CropShape, Value, Media } from './types';
 
     export let media: Media;
 
     export let crop_shape: CropShape = 'rect';
 
-    export let value: {
-        position: Point;
-        aspect: number;
-        rotation: number;
-        scale: number;
-    } = {
+    export let value: Value = {
         position: { x: 0, y: 0 },
         aspect: 1.0,
         rotation: 0,
@@ -76,10 +71,7 @@
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             {crop_shape}
-            bind:aspect={value.aspect}
-            bind:scale={value.scale}
-            bind:rotation={value.rotation}
-            bind:position={value.position}
+            bind:value
             {media}
             {crop_window_size}
             {outer_size}
