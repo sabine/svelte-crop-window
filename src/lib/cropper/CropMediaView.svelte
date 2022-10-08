@@ -484,6 +484,7 @@
         top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
         box-shadow: 0 0 0 9999em;
         color: var(--overlay-color);
+        opacity: 0.8;
     }
 
     .box {
@@ -502,6 +503,7 @@
         width: calc(100% - 4px);
         left: 2px;
         top: 33%;
+        opacity: 0.5;
     }
 
     .vertical-lines {
@@ -512,6 +514,7 @@
         width: 33%;
         left: 33%;
         top: 2px;
+        opacity: 0.5;
     }
 
     /*

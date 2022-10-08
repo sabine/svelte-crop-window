@@ -8,8 +8,8 @@ export type Options = {
 
 export const defaultOptions: Options = {
     shape: 'rect',
-    outline_color: 'rgba(255, 255, 255, 0.4)',
-    overlay_color: 'rgba(21, 21, 21, 0.7)'
+    outline_color: 'rgb(255, 255, 255)',
+    overlay_color: 'rgb(21, 21, 21)'
 };
 
 export type Value = {

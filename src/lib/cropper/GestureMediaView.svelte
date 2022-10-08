@@ -160,7 +160,6 @@
         width: 100%;
         overflow: hidden;
         position: relative;
-        background: transparent;
         cursor: crosshair;
     }
 </style>
