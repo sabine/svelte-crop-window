@@ -69,10 +69,10 @@ export class AnimatePosition {
     abort = () => {
         if (this.rafTimeout) window.cancelAnimationFrame(this.rafTimeout);
 
-        this.start_time = null,
-        this.start_position = undefined,
-        this.end_position = undefined,
-        this.start_scale = 1,
+        this.start_time = null;
+        this.start_position = undefined;
+        this.end_position = undefined;
+        this.start_scale = 1;
         this.end_scale = 1;
     };
 

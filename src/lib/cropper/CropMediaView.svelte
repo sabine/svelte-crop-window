@@ -14,7 +14,6 @@
     import type { Options, Media, Value } from './types';
     import { AnimatePosition } from './animate_position';
 
-
     export let media: Media;
 
     export let options: Options;

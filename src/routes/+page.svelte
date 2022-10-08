@@ -3,13 +3,13 @@
     import type { Media, Options } from '$lib/cropper/types';
 
     let media: Media = {
-        content_type: "image",
+        content_type: 'image',
         url: '/succulents-3693409_1920.jpg'
     };
 
     let options: Options = {
-		shape: 'rect'
-	};
+        shape: 'rect'
+    };
 
     let value = {
         position: { x: 0, y: 0 },
@@ -28,7 +28,7 @@
         <Cropper bind:value {media} {options} on:change />
     </div>
 
-	{JSON.stringify(value)}
+    {JSON.stringify(value)}
 
     <p>
         Succulents on pixabay: <a href="https://pixabay.com/images/id-3693409/"

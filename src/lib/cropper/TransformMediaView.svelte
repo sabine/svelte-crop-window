@@ -25,7 +25,7 @@
 
             let media_size = {
                 width: naturalWidth,
-                height: naturalHeight,
+                height: naturalHeight
             };
             dispatch('media_size', media_size);
         }
