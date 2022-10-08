@@ -28,7 +28,6 @@ function pan_unlocked(p: Point): boolean {
 
 export function touch_scale_pan_rotate(node: HTMLElement) {
     let touches: { p: Point, identifier: number; }[] = [];
-    //let rect: DOMRect = node.getBoundingClientRect();
     let rafTimeout: number | undefined;
     let rotation_accumulated: number = 0;
     let pan_accumulated: Point = { x: 0, y: 0 };
@@ -79,6 +78,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
         window.addEventListener('touchmove', handle_touchmove);
         window.addEventListener('touchend', handle_touchend);
     }
+
     function handle_touchmove(event: TouchEvent) {
         if (event.touches.length == 1) {
             const old_focal_point = touch_by_identifier(event.touches[0].identifier);
@@ -155,6 +155,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
             }
         });
     }
+
     function handle_touchend(event: TouchEvent) {
         touches = [];
         rotation_accumulated = 0;
@@ -170,6 +171,7 @@ export function touch_scale_pan_rotate(node: HTMLElement) {
         window.removeEventListener('touchmove', handle_touchmove);
         window.removeEventListener('touchend', handle_touchend);
     }
+
     node.addEventListener('touchstart', handle_touchstart);
     return {
         destroy() {

@@ -14,7 +14,7 @@
 
     let value = {
         position: { x: 0, y: 0 },
-        aspect: 1.0,
+        aspect: 1.20,
         rotation: 0,
         scale: 1.0
     };
