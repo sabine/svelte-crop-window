@@ -158,10 +158,14 @@
 
     let animation = new AnimatePosition(
         (p, s) => {
-            value.position = p;
-            value.scale = s;
+            animation_offset = p;
+            animation_scale = s;
         },
         () => {
+            value.position = add_point(value.position, animation_offset);
+            value.scale += animation_scale;
+            animation_scale = 0;
+            animation_offset = { x: 0, y: 0 };
             complete_manipulation(false);
         }
     );
@@ -185,8 +189,13 @@
         x: 0,
         y: 0
     };
+    let animation_offset: Point = {
+        x: 0,
+        y: 0
+    };
     let pending_rotation: number = 0;
     let pending_scale: number = 1;
+    let animation_scale: number = 1;
 
     export let center_point: Point;
 
@@ -360,11 +369,17 @@
 {#if crop_window_size && outer_size}
     <TransformMediaView
         {media}
-        height={value.scale * pending_scale * crop_window_size.width}
+        height={(value.scale * pending_scale + animation_scale) * crop_window_size.width}
         position={add_point(
             center_point,
             mul_point(
-                add_point(value.position, pending_pan, pending_rotate_offset, pending_scale_offset),
+                add_point(
+                    value.position,
+                    pending_pan,
+                    pending_rotate_offset,
+                    pending_scale_offset,
+                    animation_offset
+                ),
                 crop_window_size.width
             )
         )}
@@ -460,6 +475,10 @@
     {/if}
     -->
 {/if}
+
+<div>
+    offset: {JSON.stringify(animation_offset)} scale: {animation_scale}
+</div>
 
 <style>
     .inner {

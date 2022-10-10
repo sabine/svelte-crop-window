@@ -12,14 +12,6 @@ export type AnimationState = {
     end_scale: number;
 };
 
-export let NO_ANIMATION: AnimationState = {
-    start: null,
-    start_position: undefined,
-    end_position: undefined,
-    start_scale: 1,
-    end_scale: 1
-};
-
 function animate(animation: AnimatePosition) {
     if (animation.rafTimeout) window.cancelAnimationFrame(animation.rafTimeout);
     animation.rafTimeout = window.requestAnimationFrame((timestamp: DOMHighResTimeStamp) => {
@@ -28,15 +20,15 @@ function animate(animation: AnimatePosition) {
         const elapsed = Math.min((timestamp - animation.start_time) / 400, 1.0);
         let z = easeInOutCubic(elapsed);
 
-        if (!animation.start_position || !animation.end_position)
-            throw 'animation lacks start or end position';
+        if (!animation.start_position || !animation.end_position || !animation.start_scale || !animation.end_scale)
+            throw 'animation lacks start or end position/scale';
 
         animation.on_progress(
             {
-                x: animation.start_position.x * (1 - z) + z * animation.end_position.x,
-                y: animation.start_position.y * (1 - z) + z * animation.end_position.y
+                x: z * (animation.end_position.x - animation.start_position.x),
+                y: z * (animation.end_position.y - animation.start_position.y)
             },
-            animation.start_scale * (1 - z) + z * animation.end_scale
+            z * (animation.end_scale - animation.start_scale)
         );
 
         if (elapsed < 1.0) {
@@ -73,6 +65,8 @@ export class AnimatePosition {
     };
     abort = () => {
         if (this.rafTimeout) window.cancelAnimationFrame(this.rafTimeout);
+
+        this.on_end();
 
         this.start_time = null;
         this.start_position = undefined;
