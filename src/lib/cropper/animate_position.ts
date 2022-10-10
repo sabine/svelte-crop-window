@@ -15,7 +15,7 @@ function animate(animation: AnimatePosition) {
     animation.rafTimeout = window.requestAnimationFrame((timestamp: DOMHighResTimeStamp) => {
         if (!animation.start_time) animation.start_time = timestamp;
 
-        const elapsed = Math.min((timestamp - animation.start_time) / 400, 1.0);
+        const elapsed = Math.min((timestamp - animation.start_time) / 500, 1.0);
         let z = easeInOutCubic(elapsed);
 
         if (animation.offset === undefined || animation.scale === undefined)

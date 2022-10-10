@@ -343,6 +343,10 @@
         value.position = add_point(value.position, offset);
         value.scale = new_scale;
     }
+
+    $: {
+        value.aspect && make_image_cover_crop_area()
+    }
 </script>
 
 {#if crop_window_size && outer_size}
