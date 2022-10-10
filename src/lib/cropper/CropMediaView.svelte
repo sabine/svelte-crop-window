@@ -64,7 +64,7 @@
         animation.abort();
     }
 
-    export function complete_manipulation(snap_back?: boolean) {
+    export function complete_manipulation() {
         value.rotation = value.rotation + pending_rotation;
         pending_rotation = 0;
 
@@ -81,9 +81,7 @@
         pending_rotate_offset = { x: 0, y: 0 };
         pending_scale_offset = { x: 0, y: 0 };
 
-        if (snap_back || snap_back === undefined) {
-            make_image_cover_crop_area();
-        }
+        make_image_cover_crop_area();
     }
 
     function calculate_image_points() {
@@ -153,20 +151,20 @@
 
     function set_media_size(e: CustomEvent<Size>) {
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
-        complete_manipulation(true);
+        complete_manipulation();
     }
 
     let animation = new AnimatePosition(
         (p, s) => {
+            console.log("animation.on_progress", p, s);
             animation_offset = p;
             animation_scale = s;
         },
         () => {
-            value.position = add_point(value.position, animation_offset);
-            value.scale += animation_scale;
+            pending_pan = add_point(pending_pan, animation_offset);
+            pending_scale += animation_scale;
             animation_scale = 0;
             animation_offset = { x: 0, y: 0 };
-            complete_manipulation(false);
         }
     );
 
@@ -357,11 +355,14 @@
             1 / crop_window_size.width
         );
 
+        let new_scale = required_scale > 1 ? value.scale * required_scale : value.scale;
+
+        value.position = add_point(value.position, offset);
+        value.scale = new_scale;
+
         animation.start(
-            value.position,
-            add_point(value.position, offset),
-            value.scale,
-            required_scale > 1 ? value.scale * required_scale : value.scale
+            mul_point(offset, -1),
+            value.scale - new_scale,
         );
     }
 </script>

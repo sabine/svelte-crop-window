@@ -6,10 +6,8 @@ function easeInOutCubic(x: number): number {
 
 export type AnimationState = {
     start: DOMHighResTimeStamp | null;
-    start_position: Point | undefined;
-    end_position: Point | undefined;
-    start_scale: number;
-    end_scale: number;
+    offset: Point | undefined;
+    scale: number | undefined;
 };
 
 function animate(animation: AnimatePosition) {
@@ -20,15 +18,15 @@ function animate(animation: AnimatePosition) {
         const elapsed = Math.min((timestamp - animation.start_time) / 400, 1.0);
         let z = easeInOutCubic(elapsed);
 
-        if (!animation.start_position || !animation.end_position || !animation.start_scale || !animation.end_scale)
+        if (animation.offset === undefined || animation.scale === undefined)
             throw 'animation lacks start or end position/scale';
 
         animation.on_progress(
             {
-                x: z * (animation.end_position.x - animation.start_position.x),
-                y: z * (animation.end_position.y - animation.start_position.y)
+                x: (1-z) * animation.offset.x,
+                y: (1-z) * animation.offset.y,
             },
-            z * (animation.end_scale - animation.start_scale)
+            (1- z) * animation.scale
         );
 
         if (elapsed < 1.0) {
@@ -42,24 +40,18 @@ function animate(animation: AnimatePosition) {
 
 export class AnimatePosition {
     start_time: DOMHighResTimeStamp | null = null;
-    start_position: Point | undefined;
-    end_position: Point | undefined;
-    start_scale: number = 1;
-    end_scale: number = 1;
+    offset: Point | undefined;
+    scale: number | undefined;
 
     rafTimeout: number | null = null;
 
     start = (
-        start_position: Point,
-        end_position: Point,
-        start_scale: number,
-        end_scale: number
+        offset: Point,
+        scale: number
     ) => {
         this.start_time = null;
-        this.start_position = start_position;
-        this.end_position = end_position;
-        this.start_scale = start_scale;
-        this.end_scale = end_scale;
+        this.offset = offset;
+        this.scale = scale;
 
         animate(this);
     };
@@ -69,10 +61,8 @@ export class AnimatePosition {
         this.on_end();
 
         this.start_time = null;
-        this.start_position = undefined;
-        this.end_position = undefined;
-        this.start_scale = 1;
-        this.end_scale = 1;
+        this.offset = undefined;
+        this.scale = undefined;
     };
 
     on_progress: (position: Point, scale: number) => void;

@@ -98,7 +98,7 @@
 
     function number_of_touch_points_changed() {
         focal_point = undefined;
-        crop_media_el.complete_manipulation(false);
+        crop_media_el.complete_manipulation();
     }
 
     function touchend_handler() {
