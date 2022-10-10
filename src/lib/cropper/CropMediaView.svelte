@@ -64,7 +64,7 @@
         animation.abort();
     }
 
-    export function complete_manipulation() {
+    export function complete_manipulation(without_animation?: boolean) {
         value.rotation = value.rotation + pending_rotation;
         pending_rotation = 0;
 
@@ -81,82 +81,24 @@
         pending_rotate_offset = { x: 0, y: 0 };
         pending_scale_offset = { x: 0, y: 0 };
 
-        make_image_cover_crop_area();
+        make_image_cover_crop_area(without_animation);
     }
 
-    function calculate_image_points() {
-        if (media_size != null) {
-            let height = crop_window_size.width * value.scale;
-            let width = crop_window_size.width * media_size.aspect * value.scale;
+    function image_point(p: Point): Point {
+        let offset = mul_point(value.position, crop_window_size.width);
 
-            let offset = mul_point(value.position, crop_window_size.width);
-
-            let top_left = add_point(
-                rotate_point(
-                    {
-                        x: -width / 2,
-                        y: -height / 2
-                    },
-                    value.rotation
-                ),
-                offset,
-                center_point
-            );
-
-            let top_right = add_point(
-                rotate_point(
-                    {
-                        x: width / 2,
-                        y: -height / 2
-                    },
-                    value.rotation
-                ),
-                offset,
-                center_point
-            );
-
-            let bottom_right = add_point(
-                rotate_point(
-                    {
-                        x: width / 2,
-                        y: height / 2
-                    },
-                    value.rotation
-                ),
-                offset,
-                center_point
-            );
-
-            let bottom_left = add_point(
-                rotate_point(
-                    {
-                        x: -width / 2,
-                        y: height / 2
-                    },
-                    value.rotation
-                ),
-                offset,
-                center_point
-            );
-
-            image_points = {
-                top_left,
-                top_right,
-                bottom_right,
-                bottom_left,
-                center: add_point(get_center(top_left, bottom_right))
-            };
-        }
+        return add_point(rotate_point(p, value.rotation), offset, center_point);
     }
 
     function set_media_size(e: CustomEvent<Size>) {
+        console.log('set_media_size', e.detail);
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
-        complete_manipulation();
+        complete_manipulation(true);
     }
 
     let animation = new AnimatePosition(
         (p, s) => {
-            console.log("animation.on_progress", p, s);
+            console.log('animation.on_progress', p, s);
             animation_offset = p;
             animation_scale = s;
         },
@@ -193,7 +135,7 @@
     };
     let pending_rotation: number = 0;
     let pending_scale: number = 1;
-    let animation_scale: number = 1;
+    let animation_scale: number = 0;
 
     export let center_point: Point;
 
@@ -212,26 +154,7 @@
     let bottom_left_croparea_rotated: Point;
     let bottom_right_croparea_rotated: Point;
 
-    function make_image_cover_crop_area() {
-        if (!media_size) return;
-
-        calculate_image_points();
-
-        if (!image_points) return;
-        if (!outer_size) return;
-        if (!crop_window_size) return;
-
-        image_top_left_rotated = rotate_point_around_center(
-            image_points.top_left,
-            center_point,
-            -value.rotation
-        );
-
-        let size = {
-            height: crop_window_size.width * value.scale,
-            width: crop_window_size.width * media_size.aspect * value.scale
-        };
-
+    function calculate_rotated_croparea_points() {
         if (options.shape == 'rect') {
             let left_croparea = (outer_size.width - crop_window_size.width) / 2;
             let right_croparea =
@@ -290,6 +213,14 @@
                 y: 0
             });
         }
+    }
+
+    function make_image_cover_crop_area(without_animation?: boolean) {
+        if (!media_size) return;
+        if (!outer_size) return;
+        if (!crop_window_size) return;
+
+        calculate_rotated_croparea_points();
 
         let crop_area_max_x = Math.max(
             top_left_croparea_rotated.x,
@@ -317,37 +248,84 @@
             bottom_right_croparea_rotated.y
         );
 
-        let crop_area_width = crop_area_max_x - crop_area_min_x;
-        let crop_area_height = crop_area_max_y - crop_area_min_y;
+        if (value.scale) {
+            let height = crop_window_size.width * value.scale;
+            let width = crop_window_size.width * media_size.aspect * value.scale;
 
-        let required_scale = Math.max(crop_area_height / size.height, crop_area_width / size.width);
-
-        if (
-            crop_area_min_x >= image_top_left_rotated.x &&
-            crop_area_max_x <= image_top_left_rotated.x + size.width &&
-            crop_area_min_y >= image_top_left_rotated.y &&
-            crop_area_max_y <= image_top_left_rotated.y + size.height
-        ) {
-            return;
-        }
-
-        if (required_scale > 1) {
-            image_top_left_rotated = sub_point(image_top_left_rotated, {
-                x: ((required_scale - 1.0) * size.width) / 2,
-                y: ((required_scale - 1.0) * size.height) / 2
+            let top_left = image_point({
+                x: -width / 2,
+                y: -height / 2
             });
-            size.width *= required_scale;
-            size.height *= required_scale;
+
+            let bottom_right = image_point({
+                x: width / 2,
+                y: height / 2
+            });
+
+            image_points = {
+                top_left,
+                top_right: image_point({
+                    x: width / 2,
+                    y: -height / 2
+                }),
+                bottom_right,
+                bottom_left: image_point({
+                    x: -width / 2,
+                    y: height / 2
+                }),
+                center: add_point(get_center(top_left, bottom_right))
+            };
+
+            image_top_left_rotated = rotate_point_around_center(
+                image_points.top_left,
+                center_point,
+                -value.rotation
+            );
+
+            if (
+                crop_area_min_x >= image_top_left_rotated.x &&
+                crop_area_max_x <=
+                    image_top_left_rotated.x + crop_window_size.width * value.scale &&
+                crop_area_min_y >= image_top_left_rotated.y &&
+                crop_area_max_y <=
+                    image_top_left_rotated.y +
+                        crop_window_size.width * media_size.aspect * value.scale
+            ) {
+                return;
+            }
         }
+
+        let rotated_crop_area_width = crop_area_max_x - crop_area_min_x;
+        let rotated_crop_area_height = crop_area_max_y - crop_area_min_y;
+
+        let required_scale = Math.max(
+            rotated_crop_area_width / (crop_window_size.width * media_size.aspect),
+            rotated_crop_area_height / crop_window_size.width
+        );
+        let new_scale = required_scale > value.scale ? required_scale : value.scale;
+
+        let new_image_top_left_rotated = rotate_point_around_center(
+            image_point({
+                x: (-crop_window_size.width * media_size.aspect * new_scale) / 2,
+                y: (-crop_window_size.width * new_scale) / 2
+            }),
+            center_point,
+            -value.rotation
+        );
+
+        let scaled_image_size = {
+            width: crop_window_size.width * media_size.aspect * new_scale,
+            height: crop_window_size.width * new_scale
+        };
 
         let correction = {
             x:
-                Math.min(crop_area_min_x - image_top_left_rotated.x, 0) -
-                Math.min(image_top_left_rotated.x + size.width + -crop_area_max_x, 0),
+                Math.min(crop_area_min_x - new_image_top_left_rotated.x, 0) -
+                Math.min(new_image_top_left_rotated.x + scaled_image_size.width + -crop_area_max_x, 0),
 
             y:
-                Math.min(crop_area_min_y - image_top_left_rotated.y, 0) -
-                Math.min(image_top_left_rotated.y + size.height - crop_area_max_y, 0)
+                Math.min(crop_area_min_y - new_image_top_left_rotated.y, 0) -
+                Math.min(new_image_top_left_rotated.y + scaled_image_size.height - crop_area_max_y, 0)
         };
 
         let offset = mul_point(
@@ -355,15 +333,12 @@
             1 / crop_window_size.width
         );
 
-        let new_scale = required_scale > 1 ? value.scale * required_scale : value.scale;
-
         value.position = add_point(value.position, offset);
         value.scale = new_scale;
 
-        animation.start(
-            mul_point(offset, -1),
-            value.scale - new_scale,
-        );
+        if (without_animation === undefined || without_animation === false) {
+            animation.start(mul_point(offset, -1), value.scale - new_scale);
+        }
     }
 </script>
 
