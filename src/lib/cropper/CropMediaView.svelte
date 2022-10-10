@@ -345,7 +345,7 @@
     }
 
     $: {
-        value.aspect && make_image_cover_crop_area()
+        value.aspect && make_image_cover_crop_area(true)
     }
 </script>
 

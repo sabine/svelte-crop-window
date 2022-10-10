@@ -32,8 +32,7 @@ function animate(animation: AnimatePosition) {
         if (elapsed < 1.0) {
             animate(animation);
         } else {
-            animation.on_end();
-            if (animation.rafTimeout) window.cancelAnimationFrame(animation.rafTimeout);
+            animation.abort();
         }
     });
 }
@@ -57,7 +56,6 @@ export class AnimatePosition {
     };
     abort = () => {
         if (this.rafTimeout) window.cancelAnimationFrame(this.rafTimeout);
-
         this.on_end();
 
         this.start_time = null;
