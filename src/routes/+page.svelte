@@ -30,9 +30,9 @@
     <div style="height:100%;width:100%">
         <Cropper bind:this={cropper_el} bind:value {media} {options} on:change />
     </div>
-    <button on:click={() => {value.aspect = 8.2;cropper_el.compute_window_sizes()}}>8.2</button>
-    <button on:click={() => {value.aspect = 1.2;cropper_el.compute_window_sizes()}}>1.2</button>
-    <button on:click={() => {value.aspect = 0.8;cropper_el.compute_window_sizes()}}>0.8</button>
+    <button on:click={() => {value.aspect = 8.2}}>8.2</button>
+    <button on:click={() => {value.aspect = 1.2}}>1.2</button>
+    <button on:click={() => {value.aspect = 0.8}}>0.8</button>
 
     <div>
     {JSON.stringify(value)}

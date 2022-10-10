@@ -18,7 +18,7 @@
         compute_window_sizes();
     });
 
-    export function compute_window_sizes() {
+    function compute_window_sizes() {
         let rect = outer_el.getBoundingClientRect();
         outer_size = {
             width: rect.width,
@@ -41,6 +41,9 @@
 
     let outer_el: HTMLDivElement;
 
+    $: {
+        if (outer_el && value.aspect) compute_window_sizes();
+    }
 </script>
 
 <svelte:window on:resize={compute_window_sizes} />

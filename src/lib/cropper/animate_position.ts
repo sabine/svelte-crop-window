@@ -23,10 +23,10 @@ function animate(animation: AnimatePosition) {
 
         animation.on_progress(
             {
-                x: (1-z) * animation.offset.x,
-                y: (1-z) * animation.offset.y,
+                x: (1 - z) * animation.offset.x,
+                y: (1 - z) * animation.offset.y,
             },
-            (1- z) * animation.scale
+            (1 - z) * animation.scale
         );
 
         if (elapsed < 1.0) {
