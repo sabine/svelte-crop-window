@@ -10,7 +10,7 @@ export type Options = {
 export const defaultOptions: Options = {
     shape: 'rect',
     outline_color: 'rgb(255, 255, 255)',
-    overlay_color: 'rgb(21, 21, 21)',
+    overlay_color: 'rgb(31, 31, 31)',
     crop_window_margin: 10,
 };
 

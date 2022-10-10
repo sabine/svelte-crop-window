@@ -336,12 +336,12 @@
             1 / crop_window_size.height
         );
 
-        value.position = add_point(value.position, offset);
-        value.scale = new_scale;
-
         if (without_animation === undefined || without_animation === false) {
             animation.start(mul_point(offset, -1), value.scale - new_scale);
         }
+
+        value.position = add_point(value.position, offset);
+        value.scale = new_scale;
     }
 </script>
 
@@ -482,7 +482,7 @@
         top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
         box-shadow: 0 0 0 9999em;
         color: var(--overlay-color);
-        opacity: 0.8;
+        opacity: 0.6;
     }
 
     .box {

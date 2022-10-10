@@ -22,12 +22,12 @@
     let cropper_el: Cropper;
 </script>
 
-<div style="width:100%;height:20em">
+<div>
     <h1>svelte-media-crop</h1>
 
     <p>A crop window with touch and mouse gestures to zoom, pan and rotate an image or video.</p>
 
-    <div style="height:100%;width:100%">
+    <div style="height:20em;width:100%;background: black">
         <Cropper bind:this={cropper_el} bind:value {media} {options} on:change />
     </div>
     <button on:click={() => {value.aspect = 8.2}}>8.2</button>

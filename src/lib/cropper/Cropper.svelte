@@ -58,7 +58,6 @@
 --outline-color:${options.outline_color};
 --overlay-color:${options.overlay_color};`}
 >
-    <div class="background" />
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             {options}
@@ -78,13 +77,5 @@
     .outer {
         height: 100%;
         width: 100%;
-        position: relative;
-    }
-    .background {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background: var(--overlay-color);
-        opacity: 0.9;
     }
 </style>
