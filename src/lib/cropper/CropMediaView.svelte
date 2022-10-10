@@ -91,14 +91,12 @@
     }
 
     function set_media_size(e: CustomEvent<Size>) {
-        console.log('set_media_size', e.detail);
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
         complete_manipulation(true);
     }
 
     let animation = new AnimatePosition(
         (p, s) => {
-            console.log('animation.on_progress', p, s);
             animation_offset = p;
             animation_scale = s;
         },

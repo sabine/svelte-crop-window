@@ -53,8 +53,6 @@ export class AnimatePosition {
         this.offset = offset;
         this.scale = scale;
 
-        console.log("animation.start", offset, scale);
-
         animate(this);
     };
     abort = () => {
