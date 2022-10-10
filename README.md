@@ -2,6 +2,8 @@
 
 A component for cropping images and videos that supports touch pinch, zoom, and rotate gestures, as well as mousewheel zoom, mouse-dragging the image, and rotating on right mouse button.
 
+WARNING: Not yet ready for production use, I am working on simplifying this. Also, you will need to add your own controls to get a full cropper component - this is just a crop window.
+
 ![video cropper](https://github.com/sabine/svelte-media-crop/blob/main/docs/videocrop.gif?raw=true)
 
 Currently looking for contributors to help bring this into a good shape so other people than just me can use it.
