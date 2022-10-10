@@ -39,9 +39,9 @@
     </div>
 
     <p>
-        Image from pixabay: <a
-            href="https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/"
-            >https://pixabay.com/photos/hintersee-lake-mountains-nature-3601004/</a
+        Video from shantararam at pixabay: <a
+            href="https://pixabay.com/videos/mountain-nature-snow-old-mountain-8837/"
+            >https://pixabay.com/videos/mountain-nature-snow-old-mountain-8837/</a
         >
     </p>
 </div>
