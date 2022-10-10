@@ -34,15 +34,15 @@
                         pending_rotate_offset,
                         pending_scale_offset
                     ),
-                    crop_window_size.width
+                    crop_window_size.height
                 )
             )
         );
         let new_scale = zoom * pending_scale;
 
         let offset = {
-            x: (-t.x * (new_scale - pending_scale)) / pending_scale / crop_window_size.width,
-            y: (-t.y * (new_scale - pending_scale)) / pending_scale / crop_window_size.width
+            x: (-t.x * (new_scale - pending_scale)) / pending_scale / crop_window_size.height,
+            y: (-t.y * (new_scale - pending_scale)) / pending_scale / crop_window_size.height
         };
 
         pending_scale_offset = add_point(pending_scale_offset, offset);
@@ -55,12 +55,12 @@
         pending_rotation = pending_rotation + degrees;
 
         let t = rotate_point_around_center(target, image_points.center, pending_rotation);
-        pending_rotate_offset = mul_point(sub_point(target, t), 1.0 / crop_window_size.width);
+        pending_rotate_offset = mul_point(sub_point(target, t), 1.0 / crop_window_size.height);
         animation.abort();
     }
 
     export function pan(vector: Point) {
-        pending_pan = add_point(pending_pan, mul_point(vector, 1.0 / crop_window_size.width));
+        pending_pan = add_point(pending_pan, mul_point(vector, 1.0 / crop_window_size.height));
         animation.abort();
     }
 
@@ -85,7 +85,7 @@
     }
 
     function image_point(p: Point): Point {
-        let offset = mul_point(value.position, crop_window_size.width);
+        let offset = mul_point(value.position, crop_window_size.height);
 
         return add_point(rotate_point(p, value.rotation), offset, center_point);
     }
@@ -247,8 +247,8 @@
         );
 
         if (value.scale) {
-            let height = crop_window_size.width * value.scale;
-            let width = crop_window_size.width * media_size.aspect * value.scale;
+            let width = crop_window_size.height * media_size.aspect * value.scale;
+            let height = crop_window_size.height * value.scale;
 
             let top_left = image_point({
                 x: -width / 2,
@@ -283,11 +283,10 @@
             if (
                 crop_area_min_x >= image_top_left_rotated.x &&
                 crop_area_max_x <=
-                    image_top_left_rotated.x + crop_window_size.width * value.scale &&
+                    image_top_left_rotated.x +
+                        crop_window_size.height * media_size.aspect * value.scale &&
                 crop_area_min_y >= image_top_left_rotated.y &&
-                crop_area_max_y <=
-                    image_top_left_rotated.y +
-                        crop_window_size.width * media_size.aspect * value.scale
+                crop_area_max_y <= image_top_left_rotated.y + crop_window_size.height * value.scale
             ) {
                 return;
             }
@@ -297,38 +296,44 @@
         let rotated_crop_area_height = crop_area_max_y - crop_area_min_y;
 
         let required_scale = Math.max(
-            rotated_crop_area_width / (crop_window_size.width * media_size.aspect),
-            rotated_crop_area_height / crop_window_size.width
+            rotated_crop_area_width / crop_window_size.height/ media_size.aspect,
+            rotated_crop_area_height / crop_window_size.height
         );
         let new_scale = required_scale > value.scale ? required_scale : value.scale;
 
         let new_image_top_left_rotated = rotate_point_around_center(
             image_point({
-                x: (-crop_window_size.width * media_size.aspect * new_scale) / 2,
-                y: (-crop_window_size.width * new_scale) / 2
+                x: (-crop_window_size.height * media_size.aspect * new_scale) / 2,
+                y: (-crop_window_size.height * new_scale) / 2
             }),
             center_point,
             -value.rotation
         );
 
         let scaled_image_size = {
-            width: crop_window_size.width * media_size.aspect * new_scale,
-            height: crop_window_size.width * new_scale
+            width: crop_window_size.height * media_size.aspect * new_scale,
+            height: crop_window_size.height * new_scale
         };
 
         let correction = {
             x:
                 Math.min(crop_area_min_x - new_image_top_left_rotated.x, 0) -
-                Math.min(new_image_top_left_rotated.x + scaled_image_size.width + -crop_area_max_x, 0),
+                Math.min(
+                    new_image_top_left_rotated.x + scaled_image_size.width + -crop_area_max_x,
+                    0
+                ),
 
             y:
                 Math.min(crop_area_min_y - new_image_top_left_rotated.y, 0) -
-                Math.min(new_image_top_left_rotated.y + scaled_image_size.height - crop_area_max_y, 0)
+                Math.min(
+                    new_image_top_left_rotated.y + scaled_image_size.height - crop_area_max_y,
+                    0
+                )
         };
 
         let offset = mul_point(
             rotate_point(correction, value.rotation),
-            1 / crop_window_size.width
+            1 / crop_window_size.height
         );
 
         value.position = add_point(value.position, offset);
@@ -343,7 +348,7 @@
 {#if crop_window_size && outer_size}
     <TransformMediaView
         {media}
-        height={(value.scale * pending_scale + animation_scale) * crop_window_size.width}
+        height={(value.scale * pending_scale + animation_scale) * crop_window_size.height}
         position={add_point(
             center_point,
             mul_point(
@@ -354,7 +359,7 @@
                     pending_scale_offset,
                     animation_offset
                 ),
-                crop_window_size.width
+                crop_window_size.height
             )
         )}
         rotation={value.rotation + pending_rotation}

@@ -2,22 +2,13 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { type Value, type Media, type Options, defaultOptions } from './types';
+    import { type Value, type Media, type Options, defaultOptions, defaultValue } from './types';
 
     export let media: Media;
-
     export let options: Options = defaultOptions;
-
-    export let value: Value = {
-        position: { x: 0, y: 0 },
-        aspect: 1.0,
-        rotation: 0,
-        scale: 1.0
-    };
+    export let value: Value = defaultValue;
 
     if (options.shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
-
-    export let crop_window_margin: number = 10;
 
     let outer_size: Size;
     let crop_window_size: Size;
@@ -27,7 +18,7 @@
         compute_window_sizes();
     });
 
-    function compute_window_sizes() {
+    export function compute_window_sizes() {
         let rect = outer_el.getBoundingClientRect();
         outer_size = {
             width: rect.width,
@@ -39,16 +30,17 @@
         crop_window_size =
             outer_size.width / outer_size.height > value.aspect
                 ? {
-                      height: outer_size.height - 2 * crop_window_margin,
-                      width: (outer_size.height - 2 * crop_window_margin) * value.aspect
+                      height: outer_size.height - 2 * options.crop_window_margin,
+                      width: (outer_size.height - 2 * options.crop_window_margin) * value.aspect
                   }
                 : {
-                      height: (outer_size.width - 2 * crop_window_margin) / value.aspect,
-                      width: outer_size.width - 2 * crop_window_margin
+                      height: (outer_size.width - 2 * options.crop_window_margin) / value.aspect,
+                      width: outer_size.width - 2 * options.crop_window_margin
                   };
     }
 
     let outer_el: HTMLDivElement;
+
 </script>
 
 <svelte:window on:resize={compute_window_sizes} />
@@ -63,7 +55,7 @@
 --outline-color:${options.outline_color};
 --overlay-color:${options.overlay_color};`}
 >
-    <div class="background"></div>
+    <div class="background" />
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             {options}
@@ -75,18 +67,21 @@
         />
     {/if}
 </div>
+<div style="position:fixed;top:0;right:0;background:yellow">
+    {JSON.stringify(crop_window_size)}
+</div>
 
 <style>
     .outer {
         height: 100%;
         width: 100%;
-        position:relative;
+        position: relative;
     }
     .background {
-        position:absolute;
+        position: absolute;
         height: 100%;
         width: 100%;
-        background:var(--overlay-color);
+        background: var(--overlay-color);
         opacity: 0.9;
     }
 </style>
