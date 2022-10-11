@@ -102,8 +102,8 @@
         },
         () => {
             pending_pan = add_point(pending_pan, animation_offset);
-            pending_scale += animation_scale;
-            animation_scale = 0;
+            pending_scale *= animation_scale;
+            animation_scale = 1;
             animation_offset = { x: 0, y: 0 };
         }
     );
@@ -133,7 +133,7 @@
     };
     let pending_rotation: number = 0;
     let pending_scale: number = 1;
-    let animation_scale: number = 0;
+    let animation_scale: number = 1;
 
     export let center_point: Point;
 
@@ -337,7 +337,7 @@
         );
 
         if (without_animation === undefined || without_animation === false) {
-            animation.start(mul_point(offset, -1), value.scale - new_scale);
+            animation.start(mul_point(offset, -1), value.scale / new_scale);
         }
 
         value.position = add_point(value.position, offset);
@@ -352,7 +352,7 @@
 {#if crop_window_size && outer_size}
     <TransformMediaView
         {media}
-        height={(value.scale * pending_scale + animation_scale) * crop_window_size.height}
+        height={(value.scale * pending_scale * animation_scale) * crop_window_size.height}
         position={add_point(
             center_point,
             mul_point(

@@ -15,7 +15,7 @@ function animate(animation: AnimatePosition) {
     animation.rafTimeout = window.requestAnimationFrame((timestamp: DOMHighResTimeStamp) => {
         if (!animation.start_time) animation.start_time = timestamp;
 
-        const elapsed = Math.min((timestamp - animation.start_time) / 500, 1.0);
+        const elapsed = Math.min((timestamp - animation.start_time) / animation.duration, 1.0);
         let z = easeInOutCubic(elapsed);
 
         if (animation.offset === undefined || animation.scale === undefined)
@@ -26,7 +26,7 @@ function animate(animation: AnimatePosition) {
                 x: (1 - z) * animation.offset.x,
                 y: (1 - z) * animation.offset.y,
             },
-            (1 - z) * animation.scale
+            (1 - z) * animation.scale + z * 1.0
         );
 
         if (elapsed < 1.0) {
@@ -38,6 +38,7 @@ function animate(animation: AnimatePosition) {
 }
 
 export class AnimatePosition {
+    duration: number = 500;
     start_time: DOMHighResTimeStamp | null = null;
     offset: Point | undefined;
     scale: number | undefined;
