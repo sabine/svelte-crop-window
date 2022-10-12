@@ -87,13 +87,10 @@
         />
     {/if}
 </div>
-<div style="position:fixed;top:0;right:0;background:yellow">
-    {JSON.stringify(crop_window_size)}
-</div>
 
 <style>
     .outer {
-        height: 100%;
-        width: 100%;
+        height:100%;
+        width:100%;
     }
 </style>

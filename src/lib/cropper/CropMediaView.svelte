@@ -496,10 +496,6 @@
     -->
 {/if}
 
-<div>
-    offset: {JSON.stringify(animation_offset)} scale: {animation_scale}
-</div>
-
 <style>
     .inner {
         overflow: hidden;

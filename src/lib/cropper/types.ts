@@ -22,8 +22,8 @@ export const defaultOptions: Options<OverlayOptions> = {
 
     overlay: Overlay,
     overlay_options: {
-        outline_color: 'rgb(255, 255, 255)',
-        overlay_color: 'rgb(31, 31, 31)'
+        line_color: '#FFFFFF',
+        overlay_color: '#222222'
     },
 };
 

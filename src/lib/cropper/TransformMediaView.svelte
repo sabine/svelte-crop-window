@@ -73,5 +73,8 @@
     img,
     video {
         display: block;
+        max-width: none;
+        max-height: none;
+        width: auto;
     }
 </style>

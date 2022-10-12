@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
     export type OverlayOptions = {
-        outline_color: string;
+        line_color: string;
         overlay_color: string;
     };
 
@@ -22,7 +22,7 @@
 <div
     class="crop-window"
     class:round={shape == 'round'}
-    style={`--outline-color:${options.outline_color};
+    style={`--outline-color:${options.line_color};
 --overlay-color:${options.overlay_color};`}
 >
     {#if show_lines}
