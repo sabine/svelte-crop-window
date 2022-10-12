@@ -2,17 +2,35 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { type Value, type Media, type Options, defaultOptions, defaultValue } from './types';
+    import { type Value, type Media, type Options, defaultValue } from './types';
 
     export let media: Media;
-    export let options: Options = defaultOptions;
     export let value: Value = defaultValue;
+
+    type OverlayOptions = $$Generic;
+    export let options: Options<OverlayOptions>;
 
     if (options.shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
 
     let outer_size: Size;
     let crop_window_size: Size;
     let center_point: Point;
+
+    export function commit() {
+        gesture_el.commit()
+    }
+
+    export function set_zoom(zoom: number) {
+        gesture_el.set_zoom(zoom);
+    }
+
+    export function set_rotation(degrees: number) {
+        gesture_el.set_rotation(degrees);
+    }
+
+    export function set_pan(vector: Point) {
+        gesture_el.set_pan(vector);
+    }
 
     onMount(() => {
         compute_window_sizes();
@@ -40,6 +58,7 @@
     }
 
     let outer_el: HTMLDivElement;
+    let gesture_el: GestureMediaView<OverlayOptions>;
 
     $: {
         if (outer_el && value.aspect) compute_window_sizes();
@@ -54,12 +73,11 @@
     style={`--crop-window-height:${crop_window_size?.height || 0}px;
 --crop-window-width:${crop_window_size?.width || 0}px;
 --outer-height:${outer_size?.height || 0}px;
---outer-width:${outer_size?.width || 0}px;
---outline-color:${options.outline_color};
---overlay-color:${options.overlay_color};`}
+--outer-width:${outer_size?.width || 0}px;`}
 >
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
+            bind:this={gesture_el}
             {options}
             bind:value
             {media}

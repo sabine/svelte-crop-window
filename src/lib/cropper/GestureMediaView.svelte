@@ -1,7 +1,16 @@
 <script lang="ts">
+    /* This component is responsible for handling all touch gestures
+       and mouse gestures on the crop window.
+       */
     import CropMediaView from './CropMediaView.svelte';
     import { onMount } from 'svelte';
-    import { get_angle_between_points, sub_point, type Point, type Size } from './geometry';
+    import {
+        get_angle_between_points,
+        mul_point,
+        sub_point,
+        type Point,
+        type Size
+    } from './geometry';
     import { keep_delaying_while_triggered } from './throttle';
     import {
         touch_scale_pan_rotate,
@@ -15,19 +24,35 @@
     import type { Options, Media, Value } from './types';
 
     export let media: Media;
-
     export let value: Value;
 
-    export let options: Options;
+    type OverlayOptions = $$Generic;
+    export let options: Options<OverlayOptions>;
 
     let outer_el: HTMLDivElement;
-    let crop_media_el: CropMediaView;
+    let crop_media_el: CropMediaView<OverlayOptions>;
 
     export let center_point: Point;
     export let outer_size: Size;
     export let crop_window_size: Size;
 
     let gesture_in_progress: boolean = false;
+
+    export function commit() {
+        crop_media_el.commit();
+    }
+
+    export function set_zoom(zoom: number) {
+        crop_media_el.set_zoom(zoom, center_point);
+    }
+
+    export function set_rotation(degrees: number) {
+        crop_media_el.set_rotation(center_point, degrees);
+    }
+
+    export function set_pan(vector: Point) {
+        crop_media_el.set_pan(vector);
+    }
 
     /* handle mouse gestures */
 
@@ -39,7 +64,7 @@
                 y: e.detail.dy || 0
             };
 
-            crop_media_el.pan(mouse_pan);
+            crop_media_el.pan(mul_point(mouse_pan, 1.0 / crop_window_size.height));
         } else {
             let rect = outer_el.getBoundingClientRect();
 
@@ -59,7 +84,7 @@
 
     function mouse_dragend() {
         mouse_dragstart = undefined;
-        complete_manipulation();
+        finish_gesture();
     }
 
     function on_wheel(e: WheelEvent) {
@@ -77,7 +102,7 @@
         gesture_in_progress = true;
 
         crop_media_el.zoom(zoom, zoom_point);
-        complete_manipulation();
+        finish_gesture();
     }
 
     /* handle touch gestures */
@@ -93,28 +118,28 @@
 
         crop_media_el.zoom(e.detail.scale, focal_point);
         crop_media_el.rotate(focal_point, e.detail.rotation);
-        crop_media_el.pan(e.detail.pan);
+        crop_media_el.pan(mul_point(e.detail.pan, 1.0 / crop_window_size.height));
     }
 
     function number_of_touch_points_changed() {
         focal_point = undefined;
-        crop_media_el.complete_manipulation();
+        crop_media_el.commit();
     }
 
     function touchend_handler() {
         focal_point = undefined;
-        complete_manipulation();
+        finish_gesture();
     }
 
     /* */
 
-    let complete_manipulation: () => void;
+    let finish_gesture: () => void;
     let end_gesture: () => void;
 
     onMount(() => {
-        complete_manipulation = keep_delaying_while_triggered(() => {
+        finish_gesture = keep_delaying_while_triggered(() => {
             end_gesture();
-            crop_media_el.complete_manipulation();
+            crop_media_el.commit();
         }, 200);
 
         end_gesture = keep_delaying_while_triggered(() => {

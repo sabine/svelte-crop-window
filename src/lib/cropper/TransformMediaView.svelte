@@ -1,4 +1,5 @@
 <script lang="ts">
+    /* This component only renders the transformed image or video */
     import { createEventDispatcher, onMount } from 'svelte';
     import type { Media } from './types';
 

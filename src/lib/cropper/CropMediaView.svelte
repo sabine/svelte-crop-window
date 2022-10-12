@@ -1,4 +1,7 @@
 <script lang="ts">
+    /* This component implements the transformations and animations
+       to zoom, rotate and pan.
+       */
     import TransformMediaView from './TransformMediaView.svelte';
     import {
         rotate_point_around_center,
@@ -10,19 +13,21 @@
         get_center
     } from './geometry';
     import type { Point } from './geometry';
-    import { fade } from 'svelte/transition';
     import type { Options, Media, Value } from './types';
     import { AnimatePosition } from './animate_position';
 
     export let media: Media;
 
-    export let options: Options;
+    type OverlayOptions = $$Generic;
+    export let options: Options<OverlayOptions>;
 
     export let show_lines = false;
     export let outer_size: Size;
     export let crop_window_size: Size;
 
-    export function zoom(zoom: number, zoom_target: Point) {
+
+    export function set_zoom(scale: number, zoom_target: Point) {
+        // MAYBE: zoom(scale/value.scale, zoom_target);
         let t = sub_point(
             zoom_target,
             add_point(
@@ -38,7 +43,53 @@
                 )
             )
         );
-        let new_scale = zoom * pending_scale;
+
+        let new_scale = scale / value.scale;
+
+        let offset = {
+            x: (-t.x * (new_scale - pending_scale)) / pending_scale / crop_window_size.height,
+            y: (-t.y * (new_scale - pending_scale)) / pending_scale / crop_window_size.height
+        };
+
+        pending_scale_offset = add_point(pending_scale_offset, offset);
+
+        pending_scale = new_scale;
+        animation.abort();
+    }
+
+    export function set_rotation(target: Point, degrees: number) {
+        //NOT: rotate(target, degrees - value.rotation);
+        if (!image_points) throw 'image points not defined';
+        pending_rotation = degrees - value.rotation;
+
+        let t = rotate_point_around_center(target, image_points.center, pending_rotation);
+        pending_rotate_offset = mul_point(sub_point(target, t), 1.0 / crop_window_size.height);
+        animation.abort();
+    }
+
+    export function set_pan(vector: Point) {
+        pending_pan = sub_point(vector, value.position);
+        animation.abort();
+    }
+
+
+    export function zoom(scale: number, zoom_target: Point) {
+        let t = sub_point(
+            zoom_target,
+            add_point(
+                center_point,
+                mul_point(
+                    add_point(
+                        value.position,
+                        pending_pan,
+                        pending_rotate_offset,
+                        pending_scale_offset
+                    ),
+                    crop_window_size.height
+                )
+            )
+        );
+        let new_scale = scale * pending_scale;
 
         let offset = {
             x: (-t.x * (new_scale - pending_scale)) / pending_scale / crop_window_size.height,
@@ -60,11 +111,11 @@
     }
 
     export function pan(vector: Point) {
-        pending_pan = add_point(pending_pan, mul_point(vector, 1.0 / crop_window_size.height));
+        pending_pan = add_point(pending_pan, vector);
         animation.abort();
     }
 
-    export function complete_manipulation(without_animation?: boolean) {
+    export function commit(without_animation?: boolean) {
         value.rotation = value.rotation + pending_rotation;
         pending_rotation = 0;
 
@@ -92,7 +143,7 @@
 
     function set_media_size(e: CustomEvent<Size>) {
         media_size = { ...e.detail, aspect: e.detail.width / e.detail.height };
-        complete_manipulation(true);
+        commit(true);
     }
 
     let animation = new AnimatePosition(
@@ -370,21 +421,7 @@
         on:media_size={set_media_size}
     />
     <div class="inner">
-        <div class="crop-window" class:round={options.shape == 'round'}>
-            <div class="box" />
-            {#if show_lines}
-                <div
-                    class="vertical-lines"
-                    in:fade={{ duration: 100 }}
-                    out:fade={{ duration: 1000 }}
-                />
-                <div
-                    class="horizontal-lines"
-                    in:fade={{ duration: 100 }}
-                    out:fade={{ duration: 1000 }}
-                />
-            {/if}
-        </div>
+        <svelte:component this={options.overlay} options={options.overlay_options} {show_lines} shape={options.shape}/>
     </div>
     <!--
     {#if image_points}
@@ -472,51 +509,6 @@
         left: 0;
         right: 0;
         bottom: 0;
-    }
-
-    .round {
-        border-radius: 50%;
-    }
-
-    .crop-window {
-        position: absolute;
-        height: var(--crop-window-height);
-        width: var(--crop-window-width);
-        left: calc((var(--outer-width) - var(--crop-window-width)) / 2);
-        top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
-        box-shadow: 0 0 0 9999em;
-        color: var(--overlay-color);
-        opacity: 0.6;
-    }
-
-    .box {
-        height: 100%;
-        width: 100%;
-        box-sizing: border-box;
-        border: 2px solid var(--overlay-color);
-    }
-
-    .horizontal-lines {
-        border-top: 1px solid var(--outline-color);
-        border-bottom: 1px solid var(--outline-color);
-        box-sizing: border-box;
-        position: absolute;
-        height: 33%;
-        width: calc(100% - 4px);
-        left: 2px;
-        top: 33%;
-        opacity: 0.5;
-    }
-
-    .vertical-lines {
-        border-left: 1px solid var(--outline-color);
-        border-right: 1px solid var(--outline-color);
-        position: absolute;
-        height: calc(100% - 4px);
-        width: 33%;
-        left: 33%;
-        top: 2px;
-        opacity: 0.5;
     }
 
     /*
