@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { base } from '$app/paths';
     import CropWindow from '$lib/crop_window/CropWindow.svelte';
     import type { Point } from '$lib/crop_window/geometry';
     import type { OverlayOptions } from '$lib/overlay/Overlay.svelte';
@@ -16,7 +17,7 @@
 
     let media: Media = {
         content_type: 'video',
-        url: '/Mountain - 8837.mp4'
+        url: `${base}/Mountain - 8837.mp4`
     };
 
     let options: Options<OverlayOptions> = {
@@ -48,7 +49,7 @@
 <div class="container">
     <div class="box">
         <h1><a href="https://github.com/sabine/svelte-crop-window" style="display:flex;align-items:center">
-            <img src="/logo.svg" alt="svelte media crop" style="height:5rem;margin-right:1rem"/>
+            <img src="{base}/logo.svg" alt="svelte media crop" style="height:5rem;margin-right:1rem"/>
             svelte-crop-window</a></h1>
 
         <p class="subtitle">
@@ -275,7 +276,7 @@ let value = defaultValue;
             />
         </div>
 
-        <h3>Render original video to HTML:</h3>
+        <h3>Display in HTML without actually cropping:</h3>
 
         <Highlight
         language={typescript}
