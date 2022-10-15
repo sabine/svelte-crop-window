@@ -11,9 +11,9 @@
         type CropValue
     } from '$lib/types';
 
-    import Highlight from 'svelte-highlight';
+    import { Highlight, HighlightSvelte } from 'svelte-highlight';
+    import { atomOneDark } from 'svelte-highlight/styles';
     import typescript from 'svelte-highlight/languages/typescript';
-    import atomOneDark from 'svelte-highlight/styles/atom-one-dark';
 
     let media: Media = {
         content_type: 'video',
@@ -48,9 +48,19 @@
 
 <div class="container">
     <div class="box">
-        <h1><a href="https://github.com/sabine/svelte-crop-window" style="display:flex;align-items:center">
-            <img src="{base}/logo.svg" alt="svelte media crop" style="height:5rem;margin-right:1rem"/>
-            svelte-crop-window</a></h1>
+        <h1>
+            <a
+                href="https://github.com/sabine/svelte-crop-window"
+                style="display:flex;align-items:center"
+            >
+                <img
+                    src="{base}/logo.svg"
+                    alt="svelte media crop"
+                    style="height:5rem;margin-right:1rem"
+                />
+                svelte-crop-window</a
+            >
+        </h1>
 
         <p class="subtitle">
             A crop window with touch and mouse gestures to zoom, pan and rotate an image or video.
@@ -65,7 +75,10 @@
     </div>
 
     <div class="box">
-        The code of this page is <a href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte">here</a>.
+        The code of this page is <a
+            href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte"
+            >here</a
+        >.
     </div>
 
     <div class="box">
@@ -278,9 +291,8 @@ let value = defaultValue;
 
         <h3>Display in HTML without actually cropping:</h3>
 
-        <Highlight
-        language={typescript}
-        code={`<div style="position:relative;height:{HEIGHT}px;width:{value.aspect * HEIGHT}px; overflow:hidden">
+        <HighlightSvelte
+            code={`<div style="position:relative;height:{HEIGHT}px;width:{value.aspect * HEIGHT}px; overflow:hidden">
     <video
         style={\`transform: translateX(-50%) translateY(-50%) rotate({value.rotation || 0}deg);
     height: {(value.scale || 0.0) * HEIGHT}px;
@@ -289,7 +301,8 @@ let value = defaultValue;
     max-width:none\`}
         src={url}
     />
-</div>`}/>
+</div>`}
+        />
 
         <h3 id="pseudo-code"><a href="#pseudo-code">Pseudo code to crop</a></h3>
 
@@ -298,35 +311,38 @@ let value = defaultValue;
                 Choose a <code>target_height</code> and calculate the width for the cropped image:
                 <Highlight
                     language={typescript}
-                    code={`target_width = target_height * value.aspect;`}
+                    code={`let target_width = target_height * value.aspect;`}
                 />
             </li>
             <li>
                 Calculate factor by which to scale:
                 <Highlight
                     language={typescript}
-                    code={`s = value.scale * target_height / media.height;`}
+                    code={`let s = value.scale * target_height / media.height;`}
                 />
             </li>
             <li>
                 Scale media by <code>s</code>:
-                <Highlight language={typescript} code={`resized_media = scale(media, s);`} />
+                <Highlight
+                language={typescript}
+                code={`let resized_media = scale(media, s);`}
+            />
             </li>
             <li>
                 Rotate media by <code>value.rotation</code>:
                 <Highlight
                     language={typescript}
-                    code={`resized_and_rotated_media =
+                    code={`let resized_and_rotated_media =
     rotate(resized_media, value.rotation);`}
                 />
             </li>
             <li>
                 Calculate x,y position of area to extract: <Highlight
                     language={typescript}
-                    code={`left =
+                    code={`let left =
     (resized_and_rotated_media.width - target_width) / 2.0
     - value.x * target_height;
-top =
+let top =
     (resized_and_rotated_media.height - target_height) / 2.0
     - value.y * target_height;`}
                 />
@@ -335,7 +351,7 @@ top =
                 Extract area:
                 <Highlight
                     language={typescript}
-                    code={`cropped_media =
+                    code={`let cropped_media =
     extract_area(resized_and_rotated_media, left, top,
                  target_width, target_height);`}
                 />
@@ -344,15 +360,17 @@ top =
     </div>
 
     <div class="box">
-        <h2 id="what-it-doesnt-do"><a href="#what-it-doesnt-do">What this component doesn't do</a></h2>
+        <h2 id="what-it-doesnt-do">
+            <a href="#what-it-doesnt-do">What this component doesn't do</a>
+        </h2>
         <ol>
             <li>
-                Does not modify/crop the image, you have to do that by whatever means make sense
-                for your application.
+                Does not modify/crop the image, you have to do that by whatever means make sense for
+                your application.
             </li>
             <li>
-                Doesn't (yet) provide usable controls. Currently, you need to implement your own. Contributions are
-                welcome.
+                Doesn't (yet) provide usable controls. Currently, you need to implement your own.
+                Contributions are welcome.
             </li>
         </ol>
     </div>
