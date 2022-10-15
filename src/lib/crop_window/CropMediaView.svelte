@@ -25,7 +25,6 @@
     export let outer_size: Size;
     export let crop_window_size: Size;
 
-
     export function set_zoom(scale: number, zoom_target: Point) {
         // MAYBE: zoom(scale/value.scale, zoom_target);
         let t = sub_point(
@@ -71,7 +70,6 @@
         pending_pan = sub_point(vector, value.position);
         animation.abort();
     }
-
 
     export function zoom(scale: number, zoom_target: Point) {
         let t = sub_point(
@@ -245,24 +243,47 @@
                 -value.rotation
             );
         } else {
-            // TODO: support round crop on aspect ration != 1
+            /* To support round crop on aspect ration != 1,
+               we need to find the tangent points where the
+               slope of the tangent is equal to the slope of the
+               corresponding side of the rotated image.
 
-            top_left_croparea_rotated = sub_point(center_point, {
-                x: 0,
-                y: +crop_window_size.height / 2
-            });
-            top_right_croparea_rotated = sub_point(center_point, {
-                x: 0,
-                y: -crop_window_size.height / 2
-            });
-            bottom_right_croparea_rotated = sub_point(center_point, {
-                x: +crop_window_size.width / 2,
-                y: 0
-            });
-            bottom_left_croparea_rotated = sub_point(center_point, {
-                x: -crop_window_size.width / 2,
-                y: 0
-            });
+               https://www.anirdesh.com/math/algebra/ellipse-tangents.php
+            */
+
+            let slope1 = Math.tan((-value.rotation / 180) * Math.PI);
+            let slope2 = Math.tan(((-value.rotation + 90) / 180) * Math.PI);
+
+            function tangent_point_on_ellipse(a: number, b: number, m: number): Point {
+                return {
+                    x: (a * a * m) / Math.sqrt(a * a * m * m + b * b),
+                    y: (b * b) / Math.sqrt(a * a * m * m + b * b)
+                };
+            }
+
+            let p1 = tangent_point_on_ellipse(
+                crop_window_size.width / 2,
+                crop_window_size.height / 2,
+                slope1
+            );
+            let p2 = { x: -p1.x, y: -p1.y };
+            let p3 = tangent_point_on_ellipse(
+                crop_window_size.width / 2,
+                crop_window_size.height / 2,
+                slope2
+            );
+            let p4 = { x: -p3.x, y: -p3.y };
+
+            top_left_croparea_rotated = add_point(center_point, rotate_point(p1, -value.rotation));
+            top_right_croparea_rotated = add_point(center_point, rotate_point(p2, -value.rotation));
+            bottom_right_croparea_rotated = add_point(
+                center_point,
+                rotate_point(p3, -value.rotation)
+            );
+            bottom_left_croparea_rotated = add_point(
+                center_point,
+                rotate_point(p4, -value.rotation)
+            );
         }
     }
 
@@ -349,7 +370,7 @@
         let rotated_crop_area_height = crop_area_max_y - crop_area_min_y;
 
         let required_scale = Math.max(
-            rotated_crop_area_width / crop_window_size.height/ media_size.aspect,
+            rotated_crop_area_width / crop_window_size.height / media_size.aspect,
             rotated_crop_area_height / crop_window_size.height
         );
         let new_scale = required_scale > value.scale ? required_scale : value.scale;
@@ -398,14 +419,14 @@
     }
 
     $: {
-        value.aspect && make_image_cover_crop_area(true)
+        value.aspect && make_image_cover_crop_area(true);
     }
 </script>
 
 {#if crop_window_size && outer_size}
     <TransformMediaView
         {media}
-        height={(value.scale * pending_scale * animation_scale) * crop_window_size.height}
+        height={value.scale * pending_scale * animation_scale * crop_window_size.height}
         position={add_point(
             center_point,
             mul_point(
@@ -423,76 +444,80 @@
         on:media_size={set_media_size}
     />
     <div class="inner">
-        <svelte:component this={options.overlay} options={options.overlay_options} {show_lines} shape={options.shape}/>
+        <svelte:component
+            this={options.overlay}
+            options={options.overlay_options}
+            {show_lines}
+            shape={options.shape}
+        />
     </div>
     <!--
     {#if image_points}
-    <div
-        class="p"
-        style="position:absolute;left:{image_points.top_left.x -
-            2}px;top: {image_points.top_left.y - 2}px"
-    />
-    <div
-        class="p"
-        style="position:absolute;left:{image_points.top_right.x -
-            2}px;top: {image_points.top_right.y - 2}px"
-    />
-    <div
-        class="p"
-        style="position:absolute;left:{image_points.bottom_right.x -
-            2}px;top: {image_points.bottom_right.y - 2}px"
-    />
-    <div
-        class="p"
-        style="position:absolute;left:{image_points.bottom_left.x -
-            2}px;top: {image_points.bottom_left.y - 2}px"
-    />
-
-    <div
-        class="p"
-        style="position:absolute;left:{image_points.center.x -
-            2}px;top: {image_points.center.y - 2}px"
-    />
-{/if}
-{#if image_top_left_rotated}
         <div
-            style="position:absolute;left:{image_top_left_rotated.x -
-                2}px;top: {image_top_left_rotated.y -
-                2}px; width: 5px; height:5px; background:lime"
+            class="p"
+            style="position:absolute;left:{image_points.top_left.x - 2}px;top: {image_points
+                .top_left.y - 2}px"
         />
         <div
+            class="p"
+            style="position:absolute;left:{image_points.top_right.x - 2}px;top: {image_points
+                .top_right.y - 2}px"
+        />
+        <div
+            class="p"
+            style="position:absolute;left:{image_points.bottom_right.x - 2}px;top: {image_points
+                .bottom_right.y - 2}px"
+        />
+        <div
+            class="p"
+            style="position:absolute;left:{image_points.bottom_left.x - 2}px;top: {image_points
+                .bottom_left.y - 2}px"
+        />
+
+        <div
+            class="p"
+            style="position:absolute;left:{image_points.center.x - 2}px;top: {image_points.center
+                .y - 2}px"
+        />
+    {/if}
+    {#if image_top_left_rotated}
+        <div
             style="position:absolute;left:{image_top_left_rotated.x -
-                2}px;top: {image_top_left_rotated.y +
-                media_size.height * value.scale -
-                2}px; width: 5px; height:5px; background:lime"
+                2}px;top: {image_top_left_rotated.y - 2}px; width: 5px; height:5px; background:lime"
+        />
+        <div
+            style="position:absolute;left:{image_top_left_rotated.x}px;top: {image_top_left_rotated.y}px; width: {crop_window_size.height *
+                media_size.aspect *
+                value.scale}px; height:{crop_window_size.height *
+                value.scale}px; border:1px solid lime"
         />
     {/if}
     {#if top_left_croparea_rotated}
         <div
             style="position:absolute;left:{top_left_croparea_rotated.x -
                 2}px;top: {top_left_croparea_rotated.y -
-                2}px; width: 5px; height:5px; background:lime"
+                2}px; width: 5px; height:5px; background:cyan"
         />
     {/if}
     {#if top_right_croparea_rotated}
         <div
             style="position:absolute;left:{top_right_croparea_rotated.x -
                 2}px;top: {top_right_croparea_rotated.y -
-                2}px; width: 5px; height:5px; background:lime"
+                2}px; width: 5px; height:5px; background:cyan"
         />
     {/if}
     {#if bottom_right_croparea_rotated}
         <div
             style="position:absolute;left:{bottom_right_croparea_rotated.x -
                 2}px;top: {bottom_right_croparea_rotated.y -
-                2}px; width: 5px; height:5px; background:lime"
+                2}px; width: 5px; height:5px; background:cyan"
         />
     {/if}
     {#if bottom_left_croparea_rotated}
         <div
             style="position:absolute;left:{bottom_left_croparea_rotated.x -
                 2}px;top: {bottom_left_croparea_rotated.y -
-                2}px; width: 5px; height:5px; background:lime"
+                2}px; width: 5px; height:5px; background:cyan"
         />
     {/if}
     -->
@@ -509,12 +534,10 @@
         bottom: 0;
     }
 
-    /*
     .p {
         background-color: red;
         width: 5px;
         height: 5px;
         box-sizing: border-box;
     }
-*/
 </style>

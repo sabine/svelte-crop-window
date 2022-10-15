@@ -22,6 +22,8 @@
 
     let options: Options<OverlayOptions> = {
         ...defaultOptions,
+        shape: 'round',
+        crop_window_margin: 30,
         overlay_options: {
             line_color: '#f3f5e8',
             overlay_color: '#167676'
@@ -30,8 +32,8 @@
 
     let background_color = '#164646';
 
-    let value: CropValue = defaultValue;
-    let value2: CropValue = defaultValue;
+    let value: CropValue = { ...defaultValue };
+    let value2: CropValue = { ...defaultValue };
 
     let position: Point = { x: 0, y: 0 };
 
@@ -70,18 +72,17 @@
 
     <div class="box">
         <p>
-        Looking for contributions, code review and feedback! Feel free to open an issue on <a
-            href="https://github.com/sabine/svelte-crop-window">the GitHub repository</a
-        > or connect with me via the Svelte discord (sabine#8815).
-    </p>
-    <p>TODO: what does NOT work yet: Media does not "snap back" to cover the crop area on round crop with aspect != 1.</p>
+            Looking for contributions, code review and feedback! Feel free to open an issue on <a
+                href="https://github.com/sabine/svelte-crop-window">the GitHub repository</a
+            > or connect with me via the Svelte discord (sabine#8815).
+        </p>
 
-    <p>
-        The code of this page is <a
-            href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte"
-            >here</a
-        >.
-    </p>
+        <p>
+            The code of this page is <a
+                href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte"
+                >here</a
+            >.
+        </p>
     </div>
 
     <div class="box">
@@ -89,6 +90,26 @@
 
         <div style="height:20em; background: {background_color}">
             <CropWindow bind:this={crop_window_el} bind:value {media} {options} />
+        </div>
+
+        <h3>Result</h3>
+        <div
+            style="position:relative;height:100px;width:{value.aspect *
+                100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
+        >
+            <video
+                style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                    value.rotation || 0
+                }deg);` +
+                    `height: ${(value.scale || 0.0) * 100}px;` +
+                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
+                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+                max-width:none;`}
+                src={media.url}
+                autoPlay
+                loop
+                muted={true}
+            />
         </div>
 
         <h3>Aspect ratio</h3>
@@ -214,7 +235,7 @@ let media: Media = {
     url: '/Mountain - 8837.mp4'
 };
 
-let value = defaultValue;
+let value = { ...defaultValue };
 
 // in the template
 <div style="height:20em; background: #222">
@@ -286,16 +307,16 @@ let value = defaultValue;
         <h2 id="how-to-crop"><a href="#how-to-crop">How to Crop</a></h2>
 
         <div
-            style="position:relative;height:300px;width:{value.aspect *
-                300}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
+            style="position:relative;height:100px;width:{value.aspect *
+                100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
         >
             <video
                 style={`transform: translateX(-50%) translateY(-50%) rotate(${
                     value.rotation || 0
                 }deg);` +
-                    `height: ${(value.scale || 0.0) * 300}px;` +
-                    `margin-left: ${300 / 2 + (value.position.x || 0) * 300}px;` +
-                    `margin-top: ${300 / value.aspect / 2 + (value.position.y || 0) * 300}px;
+                    `height: ${(value.scale || 0.0) * 100}px;` +
+                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
+                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
                     max-width:none;`}
                 src={media.url}
                 autoPlay
@@ -313,8 +334,8 @@ let value = defaultValue;
     <video
         style={\`transform: translateX(-50%) translateY(-50%) rotate({value.rotation || 0}deg);
     height: {(value.scale || 0.0) * HEIGHT}px;
-    margin-left: {HEIGHT / 2 + (value.position.x || 0) * HEIGHT}px;
-    margin-top: {HEIGHT / value.aspect / 2 + (value.position.y || 0) * HEIGHT}px;
+    margin-left: {HEIGHT * value.aspect / 2 + (value.position.x || 0) * HEIGHT}px;
+    margin-top: {HEIGHT / 2 + (value.position.y || 0) * HEIGHT}px;
     max-width:none\`}
         src={url}
     />
@@ -412,7 +433,8 @@ let top =
         padding: 1.5rem 0;
     }
 
-    :global(pre), p {
+    :global(pre),
+    p {
         padding: 0.5rem 0;
     }
     ol {
