@@ -1,2 +1,2 @@
-export { defaultOptions, type Options, type Value, type Media } from './cropper/types';
-export { default as CropWindow } from './cropper/CropWindow.svelte';
+export { defaultOptions, type Options, type CropValue, type Media } from './types';
+export { default as CropWindow } from './crop_window/CropWindow.svelte';

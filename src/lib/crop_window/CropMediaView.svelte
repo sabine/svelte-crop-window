@@ -13,7 +13,7 @@
         get_center
     } from './geometry';
     import type { Point } from './geometry';
-    import type { Options, Media, Value } from './types';
+    import type { Options, Media, CropValue } from '../types';
     import { AnimatePosition } from './animate_position';
 
     export let media: Media;
@@ -165,7 +165,7 @@
         aspect: number;
     };
 
-    export let value: Value;
+    export let value: CropValue;
     let pending_pan: Point = {
         x: 0,
         y: 0

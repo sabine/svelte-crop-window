@@ -11,17 +11,17 @@
         type Point,
         type Size
     } from './geometry';
-    import { keep_delaying_while_triggered } from './throttle';
+    import { keep_delaying_while_triggered } from '../utils/throttle';
     import {
         touch_scale_pan_rotate,
         type TouchScalePanRotateEvent
-    } from './touch_scale_pan_rotate';
+    } from '../gestures/touch_scale_pan_rotate';
     import {
         pos_from_mouse_or_touch_event,
         mouse_draggable,
         type MouseDragMoveEvent
-    } from './mouse_events';
-    import type { Options, Media, Value } from './types';
+    } from '../gestures/mouse_events';
+    import type { Options, Media, Value } from '../types';
 
     export let media: Media;
     export let value: Value;

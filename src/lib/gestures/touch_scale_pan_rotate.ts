@@ -5,7 +5,7 @@ import {
     get_distance_between_points,
     sub_point,
     type Point
-} from './geometry';
+} from '../crop_window/geometry';
 
 export type TouchScalePanRotateEvent = {
     detail: TouchScalePanRotate;

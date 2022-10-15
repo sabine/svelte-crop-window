@@ -2,10 +2,10 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { type Value, type Media, type Options, defaultValue } from './types';
+    import { type CropValue, type Media, type Options, defaultValue } from '../types';
 
     export let media: Media;
-    export let value: Value = defaultValue;
+    export let value: CropValue = defaultValue;
 
     type OverlayOptions = $$Generic;
     export let options: Options<OverlayOptions>;
