@@ -7,14 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="content-security-policy" content="">
 		<link href="/svelte-crop-window/_app/immutable/assets/_page-f00ca1a3.css" rel="stylesheet">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/start-41cd8203.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/index-e94117d2.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/singletons-971056d3.js">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/start-3aa09133.js">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/index-4b9273a9.js">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/singletons-0c25b55c.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/paths-6cd3a76e.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/layout.svelte-ef9c9193.js">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/layout.svelte-cda57add.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/modules/pages/_layout.ts-b8ee4d7c.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/_layout-1daba58d.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/pages/_page.svelte-6ea36dc4.js"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;background:#282c34}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}</style><!-- HTML_TAG_END -->
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/pages/_page.svelte-1872048e.js"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+  Theme: GitHub Dark Dimmed
+  Description: Dark dimmed theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Colors taken from GitHub's CSS
+*/.hljs{color:#adbac7;background:#22272e}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#f47067}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#dcbdfb}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#6cb6ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#96d0ff}.hljs-built_in,.hljs-symbol{color:#f69d50}.hljs-code,.hljs-comment,.hljs-formula{color:#768390}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#8ddb8c}.hljs-subst{color:#adbac7}.hljs-section{color:#316dca;font-weight:700}.hljs-bullet{color:#eac55f}.hljs-emphasis{color:#adbac7;font-style:italic}.hljs-strong{color:#adbac7;font-weight:700}.hljs-addition{color:#b4f1b4;background-color:#1b4721}.hljs-deletion{color:#ffd8d3;background-color:#78191b}</style><!-- HTML_TAG_END -->
     <style>
         html,
         body,
@@ -166,7 +174,7 @@
 </div></div>
         <div class="svelte-1pjpgag">
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">// in script tag</span>
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">// in script tag</span>
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">CropWindow</span>, defaultOptions, defaultValue } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;svelte-crop-window&#x27;</span>;
 
 <span class="hljs-keyword">let</span> <span class="hljs-attr">media</span>: <span class="hljs-title class_">Media</span> = {
@@ -177,9 +185,9 @@
 <span class="hljs-keyword">let</span> value = defaultValue;
 
 <span class="hljs-comment">// in the template</span>
-&lt;div style=&quot;height:20em; background: #222&quot;&gt;
-    &lt;CropWindow bind:value {media} options={defaultOptions} /&gt;
-&lt;/div&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height:20em; background: #222&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CropWindow</span> <span class="hljs-attr">bind:value</span> {<span class="hljs-attr">media</span>} <span class="hljs-attr">options</span>=<span class="hljs-string">{defaultOptions}</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 <!-- HTML_TAG_END --></code></pre>
 </div></div>
 
@@ -211,14 +219,14 @@
         <h3 id="default-options" class="svelte-1pjpgag"><a href="#default-options" class="svelte-1pjpgag">Default options</a></h3>
         
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">defaultOptions</span>: <span class="hljs-title class_">Options</span>&lt;<span class="hljs-title class_">OverlayOptions</span>&gt; = {
-    <span class="hljs-attr">shape</span>: <span class="hljs-string">&#x27;rect&#x27;</span>,
-    <span class="hljs-attr">crop_window_margin</span>: <span class="hljs-number">10</span>,
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->export const defaultOptions: Options&lt;OverlayOptions&gt; = {
+    shape: <span class="hljs-string">&#x27;rect&#x27;</span>,
+    crop_window_margin: <span class="hljs-number">10</span>,
 
-    <span class="hljs-attr">overlay</span>: <span class="hljs-title class_">Overlay</span>,
-    <span class="hljs-attr">overlay_options</span>: {
-        <span class="hljs-attr">line_color</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>,
-        <span class="hljs-attr">overlay_color</span>: <span class="hljs-string">&#x27;#222222&#x27;</span>
+    overlay: Overlay,
+    overlay_options: {
+        line_color: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>,
+        overlay_color: <span class="hljs-string">&#x27;#222222&#x27;</span>
     },
 };
 <!-- HTML_TAG_END --></code></pre>
@@ -233,16 +241,16 @@
 
         
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->&lt;div style=<span class="hljs-string">&quot;position:relative;height:{HEIGHT}px;width:{value.aspect * HEIGHT}px; overflow:hidden&quot;</span>&gt;
-    &lt;video
-        style={`transform: translateX(-50%) translateY(-50%) rotate({value.rotation || 0}deg);
-    height: {(value.scale || 0.0) * HEIGHT}px;
-    margin-left: {HEIGHT / 2 + (value.position.x || 0) * HEIGHT}px;
-    margin-top: {HEIGHT / value.aspect / 2 + (value.position.y || 0) * HEIGHT}px;
-    max-width:none`}
-        src={url}
-    /&gt;
-&lt;/div&gt;<!-- HTML_TAG_END --></code></pre>
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position:relative;height:{HEIGHT}px;width:{value.aspect * HEIGHT}px; overflow:hidden&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">video</span>
+        <span class="hljs-attr">style</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">transform:</span> <span class="hljs-attr">translateX</span>(<span class="hljs-attr">-50</span>%) <span class="hljs-attr">translateY</span>(<span class="hljs-attr">-50</span>%) <span class="hljs-attr">rotate</span>({<span class="hljs-attr">value.rotation</span> || <span class="hljs-attr">0</span>}<span class="hljs-attr">deg</span>);
+    <span class="hljs-attr">height:</span> {(<span class="hljs-attr">value.scale</span> || <span class="hljs-attr">0.0</span>) * <span class="hljs-attr">HEIGHT</span>}<span class="hljs-attr">px</span>;
+    <span class="hljs-attr">margin-left:</span> {<span class="hljs-attr">HEIGHT</span> / <span class="hljs-attr">2</span> + (<span class="hljs-attr">value.position.x</span> || <span class="hljs-attr">0</span>) * <span class="hljs-attr">HEIGHT</span>}<span class="hljs-attr">px</span>;
+    <span class="hljs-attr">margin-top:</span> {<span class="hljs-attr">HEIGHT</span> / <span class="hljs-attr">value.aspect</span> / <span class="hljs-attr">2</span> + (<span class="hljs-attr">value.position.y</span> || <span class="hljs-attr">0</span>) * <span class="hljs-attr">HEIGHT</span>}<span class="hljs-attr">px</span>;
+    <span class="hljs-attr">max-width:none</span>`}
+        <span class="hljs-attr">src</span>=<span class="hljs-string">{url}</span>
+    /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
 
 
         <h3 id="pseudo-code" class="svelte-1pjpgag"><a href="#pseudo-code" class="svelte-1pjpgag">Pseudo code to crop</a></h3>
@@ -250,38 +258,36 @@
         <ol class="svelte-1pjpgag"><li class="svelte-1pjpgag">Choose a <code class="svelte-1pjpgag">target_height</code> and calculate the width for the cropped image:
                 
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->target_width = target_height * value.<span class="hljs-property">aspect</span>;<!-- HTML_TAG_END --></code></pre>
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->target_width = target_height * value.aspect;<!-- HTML_TAG_END --></code></pre>
 </li>
             <li class="svelte-1pjpgag">Calculate factor by which to scale:
                 
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->s = value.<span class="hljs-property">scale</span> * target_height / media.<span class="hljs-property">height</span>;<!-- HTML_TAG_END --></code></pre>
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->s = value.scale * target_height / media.height;<!-- HTML_TAG_END --></code></pre>
 </li>
             <li class="svelte-1pjpgag">Scale media by <code class="svelte-1pjpgag">s</code>:
-                
-  
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->resized_media = <span class="hljs-title function_">scale</span>(media, s);<!-- HTML_TAG_END --></code></pre>
-</li>
+                code=resized_media = scale(media, s); /&gt;
+            </li>
             <li class="svelte-1pjpgag">Rotate media by <code class="svelte-1pjpgag">value.rotation</code>:
                 
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->resized_and_rotated_media =
-    <span class="hljs-title function_">rotate</span>(resized_media, value.<span class="hljs-property">rotation</span>);<!-- HTML_TAG_END --></code></pre>
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->resized_and_rotated_media =
+    rotate(resized_media, value.rotation);<!-- HTML_TAG_END --></code></pre>
 </li>
             <li class="svelte-1pjpgag">Calculate x,y position of area to extract: 
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->left =
-    (resized_and_rotated_media.<span class="hljs-property">width</span> - target_width) / <span class="hljs-number">2.0</span>
-    - value.<span class="hljs-property">x</span> * target_height;
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->left =
+    (resized_and_rotated_media.width - target_width) / 2.0
+    - value.x * target_height;
 top =
-    (resized_and_rotated_media.<span class="hljs-property">height</span> - target_height) / <span class="hljs-number">2.0</span>
-    - value.<span class="hljs-property">y</span> * target_height;<!-- HTML_TAG_END --></code></pre>
+    (resized_and_rotated_media.height - target_height) / 2.0
+    - value.y * target_height;<!-- HTML_TAG_END --></code></pre>
 </li>
             <li class="svelte-1pjpgag">Extract area:
                 
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->cropped_media =
-    <span class="hljs-title function_">extract_area</span>(resized_and_rotated_media, left, top,
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START -->cropped_media =
+    extract_area(resized_and_rotated_media, left, top,
                  target_width, target_height);<!-- HTML_TAG_END --></code></pre>
 </li></ol></div>
 
@@ -297,8 +303,8 @@ top =
 </div>
 
 
-		<script type="module" data-sveltekit-hydrate="1v8xqu9">
-			import { start } from "/svelte-crop-window/_app/immutable/start-41cd8203.js";
+		<script type="module" data-sveltekit-hydrate="11yk71i">
+			import { start } from "/svelte-crop-window/_app/immutable/start-3aa09133.js";
 
 			start({
 				env: {},
@@ -312,7 +318,7 @@ top =
 					form: null
 				},
 				paths: {"base":"/svelte-crop-window","assets":"/svelte-crop-window"},
-				target: document.querySelector('[data-sveltekit-hydrate="1v8xqu9"]').parentNode,
+				target: document.querySelector('[data-sveltekit-hydrate="11yk71i"]').parentNode,
 				trailing_slash: "never"
 			});
 		</script>
