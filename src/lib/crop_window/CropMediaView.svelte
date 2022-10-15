@@ -245,6 +245,8 @@
                 -value.rotation
             );
         } else {
+            // TODO: support round crop on aspect ration != 1
+
             top_left_croparea_rotated = sub_point(center_point, {
                 x: 0,
                 y: +crop_window_size.height / 2

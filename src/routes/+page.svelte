@@ -22,7 +22,6 @@
 
     let options: Options<OverlayOptions> = {
         ...defaultOptions,
-        shape: 'rect',
         overlay_options: {
             line_color: '#f3f5e8',
             overlay_color: '#167676'
@@ -32,6 +31,7 @@
     let background_color = '#164646';
 
     let value: CropValue = defaultValue;
+    let value2: CropValue = defaultValue;
 
     let position: Point = { x: 0, y: 0 };
 
@@ -69,16 +69,19 @@
     </div>
 
     <div class="box">
+        <p>
         Looking for contributions, code review and feedback! Feel free to open an issue on <a
             href="https://github.com/sabine/svelte-crop-window">the GitHub repository</a
         > or connect with me via the Svelte discord (sabine#8815).
-    </div>
+    </p>
+    <p>TODO: what does NOT work yet: Media does not "snap back" to cover the crop area on round crop with aspect != 1.</p>
 
-    <div class="box">
+    <p>
         The code of this page is <a
             href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte"
             >here</a
         >.
+    </p>
     </div>
 
     <div class="box">
@@ -187,11 +190,18 @@
             <div>background color</div>
             <input type="color" bind:value={background_color} />
         </div>
+        <h3>Shape</h3>
+        <div>
+            <select bind:value={options.shape}>
+                <option value="rect">"rect"</option>
+                <option value="round">"round"</option>
+            </select>
+        </div>
     </div>
     <div class="box">
         <h2 id="minimal-code-example"><a href="#minimal-code-example">Minimal code example</a></h2>
         <div style="height:20em; background: #222">
-            <CropWindow bind:value {media} options={defaultOptions} />
+            <CropWindow bind:value={value2} {media} options={defaultOptions} />
         </div>
         <div>
             <Highlight
@@ -241,14 +251,16 @@ let value = defaultValue;
                 <div>
                     The overlay component which visually highlights the crop area and, possibly,
                     some lines. You can pass your own Svelte component here, for a custom overlay.
-                    Look at the included <code>Overlay.svelte</code> to see how it works.
+                    Look at the <a
+                        href="https://github.com/sabine/svelte-crop-window/blob/main/src/lib/overlay/Overlay.svelte"
+                        >code of the included overlay</a
+                    > to see how it works.
                 </div>
                 <div><code>overlay_options</code></div>
                 <div>options for the overlay component</div>
                 <div>
-                    Needs to be whatever options your overlay component takes. The included <code
-                        >Overlay.svelte</code
-                    > allows you to set the color of the overlay and the color of the lines.
+                    Needs to be whatever options your overlay component takes. The included overlay
+                    allows you to set the color of the overlay and the color of the lines.
                 </div>
             </div>
         </div>
@@ -273,7 +285,10 @@ let value = defaultValue;
     <div class="box">
         <h2 id="how-to-crop"><a href="#how-to-crop">How to Crop</a></h2>
 
-        <div style="position:relative;height:300px;width:{value.aspect * 300}px; overflow:hidden">
+        <div
+            style="position:relative;height:300px;width:{value.aspect *
+                300}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
+        >
             <video
                 style={`transform: translateX(-50%) translateY(-50%) rotate(${
                     value.rotation || 0
@@ -281,7 +296,7 @@ let value = defaultValue;
                     `height: ${(value.scale || 0.0) * 300}px;` +
                     `margin-left: ${300 / 2 + (value.position.x || 0) * 300}px;` +
                     `margin-top: ${300 / value.aspect / 2 + (value.position.y || 0) * 300}px;
-                    max-width:none`}
+                    max-width:none;`}
                 src={media.url}
                 autoPlay
                 loop
@@ -292,7 +307,9 @@ let value = defaultValue;
         <h3>Display in HTML without actually cropping:</h3>
 
         <HighlightSvelte
-            code={`<div style="position:relative;height:{HEIGHT}px;width:{value.aspect * HEIGHT}px; overflow:hidden">
+            code={`<div style={\`position:relative; overflow:hidden;
+        height:{HEIGHT}px; width:{value.aspect * HEIGHT}px;
+        border-radius: { options.shape == 'round' ? '50%' : '0' }\`}>
     <video
         style={\`transform: translateX(-50%) translateY(-50%) rotate({value.rotation || 0}deg);
     height: {(value.scale || 0.0) * HEIGHT}px;
@@ -323,10 +340,7 @@ let value = defaultValue;
             </li>
             <li>
                 Scale media by <code>s</code>:
-                <Highlight
-                language={typescript}
-                code={`let resized_media = scale(media, s);`}
-            />
+                <Highlight language={typescript} code={`let resized_media = scale(media, s);`} />
             </li>
             <li>
                 Rotate media by <code>value.rotation</code>:
@@ -398,7 +412,7 @@ let top =
         padding: 1.5rem 0;
     }
 
-    :global(pre) {
+    :global(pre), p {
         padding: 0.5rem 0;
     }
     ol {
