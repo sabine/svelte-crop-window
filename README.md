@@ -8,6 +8,8 @@ Currently looking for contributors and feedback to help improve this component.
 
 If you can do code-review, that's very welcome.
 
+Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
+
 ## Developing
 
 Once you've cloned the project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
