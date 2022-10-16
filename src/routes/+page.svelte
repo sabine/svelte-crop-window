@@ -26,7 +26,8 @@
         crop_window_margin: 30,
         overlay_options: {
             line_color: '#f3f5e8',
-            overlay_color: '#167676'
+            overlay_color: '#167676',
+            show_third_lines: true,
         }
     };
 
@@ -214,8 +215,12 @@
         <h3>Shape</h3>
         <div>
             <select bind:value={options.shape}>
-                <option value="rect">"rect"</option>
-                <option value="round">"round"</option>
+                <option value="rect">rectangle</option>
+                <option value="round">round</option>
+            </select>
+            <select bind:value={options.overlay_options.show_third_lines}>
+                <option value={true}>show third lines</option>
+                <option value={false}>don't show third lines</option>
             </select>
         </div>
     </div>
@@ -296,7 +301,8 @@ let value = { ...defaultValue };
     overlay: Overlay,
     overlay_options: {
         line_color: '#FFFFFF',
-        overlay_color: '#222222'
+        overlay_color: '#222222',
+        show_third_lines: true,
     },
 };
 `}

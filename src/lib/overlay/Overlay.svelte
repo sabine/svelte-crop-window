@@ -2,11 +2,13 @@
     export type OverlayOptions = {
         line_color: string;
         overlay_color: string;
+        show_third_lines: boolean;
     };
 
-    export const defaultOverlayOptions = {
-        outline_color: 'rgb(167, 167, 167)',
-        overlay_color: 'rgb(11, 11, 11)'
+    export const defaultOverlayOptions: OverlayOptions = {
+        line_color: 'rgb(167, 167, 167)',
+        overlay_color: 'rgb(11, 11, 11)',
+        show_third_lines: true
     };
 </script>
 
@@ -25,11 +27,20 @@
     style={`--outline-color:${options.line_color};
 --overlay-color:${options.overlay_color};`}
 >
-    {#if show_lines}
-        <div class="vertical-lines" in:fade={{ duration: 100 }} out:fade={{ duration: 1000 }} />
-        <div class="horizontal-lines" in:fade={{ duration: 100 }} out:fade={{ duration: 1000 }} />
+    {#if show_lines && options.show_third_lines}
+        <div class="lines-wrapper" class:round={shape == 'round'}>
+            <div class="vertical-lines" in:fade={{ duration: 100 }} out:fade={{ duration: 1000 }} />
+        </div>
+        <div class="lines-wrapper" class:round={shape == 'round'}>
+            <div
+                class="horizontal-lines"
+                in:fade={{ duration: 100 }}
+                out:fade={{ duration: 1000 }}
+            />
+        </div>
     {/if}
-    <div class="box" />
+
+    <div class:round={shape == 'round'} class="outline" />
 </div>
 
 <style>
@@ -48,7 +59,7 @@
         opacity: 0.7;
     }
 
-    .box {
+    .outline {
         position: absolute;
         height: var(--crop-window-height);
         width: var(--crop-window-width);
@@ -59,26 +70,32 @@
         opacity: 0.5;
     }
 
+    .lines-wrapper {
+        position: absolute;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 3px);
+        width: calc(100% - 3px);
+        overflow: hidden;
+        top: 2px;
+        left: 2px;
+    }
+
     .horizontal-lines {
         border-top: 1px solid var(--outline-color);
         border-bottom: 1px solid var(--outline-color);
         box-sizing: border-box;
-        position: absolute;
         height: 33%;
-        width: calc(100%);
-        left: 0;
-        top: 33%;
+        width: 100%;
         opacity: 0.5;
     }
 
     .vertical-lines {
         border-left: 1px solid var(--outline-color);
         border-right: 1px solid var(--outline-color);
-        position: absolute;
-        height: calc(100%);
+        height: 100%;
         width: 33%;
-        left: 33%;
-        top: 0;
         opacity: 0.5;
     }
 </style>

@@ -24,7 +24,8 @@ export const defaultOptions: Options<OverlayOptions> = {
     overlay: Overlay,
     overlay_options: {
         line_color: '#FFFFFF',
-        overlay_color: '#222222'
+        overlay_color: '#222222',
+        show_third_lines: true,
     },
 };
 
