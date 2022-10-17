@@ -3,7 +3,7 @@ name: build_and_publish
 on:
   push:
     branches:
-      - 'main'
+      - '*'
     tags:
       - 'v*'
 
