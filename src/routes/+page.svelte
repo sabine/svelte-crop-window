@@ -2,25 +2,18 @@
     import { base } from '$app/paths';
     import CropWindow from '$lib/crop_window/CropWindow.svelte';
     import type { Point } from '$lib/crop_window/geometry';
-    import type { OverlayOptions } from '$lib/overlay/Overlay.svelte';
-    import {
-        defaultOptions,
-        defaultValue,
-        type Media,
-        type Options,
-        type CropValue
-    } from '$lib/types';
 
     import { Highlight, HighlightSvelte } from 'svelte-highlight';
     import { atomOneDark } from 'svelte-highlight/styles';
     import typescript from 'svelte-highlight/languages/typescript';
+    import { defaultOptions, defaultValue, type CropValue, type CropWindowOptions, type Media, type OverlayOptions } from '$lib';
 
     let media: Media = {
         content_type: 'video',
         url: `${base}/Mountain - 8837.mp4`
     };
 
-    let options: Options<OverlayOptions> = {
+    let options: CropWindowOptions<OverlayOptions> = {
         ...defaultOptions,
         shape: 'round',
         crop_window_margin: 30,

@@ -1,20 +1,7 @@
-<script lang="ts" context="module">
-    export type OverlayOptions = {
-        overlay_color: string;
-        line_color: string;
-        show_third_lines: boolean;
-    };
-
-    export const defaultOverlayOptions: OverlayOptions = {
-        overlay_color: 'rgb(11, 11, 11)',
-        line_color: 'rgb(167, 167, 167)',
-        show_third_lines: true
-    };
-</script>
-
 <script lang="ts">
     /* You can write your own custom overlay by using this one as a template. */
     import { fade } from 'svelte/transition';
+    import type { OverlayOptions } from './overlay';
 
     export let shape: 'round' | 'rect';
     export let options: OverlayOptions;

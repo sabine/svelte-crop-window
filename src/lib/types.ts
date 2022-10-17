@@ -1,15 +1,13 @@
 import type { SvelteComponentTyped } from 'svelte';
 import type { Point } from './crop_window/geometry';
-import type { OverlayOptions } from './overlay/Overlay.svelte';
+import type { OverlayOptions } from './overlay/overlay';
 import Overlay from './overlay/Overlay.svelte';
-
 
 type IWantToAcceptAComponent<T extends Record<string, any>> = new (
     ...args: any
 ) => SvelteComponentTyped<T>;
 
-
-export type Options<T> = {
+export type CropWindowOptions<T> = {
     /* Shape of the crop window. */
     shape: 'rect' | 'round';
 
@@ -26,7 +24,19 @@ export type Options<T> = {
     overlay_options: T;
 };
 
-export const defaultOptions: Options<OverlayOptions> = {
+export type CropValue = {
+    position: Point;
+    aspect: number;
+    rotation: number;
+    scale: number;
+};
+
+export type Media = {
+    content_type: 'image' | 'video';
+    url: string;
+};
+
+export const defaultOptions: CropWindowOptions<OverlayOptions> = {
     shape: 'rect',
     crop_window_margin: 10,
 
@@ -38,21 +48,9 @@ export const defaultOptions: Options<OverlayOptions> = {
     },
 };
 
-export type CropValue = {
-    position: Point;
-    aspect: number;
-    rotation: number;
-    scale: number;
-};
-
 export const defaultValue: CropValue = {
     position: { x: 0, y: 0 },
     aspect: 1.0,
     rotation: 0,
     scale: 0,
-};
-
-export type Media = {
-    content_type: 'image' | 'video';
-    url: string;
 };

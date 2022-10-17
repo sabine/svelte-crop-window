@@ -13,13 +13,13 @@
         get_center
     } from './geometry';
     import type { Point } from './geometry';
-    import type { Options, Media, CropValue } from '../types';
+    import type { CropWindowOptions, Media, CropValue } from '../types';
     import { AnimatePosition } from './animate_position';
 
     export let media: Media;
 
     type OverlayOptions = $$Generic;
-    export let options: Options<OverlayOptions>;
+    export let options: CropWindowOptions<OverlayOptions>;
 
     export let gesture_in_progress = false;
     export let outer_size: Size;
@@ -534,10 +534,12 @@
         bottom: 0;
     }
 
+    /*
     .p {
         background-color: red;
         width: 5px;
         height: 5px;
         box-sizing: border-box;
     }
+    */
 </style>

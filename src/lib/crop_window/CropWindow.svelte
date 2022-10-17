@@ -2,13 +2,13 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { type CropValue, type Media, type Options, defaultValue } from '../types';
+    import { type CropValue, type Media, type CropWindowOptions, defaultValue } from '$lib/types';
 
     export let media: Media;
     export let value: CropValue = defaultValue;
 
     type OverlayOptions = $$Generic;
-    export let options: Options<OverlayOptions>;
+    export let options: CropWindowOptions<OverlayOptions>;
 
     if (options.shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
 
@@ -17,7 +17,7 @@
     let center_point: Point;
 
     export function commit() {
-        gesture_el.commit()
+        gesture_el.commit();
     }
 
     export function set_zoom(zoom: number) {
@@ -90,7 +90,7 @@
 
 <style>
     .outer {
-        height:100%;
-        width:100%;
+        height: 100%;
+        width: 100%;
     }
 </style>

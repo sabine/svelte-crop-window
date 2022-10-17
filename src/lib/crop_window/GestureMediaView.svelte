@@ -21,13 +21,13 @@
         mouse_draggable,
         type MouseDragMoveEvent
     } from '../gestures/mouse_events';
-    import type { Options, Media, CropValue } from '../types';
+    import type { CropWindowOptions, Media, CropValue } from '../types';
 
     export let media: Media;
     export let value: CropValue;
 
     type OverlayOptions = $$Generic;
-    export let options: Options<OverlayOptions>;
+    export let options: CropWindowOptions<OverlayOptions>;
 
     let outer_el: HTMLDivElement;
     let crop_media_el: CropMediaView<OverlayOptions>;

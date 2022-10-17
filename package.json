@@ -7,9 +7,6 @@
         "type": "git",
         "url": "https://github.com/sabine/svelte-crop-window"
     },
-    "main": "./package/index.js",
-    "types": "./package/index.d.ts",
-    "svelte": "src/lib/index.ts",
     "author": "Sabine Schmaltz <info@sabineschmaltz.de>",
     "license": "MIT",
     "scripts": {
