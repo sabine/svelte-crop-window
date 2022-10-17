@@ -4,7 +4,7 @@ A crop window component for images and videos that supports touch gestures (pinc
 
 Currently looking for contributors and feedback to help improve this component.
 
-![video cropper](https://github.com/sabine/svelte-crop-window/raw/assets/videocrop.gif)
+![video cropper](https://sabine.github.io/svelte-crop-window/videocrop.gif)
 
 If you can do code-review, that's very welcome.
 
