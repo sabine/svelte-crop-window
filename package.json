@@ -1,8 +1,8 @@
 {
     "name": "svelte-crop-window",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "A Svelte component to crop images and videos with touch and mouse gestures",
-    "homepage": "https://github.com/sabine/svelte-crop-window",
+    "homepage": "https://sabine.github.io/svelte-crop-window/#minimal-code-example",
     "repository": {
         "type": "git",
         "url": "https://github.com/sabine/svelte-crop-window"

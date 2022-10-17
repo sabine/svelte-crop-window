@@ -21,7 +21,7 @@
     type OverlayOptions = $$Generic;
     export let options: Options<OverlayOptions>;
 
-    export let show_lines = false;
+    export let gesture_in_progress = false;
     export let outer_size: Size;
     export let crop_window_size: Size;
 
@@ -447,7 +447,7 @@
         <svelte:component
             this={options.overlay}
             options={options.overlay_options}
-            {show_lines}
+            {gesture_in_progress}
             shape={options.shape}
         />
     </div>

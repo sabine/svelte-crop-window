@@ -27,7 +27,7 @@
         overlay_options: {
             line_color: '#f3f5e8',
             overlay_color: '#167676',
-            show_third_lines: true,
+            show_third_lines: true
         }
     };
 
@@ -79,7 +79,12 @@
         </p>
 
         <p>
-            The code of this page is <a
+            This is still in an experimental stage. Changes to the API are to be expected. After
+            v1.0.0, this package will strictly follow semantic versioning.
+        </p>
+
+        <p>
+            The code of this demo page is <a
                 href="https://github.com/sabine/svelte-crop-window/blob/main/src/routes/%2Bpage.svelte"
                 >here</a
             >.
@@ -259,7 +264,7 @@ let value = { ...defaultValue };
                 style="min-width:34em; display:grid; grid-template-columns: 8em 8em 1fr; grid-gap:1rem"
             >
                 <div>name</div>
-                <div>value</div>
+                <div>type</div>
                 <div>purpose</div>
                 <div><code>shape</code></div>
                 <div><code>"rect" | "round"</code></div>
@@ -267,7 +272,7 @@ let value = { ...defaultValue };
                     Determines how the to-be-cropped media "snaps back" to cover the crop area
                 </div>
                 <div><code>crop_window_margin</code></div>
-                <div>number of pixels</div>
+                <div>number</div>
                 <div>
                     Margin of the crop window, in pixels. The crop window will always scale to the
                     maximum possible size in its containing element.
@@ -277,16 +282,23 @@ let value = { ...defaultValue };
                 <div>
                     The overlay component which visually highlights the crop area and, possibly,
                     some lines. You can pass your own Svelte component here, for a custom overlay.
-                    Look at the <a
+                    <p>
+                        The component must have props <code
+                            >options: T, gesture_in_progress: boolean, shape: 'rect' | 'round'</code
+                        >.
+                    </p>
+                    Look at the<a
                         href="https://github.com/sabine/svelte-crop-window/blob/main/src/lib/overlay/Overlay.svelte"
-                        >code of the included overlay</a
+                        >included overlay's code</a
                     > to see how it works.
                 </div>
                 <div><code>overlay_options</code></div>
-                <div>options for the overlay component</div>
+                <div>T</div>
                 <div>
                     Needs to be whatever options your overlay component takes. The included overlay
-                    allows you to set the color of the overlay and the color of the lines.
+                    allows you to set the color of the overlay (<code>overlay_color: string</code>),
+                    the color of the lines (<code>line_color: string</code>), and whether to show
+                    third lines or not (<code>show_third_lines: boolean</code>).
                 </div>
             </div>
         </div>
@@ -300,8 +312,8 @@ let value = { ...defaultValue };
 
     overlay: Overlay,
     overlay_options: {
-        line_color: '#FFFFFF',
         overlay_color: '#222222',
+        line_color: '#FFFFFF',
         show_third_lines: true,
     },
 };
@@ -411,17 +423,42 @@ let top =
             </li>
             <li>
                 Doesn't (yet) provide usable controls. Currently, you need to implement your own.
-                Contributions are welcome.
+                <p>
+                    Similar to the overlay, it would be nice to include some controls to make this
+                    more usable out of the box. Contributions are very welcome.
+                </p>
             </li>
         </ol>
     </div>
 
     <div class="box">
+        <h2>Inspiration and Acknowledgements</h2>
+
+        <p>
+            One big inspiration for this component was the Android library
+            <a href="https://github.com/Yalantis/uCrop">uCrop by Yalantis</a>. What is particularly
+            valuable is that the developers shared their thought process in
+            <a
+                href="https://yalantis.com/blog/how-we-created-ucrop-our-own-image-cropping-library-for-android/"
+                >this blog post</a
+            >.
+        </p>
+        <p>
+            Another very helpful resource was <a
+                href="https://github.com/ValentinH/svelte-easy-crop">svelte-easy-crop</a
+            > which gave me a basic understanding of how to implement a crop window component in Svelte
+            (and HTML/JS in general).
+        </p>
+        <p>
+            There's no code being reused between either of these components and this one (all
+            calculations had to be recreated from textbook math).
+        </p>
+
         <small>
             <p>
                 Video from shantararam at pixabay: <a
                     href="https://pixabay.com/videos/mountain-nature-snow-old-mountain-8837/"
-                    >https://pixabay.com/videos/mountain-nature-snow-old-mountain-8837/</a
+                    >mountain-nature-snow-old-mountain-8837</a
                 >
             </p>
         </small>

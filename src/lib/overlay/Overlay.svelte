@@ -1,13 +1,13 @@
 <script lang="ts" context="module">
     export type OverlayOptions = {
-        line_color: string;
         overlay_color: string;
+        line_color: string;
         show_third_lines: boolean;
     };
 
     export const defaultOverlayOptions: OverlayOptions = {
-        line_color: 'rgb(167, 167, 167)',
         overlay_color: 'rgb(11, 11, 11)',
+        line_color: 'rgb(167, 167, 167)',
         show_third_lines: true
     };
 </script>
@@ -18,7 +18,7 @@
 
     export let shape: 'round' | 'rect';
     export let options: OverlayOptions;
-    export let show_lines: boolean; // controlled by CropMediaView
+    export let gesture_in_progress: boolean; // controlled by CropMediaView
 </script>
 
 <div
@@ -27,7 +27,7 @@
     style={`--outline-color:${options.line_color};
 --overlay-color:${options.overlay_color};`}
 >
-    {#if show_lines && options.show_third_lines}
+    {#if gesture_in_progress && options.show_third_lines}
         <div class="lines-wrapper" class:round={shape == 'round'}>
             <div class="vertical-lines" in:fade={{ duration: 100 }} out:fade={{ duration: 1000 }} />
         </div>
@@ -72,7 +72,7 @@
 
     .lines-wrapper {
         position: absolute;
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         height: calc(100% - 3px);

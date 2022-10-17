@@ -21,10 +21,10 @@
         mouse_draggable,
         type MouseDragMoveEvent
     } from '../gestures/mouse_events';
-    import type { Options, Media, Value } from '../types';
+    import type { Options, Media, CropValue } from '../types';
 
     export let media: Media;
-    export let value: Value;
+    export let value: CropValue;
 
     type OverlayOptions = $$Generic;
     export let options: Options<OverlayOptions>;
@@ -171,7 +171,7 @@
         bind:this={crop_media_el}
         bind:outer_size
         {options}
-        bind:show_lines={gesture_in_progress}
+        bind:gesture_in_progress
         bind:crop_window_size
         bind:media
         bind:value

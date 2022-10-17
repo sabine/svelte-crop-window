@@ -10,11 +10,20 @@ type IWantToAcceptAComponent<T extends Record<string, any>> = new (
 
 
 export type Options<T> = {
-    shape: 'rect' | 'round'; // determines how the to-be-cropped media "snaps back" to cover the crop area.
-    crop_window_margin: number; // margin of the crop window, in pixels
+    /* Shape of the crop window. */
+    shape: 'rect' | 'round';
 
-    overlay: IWantToAcceptAComponent<{options: T, shape: 'rect' | 'round', show_lines: boolean}>; // The overlay which visually highlights the crop area and, possibly, some third lines. You can pass your own Svelte component here, for a custom overlay.
-    overlay_options: T; // options for the overlay, customizable
+    /* margin of the crop window wrt to its containing HTMLElement, in pixels */
+    crop_window_margin: number; 
+
+    /* The overlay which visually highlights the crop area.
+       You can pass your own Svelte component here, for a custom overlay.
+       Look at the included Overlay.svelte to see how to create your own.
+    */
+    overlay: IWantToAcceptAComponent<{options: T, shape: 'rect' | 'round', gesture_in_progress: boolean}>;
+
+    /* The options for the overlay depend on the overlay component you use. */
+    overlay_options: T;
 };
 
 export const defaultOptions: Options<OverlayOptions> = {
@@ -23,8 +32,8 @@ export const defaultOptions: Options<OverlayOptions> = {
 
     overlay: Overlay,
     overlay_options: {
-        line_color: '#FFFFFF',
         overlay_color: '#222222',
+        line_color: '#FFFFFF',
         show_third_lines: true,
     },
 };
