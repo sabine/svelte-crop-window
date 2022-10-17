@@ -10,7 +10,7 @@
 
     let media: Media = {
         content_type: 'video',
-        url: `${base}/Mountain - 8837.mp4`
+        url: `https://raw.githubusercontent.com/sabine/svelte-crop-window/assets/Mountain%20-%208837.mp4`
     };
 
     let options: CropWindowOptions<OverlayOptions> = {
