@@ -7,7 +7,7 @@ ghpages.publish(
         branch: 'gh-pages',
         user: {
             name: 'sabine',
-            email: 'info@sabineschmaltz.de'
+            email: 'sabineschmaltz@gmail.com'
         }
     },
     () => {
