@@ -23,6 +23,14 @@ npm run dev -- --open
 
 ## Acknowledgements
 
-Big thanks goes to the Android library https://github.com/Yalantis/uCrop for being a great inspiration and to the developers for sharing their thought process in their [legendary blog post](https://yalantis.com/blog/how-we-created-ucrop-our-own-image-cropping-library-for-android/).
+One big inspiration for this component was the Android library
+[uCrop by Yalantis](https://github.com/Yalantis/uCrop). What is particularly
+valuable is that the developers shared their thought process in
+[this blog post](https://yalantis.com/blog/how-we-created-ucrop-our-own-image-cropping-library-for-android/).
 
-The library that inspired me to start working on my own crop component is https://github.com/ValentinH/svelte-easy-crop. I probably would never have gotten started in the first place had I not found and studied this neat little library.
+Another very helpful resource was [svelte-easy-crop](https://github.com/ValentinH/svelte-easy-crop)
+which gave me a basic understanding of how to implement a crop window component in Svelte
+(and HTML/JS in general).
+
+There's no code being reused between either of these components and this one (all
+calculations had to be recreated from textbook math).

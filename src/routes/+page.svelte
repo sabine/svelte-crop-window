@@ -8,10 +8,18 @@
     import typescript from 'svelte-highlight/languages/typescript';
     import { defaultOptions, defaultValue, type CropValue, type CropWindowOptions, type Media, type OverlayOptions } from '$lib';
 
-    let media: Media = {
+    const VIDEO: Media = {
         content_type: 'video',
         url: `${base}/Mountain%20-%208837.mp4`
     };
+
+    const IMAGE: Media = {
+        content_type: 'image',
+        url: `${base}/hintersee-3601004.jpg`
+    };
+
+    let video: boolean = false;
+    let media = IMAGE;
 
     let options: CropWindowOptions<OverlayOptions> = {
         ...defaultOptions,
@@ -35,6 +43,8 @@
 
     $: {
         position = value.position;
+        video = video;
+        media = video ? VIDEO: IMAGE;
     }
 </script>
 
@@ -91,11 +101,14 @@
             <CropWindow bind:this={crop_window_el} bind:value {media} {options} />
         </div>
 
+        <button on:click={() => video = !video}>{video? "video": "image"}</button>
+
         <h3>Result</h3>
         <div
             style="position:relative;height:100px;width:{value.aspect *
                 100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
         >
+        {#if video}
             <video
                 style={`transform: translateX(-50%) translateY(-50%) rotate(${
                     value.rotation || 0
@@ -109,6 +122,19 @@
                 loop
                 muted={true}
             />
+            {:else}
+            <img
+                style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                    value.rotation || 0
+                }deg);` +
+                    `height: ${(value.scale || 0.0) * 100}px;` +
+                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
+                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+                max-width:none;`}
+                src={media.url}
+                alt="result"
+            />
+            {/if}
         </div>
 
         <h3>Aspect ratio</h3>
@@ -321,6 +347,7 @@ let value = { ...defaultValue };
             style="position:relative;height:100px;width:{value.aspect *
                 100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
         >
+        {#if video}
             <video
                 style={`transform: translateX(-50%) translateY(-50%) rotate(${
                     value.rotation || 0
@@ -328,12 +355,25 @@ let value = { ...defaultValue };
                     `height: ${(value.scale || 0.0) * 100}px;` +
                     `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
                     `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
-                    max-width:none;`}
+                max-width:none;`}
                 src={media.url}
                 autoPlay
                 loop
                 muted={true}
             />
+            {:else}
+            <img
+                style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                    value.rotation || 0
+                }deg);` +
+                    `height: ${(value.scale || 0.0) * 100}px;` +
+                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
+                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+                max-width:none;`}
+                src={media.url}
+                alt="result"
+            />
+            {/if}
         </div>
 
         <h3>Display in HTML without actually cropping:</h3>
