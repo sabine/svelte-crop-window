@@ -1,105 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/svelte-crop-window/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="content-security-policy" content="">
-		<link href="/svelte-crop-window/_app/immutable/assets/_page-850a5e00.css" rel="stylesheet">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/start-8231a26b.js">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="/svelte-crop-window/favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="content-security-policy" content="">
+		<link href="/svelte-crop-window/_app/immutable/assets/_page-50064c41.css" rel="stylesheet">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/start-20d12791.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/index-b7665181.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/singletons-0dc6300f.js">
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/singletons-4428e5db.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/paths-6cd3a76e.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/layout.svelte-74720335.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/modules/pages/_layout.ts-b8ee4d7c.js">
 		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/chunks/_layout-1daba58d.js">
-		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/pages/_page.svelte-3bfc7747.js"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;background:#282c34}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}</style><!-- HTML_TAG_END -->
-    <style>
-        html,
-        body,
-        p,
-        ol,
-        ul,
-        li,
-        dl,
-        dt,
-        dd,
-        blockquote,
-        figure,
-        fieldset,
-        legend,
-        textarea,
-        pre,
-        iframe,
-        hr,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            margin: 0;
-            padding: 0;
-        }
+		<link rel="modulepreload" href="/svelte-crop-window/_app/immutable/components/pages/_page.svelte-60888170.js"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;background:#282c34}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}</style><!-- HTML_TAG_END -->
+        <style>
+            html,
+            body,
+            p,
+            ol,
+            ul,
+            li,
+            dl,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            fieldset,
+            legend,
+            textarea,
+            pre,
+            iframe,
+            hr,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin: 0;
+                padding: 0;
+            }
 
-        ul {
-            list-style: none;
-        }
+            ul {
+                list-style: none;
+            }
 
-        button,
-        input,
-        select {
-            margin: 0;
-        }
+            button,
+            input,
+            select {
+                margin: 0;
+            }
 
-        html {
-            box-sizing: border-box;
-            font-family: sans-serif;
-            background-color: #167676;
-            color:#f3f5e8;
-        }
+            html {
+                box-sizing: border-box;
+                font-family: sans-serif;
+                background-color: #167676;
+                color: #f3f5e8;
+            }
 
-        a {
-            color:#f3f5e8;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+            a {
+                color: #f3f5e8;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: inherit;
-        }
+            *,
+            *::before,
+            *::after {
+                box-sizing: inherit;
+            }
 
-        img,
-        video {
-            height: auto;
-            max-width: 100%;
-        }
+            img,
+            video {
+                height: auto;
+                max-width: 100%;
+            }
 
-        iframe {
-            border: 0;
-        }
+            iframe {
+                border: 0;
+            }
 
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
 
-        td,
-        th {
-            padding: 0;
-        }
+            td,
+            th {
+                padding: 0;
+            }
+        </style>
+    </head>
 
-    </style>
-</head>
-
-<body>
-    <div>
+    <body>
+        <div>
 
 
 
@@ -180,65 +178,46 @@
         <div class="svelte-f66pw0">
   
   <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">// in script tag</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CropWindow</span>, defaultOptions, defaultValue } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;svelte-crop-window&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CropWindow</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;svelte-crop-window&#x27;</span>;
 
 <span class="hljs-keyword">let</span> <span class="hljs-attr">media</span>: <span class="hljs-title class_">Media</span> = {
-    <span class="hljs-attr">content_type</span>: <span class="hljs-string">&#x27;video&#x27;</span>,
-    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/Mountain - 8837.mp4&#x27;</span>
+    <span class="hljs-attr">content_type</span>: <span class="hljs-string">&#x27;image&#x27;</span>,
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/svelte-crop-window/hintersee-3601004.jpg&#x27;</span>
 };
 
 <span class="hljs-keyword">let</span> value = { ...defaultValue };
 
 <span class="hljs-comment">// in the template</span>
 &lt;div style=&quot;height:20em; background: #222&quot;&gt;
-    &lt;CropWindow bind:value {media} options={defaultOptions} /&gt;
+    &lt;CropWindow bind:value {media} /&gt;
 &lt;/div&gt;
 <!-- HTML_TAG_END --></code></pre>
 </div></div>
 
-    <div class="box svelte-f66pw0"><h2 id="options" class="svelte-f66pw0"><a href="#options" class="svelte-f66pw0">Options</a></h2>
+    <div class="box svelte-f66pw0"><h2 class="svelte-f66pw0">Props and defaults</h2>
+            See <a href="https://github.com/sabine/svelte-crop-window#props" class="svelte-f66pw0">here</a>.
 
-        <div style="max-width:100%; overflow-x:scroll" class="svelte-f66pw0"><div style="min-width:34em; display:grid; grid-template-columns: 8em 8em 1fr; grid-gap:1rem" class="svelte-f66pw0"><div class="svelte-f66pw0">name</div>
-                <div class="svelte-f66pw0">type</div>
-                <div class="svelte-f66pw0">purpose</div>
-                <div class="svelte-f66pw0"><code class="svelte-f66pw0">shape</code></div>
-                <div class="svelte-f66pw0"><code class="svelte-f66pw0">&quot;rect&quot; | &quot;round&quot;</code></div>
-                <div class="svelte-f66pw0">Determines how the to-be-cropped media &quot;snaps back&quot; to cover the crop area
-                </div>
-                <div class="svelte-f66pw0"><code class="svelte-f66pw0">crop_window_margin</code></div>
-                <div class="svelte-f66pw0">number</div>
-                <div class="svelte-f66pw0">Margin of the crop window, in pixels. The crop window will always scale to the
-                    maximum possible size in its containing element.
-                </div>
-                <div class="svelte-f66pw0"><code class="svelte-f66pw0">overlay</code></div>
-                <div class="svelte-f66pw0">a Svelte component</div>
-                <div class="svelte-f66pw0">The overlay component which visually highlights the crop area and, possibly,
-                    some lines. You can pass your own Svelte component here, for a custom overlay.
-                    <p class="svelte-f66pw0">The component must have props <code class="svelte-f66pw0">options: T, gesture_in_progress: boolean, shape: &#39;rect&#39; | &#39;round&#39;</code>.
-                    </p>
-                    Look at the<a href="https://github.com/sabine/svelte-crop-window/blob/main/src/lib/overlay/Overlay.svelte" class="svelte-f66pw0">included overlay&#39;s code</a> to see how it works.
-                </div>
-                <div class="svelte-f66pw0"><code class="svelte-f66pw0">overlay_options</code></div>
-                <div class="svelte-f66pw0">T</div>
-                <div class="svelte-f66pw0">Needs to be whatever options your overlay component takes. The included overlay
-                    allows you to set the color of the overlay (<code class="svelte-f66pw0">overlay_color: string</code>),
-                    the color of the lines (<code class="svelte-f66pw0">line_color: string</code>), and whether to show
-                    third lines or not (<code class="svelte-f66pw0">show_third_lines: boolean</code>).
-                </div></div></div>
+            
+  
+  <pre data-language="svelte" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height:20em&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CropWindow</span>
+        <span class="hljs-attr">bind:value</span>
+        {<span class="hljs-attr">media</span>}
+        <span class="hljs-attr">shape</span>=<span class="hljs-string">{</span>&#x27;<span class="hljs-attr">rect</span>&#x27;}
+        <span class="hljs-attr">crop_window_margin</span>=<span class="hljs-string">{10}</span>
+        <span class="hljs-attr">overlay</span>=<span class="hljs-string">{Overlay}</span>
+        <span class="hljs-attr">overlay_options</span>=<span class="hljs-string">{defaultOverlayOptions}</span>
+    /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<!-- HTML_TAG_END --></code></pre>
 
-        <h3 id="default-options" class="svelte-f66pw0"><a href="#default-options" class="svelte-f66pw0">Default options</a></h3>
+
         
   
-  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">defaultOptions</span>: <span class="hljs-title class_">Options</span>&lt;<span class="hljs-title class_">OverlayOptions</span>&gt; = {
-    <span class="hljs-attr">shape</span>: <span class="hljs-string">&#x27;rect&#x27;</span>,
-    <span class="hljs-attr">crop_window_margin</span>: <span class="hljs-number">10</span>,
-
-    <span class="hljs-attr">overlay</span>: <span class="hljs-title class_">Overlay</span>,
-    <span class="hljs-attr">overlay_options</span>: {
-        <span class="hljs-attr">overlay_color</span>: <span class="hljs-string">&#x27;#222222&#x27;</span>,
-        <span class="hljs-attr">line_color</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>,
-        <span class="hljs-attr">show_third_lines</span>: <span class="hljs-literal">true</span>,
-    },
+  <pre data-language="typescript" class=" svelte-4cqgwq"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-keyword">const</span> <span class="hljs-attr">defaultOverlayOptions</span>: {
+    <span class="hljs-attr">overlay_color</span>: <span class="hljs-string">&#x27;#222222&#x27;</span>,
+    <span class="hljs-attr">line_color</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>,
+    <span class="hljs-attr">show_third_lines</span>: <span class="hljs-literal">true</span>,
 };
 <!-- HTML_TAG_END --></code></pre>
 </div>
@@ -333,8 +312,8 @@
 </div>
 
 
-		<script type="module" data-sveltekit-hydrate="1gsd5ak">
-			import { start } from "/svelte-crop-window/_app/immutable/start-8231a26b.js";
+		<script type="module" data-sveltekit-hydrate="jqqr45">
+			import { start } from "/svelte-crop-window/_app/immutable/start-20d12791.js";
 
 			start({
 				env: {},
@@ -348,11 +327,10 @@
 					form: null
 				},
 				paths: {"base":"/svelte-crop-window","assets":"/svelte-crop-window"},
-				target: document.querySelector('[data-sveltekit-hydrate="1gsd5ak"]').parentNode,
+				target: document.querySelector('[data-sveltekit-hydrate="jqqr45"]').parentNode,
 				trailing_slash: "never"
 			});
 		</script>
 	</div>
-</body>
-
+    </body>
 </html>
