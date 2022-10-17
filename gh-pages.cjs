@@ -11,6 +11,6 @@ ghpages.publish(
         }
     },
     () => {
-        console.log('Deploy Complete!')
+        console.log('Deploy Complete!');
     }
-)
+);

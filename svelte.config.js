@@ -10,8 +10,8 @@ const config = {
     kit: {
         adapter: adapter(),
         paths: {
-            base: '/svelte-crop-window',
-        },      
+            base: '/svelte-crop-window'
+        }
     }
 };
 

@@ -1,96 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        %sveltekit.head%
+        <style>
+            html,
+            body,
+            p,
+            ol,
+            ul,
+            li,
+            dl,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            fieldset,
+            legend,
+            textarea,
+            pre,
+            iframe,
+            hr,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin: 0;
+                padding: 0;
+            }
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    %sveltekit.head%
-    <style>
-        html,
-        body,
-        p,
-        ol,
-        ul,
-        li,
-        dl,
-        dt,
-        dd,
-        blockquote,
-        figure,
-        fieldset,
-        legend,
-        textarea,
-        pre,
-        iframe,
-        hr,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            margin: 0;
-            padding: 0;
-        }
+            ul {
+                list-style: none;
+            }
 
-        ul {
-            list-style: none;
-        }
+            button,
+            input,
+            select {
+                margin: 0;
+            }
 
-        button,
-        input,
-        select {
-            margin: 0;
-        }
+            html {
+                box-sizing: border-box;
+                font-family: sans-serif;
+                background-color: #167676;
+                color: #f3f5e8;
+            }
 
-        html {
-            box-sizing: border-box;
-            font-family: sans-serif;
-            background-color: #167676;
-            color:#f3f5e8;
-        }
+            a {
+                color: #f3f5e8;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
 
-        a {
-            color:#f3f5e8;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+            *,
+            *::before,
+            *::after {
+                box-sizing: inherit;
+            }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: inherit;
-        }
+            img,
+            video {
+                height: auto;
+                max-width: 100%;
+            }
 
-        img,
-        video {
-            height: auto;
-            max-width: 100%;
-        }
+            iframe {
+                border: 0;
+            }
 
-        iframe {
-            border: 0;
-        }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
 
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
+            td,
+            th {
+                padding: 0;
+            }
+        </style>
+    </head>
 
-        td,
-        th {
-            padding: 0;
-        }
-
-    </style>
-</head>
-
-<body>
-    <div>%sveltekit.body%</div>
-</body>
-
+    <body>
+        <div>%sveltekit.body%</div>
+    </body>
 </html>
