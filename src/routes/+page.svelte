@@ -11,6 +11,7 @@
         defaultValue,
         type CropValue,
         type Media,
+        type Options,
     } from '$lib/types';
     import type { OverlayOptions } from '$lib';
 

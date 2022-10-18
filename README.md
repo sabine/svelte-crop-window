@@ -10,20 +10,6 @@ If you can do code-review, that's very welcome.
 
 Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 
-<<<<<<< HEAD
-## Props
-
-## `Options`
-| name  | type | purpose
-| ------------- | ------------- | ---------- |
-| media | `{ url: string, content_type: 'image' | 'video' }` | image or video to be cropped |
-| options | `Options` | options for the `CropWindow` component |
-| value | `{ position: Point; aspect: number; rotation: number; scale: number; }: CropValue` | value that describes how to crop |
-| shape | `'rect' | 'round'` | shape of the crop area |
-| crop_window_margin | `number` | Margin of the crop window, in pixels. The crop window will always scale to the maximum possible size in its containing element. |
-| overlay | a Svelte component | The overlay component which visually highlights the crop area. You can pass your own Svelte component with props `options: T, gesture_in_progress: boolean, shape: 'rect' | 'round'` here, or use the included [Overlay.svelte](/src/lib/overlay/Overlay.svelte).
-| overlay_options| `T` | Options for your overlay component. The included overlay allows you to set the color of the overlay (`overlay_color: string`), the color of the lines (`line_color: string`), and whether to show third lines or not (`show_third_lines: boolean`). |
-=======
 ## `CropWindow.svelte` Component
 
 ### Props
@@ -128,7 +114,6 @@ let top = (resized_and_rotated_media.height - target_height) / 2.0 - value.y * t
 ```javascript
 let cropped_media = extract_area(resized_and_rotated_media, left, top, target_width, target_height);
 ```
->>>>>>> main
 
 ## Developing
 
