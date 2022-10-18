@@ -27,6 +27,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm run build
       - run: npm publish --dry-run
         working-directory: package
         env:
@@ -44,6 +45,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm run build
       - run: npm publish
         working-directory: package
         env:
