@@ -24,7 +24,7 @@ function animate(animation: AnimatePosition) {
         animation.on_progress(
             {
                 x: (1 - z) * animation.offset.x,
-                y: (1 - z) * animation.offset.y,
+                y: (1 - z) * animation.offset.y
             },
             (1 - z) * animation.scale + z * 1.0
         );
@@ -45,10 +45,7 @@ export class AnimatePosition {
 
     rafTimeout: number | null = null;
 
-    start = (
-        offset: Point,
-        scale: number
-    ) => {
+    start = (offset: Point, scale: number) => {
         this.start_time = null;
         this.offset = offset;
         this.scale = scale;

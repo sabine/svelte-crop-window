@@ -6,7 +6,13 @@
     import { Highlight, HighlightSvelte } from 'svelte-highlight';
     import { atomOneDark } from 'svelte-highlight/styles';
     import typescript from 'svelte-highlight/languages/typescript';
-    import { defaultOptions, defaultValue, type CropValue, type CropWindowOptions, type Media, type OverlayOptions } from '$lib';
+    import {
+        defaultOptions,
+        defaultValue,
+        type CropValue,
+        type Media,
+    } from '$lib/types';
+    import type { OverlayOptions } from '$lib';
 
     const VIDEO: Media = {
         content_type: 'video',
@@ -21,7 +27,7 @@
     let video: boolean = false;
     let media = IMAGE;
 
-    let options: CropWindowOptions<OverlayOptions> = {
+    let options: Options<OverlayOptions> = {
         ...defaultOptions,
         shape: 'round',
         crop_window_margin: 30,
@@ -44,7 +50,7 @@
     $: {
         position = value.position;
         video = video;
-        media = video ? VIDEO: IMAGE;
+        media = video ? VIDEO : IMAGE;
     }
 </script>
 
@@ -101,39 +107,43 @@
             <CropWindow bind:this={crop_window_el} bind:value {media} {options} />
         </div>
 
-        <button on:click={() => video = !video}>{video? "video": "image"}</button>
+        <button on:click={() => (video = !video)}>{video ? 'video' : 'image'}</button>
 
         <h3>Result</h3>
         <div
             style="position:relative;height:100px;width:{value.aspect *
                 100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
         >
-        {#if video}
-            <video
-                style={`transform: translateX(-50%) translateY(-50%) rotate(${
-                    value.rotation || 0
-                }deg);` +
-                    `height: ${(value.scale || 0.0) * 100}px;` +
-                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
-                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+            {#if video}
+                <video
+                    style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                        value.rotation || 0
+                    }deg);` +
+                        `height: ${(value.scale || 0.0) * 100}px;` +
+                        `margin-left: ${
+                            (100 * value.aspect) / 2 + (value.position.x || 0) * 100
+                        }px;` +
+                        `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
                 max-width:none;`}
-                src={media.url}
-                autoPlay
-                loop
-                muted={true}
-            />
+                    src={media.url}
+                    autoPlay
+                    loop
+                    muted={true}
+                />
             {:else}
-            <img
-                style={`transform: translateX(-50%) translateY(-50%) rotate(${
-                    value.rotation || 0
-                }deg);` +
-                    `height: ${(value.scale || 0.0) * 100}px;` +
-                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
-                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+                <img
+                    style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                        value.rotation || 0
+                    }deg);` +
+                        `height: ${(value.scale || 0.0) * 100}px;` +
+                        `margin-left: ${
+                            (100 * value.aspect) / 2 + (value.position.x || 0) * 100
+                        }px;` +
+                        `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
                 max-width:none;`}
-                src={media.url}
-                alt="result"
-            />
+                    src={media.url}
+                    alt="result"
+                />
             {/if}
         </div>
 
@@ -251,24 +261,24 @@
     <div class="box">
         <h2 id="minimal-code-example"><a href="#minimal-code-example">Minimal code example</a></h2>
         <div style="height:20em; background: #222">
-            <CropWindow bind:value={value2} {media} options={defaultOptions} />
+            <CropWindow bind:value={value2} {media} />
         </div>
         <div>
             <Highlight
                 language={typescript}
                 code={`// in script tag
-import { CropWindow, defaultOptions, defaultValue } from 'svelte-crop-window';
+import { CropWindow } from 'svelte-crop-window';
 
 let media: Media = {
-    content_type: 'video',
-    url: '/Mountain - 8837.mp4'
+    content_type: '${video ? 'video' : 'image'}',
+    url: '${video ? VIDEO.url : IMAGE.url}'
 };
 
 let value = { ...defaultValue };
 
 // in the template
 <div style="height:20em; background: #222">
-    <CropWindow bind:value {media} options={defaultOptions} />
+    <CropWindow bind:value {media} />
 </div>
 `}
             />
@@ -276,66 +286,35 @@ let value = { ...defaultValue };
     </div>
 
     <div class="box">
-        <h2 id="options"><a href="#options">Options</a></h2>
+        <h2>Props and defaults</h2>
+        <a href="https://github.com/sabine/svelte-crop-window#props">See here</a>.
 
-        <div style="max-width:100%; overflow-x:scroll">
-            <div
-                style="min-width:34em; display:grid; grid-template-columns: 8em 8em 1fr; grid-gap:1rem"
-            >
-                <div>name</div>
-                <div>type</div>
-                <div>purpose</div>
-                <div><code>shape</code></div>
-                <div><code>"rect" | "round"</code></div>
-                <div>
-                    Determines how the to-be-cropped media "snaps back" to cover the crop area
-                </div>
-                <div><code>crop_window_margin</code></div>
-                <div>number</div>
-                <div>
-                    Margin of the crop window, in pixels. The crop window will always scale to the
-                    maximum possible size in its containing element.
-                </div>
-                <div><code>overlay</code></div>
-                <div>a Svelte component</div>
-                <div>
-                    The overlay component which visually highlights the crop area and, possibly,
-                    some lines. You can pass your own Svelte component here, for a custom overlay.
-                    <p>
-                        The component must have props <code
-                            >options: T, gesture_in_progress: boolean, shape: 'rect' | 'round'</code
-                        >.
-                    </p>
-                    Look at the<a
-                        href="https://github.com/sabine/svelte-crop-window/blob/main/src/lib/overlay/Overlay.svelte"
-                        >included overlay's code</a
-                    > to see how it works.
-                </div>
-                <div><code>overlay_options</code></div>
-                <div>T</div>
-                <div>
-                    Needs to be whatever options your overlay component takes. The included overlay
-                    allows you to set the color of the overlay (<code>overlay_color: string</code>),
-                    the color of the lines (<code>line_color: string</code>), and whether to show
-                    third lines or not (<code>show_third_lines: boolean</code>).
-                </div>
-            </div>
-        </div>
+        <HighlightSvelte
+            code={`<div style="height:20em">
+    <CropWindow
+        bind:value
+        {media}
+        {options}
+    />
+</div>
+`}
+        />
 
-        <h3 id="default-options"><a href="#default-options">Default options</a></h3>
         <Highlight
             language={typescript}
-            code={`export const defaultOptions: Options<OverlayOptions> = {
+            code={`const defaultOverlayOptions = {
+    overlay_color: '#222222',
+    line_color: '#FFFFFF',
+    show_third_lines: true,
+};
+
+const defaultOptions = {
     shape: 'rect',
     crop_window_margin: 10,
 
     overlay: Overlay,
-    overlay_options: {
-        overlay_color: '#222222',
-        line_color: '#FFFFFF',
-        show_third_lines: true,
-    },
-};
+    overlay_options: defaultOverlayOptions,
+}
 `}
         />
     </div>
@@ -347,32 +326,36 @@ let value = { ...defaultValue };
             style="position:relative;height:100px;width:{value.aspect *
                 100}px; overflow:hidden; border-radius: {options.shape == 'round' ? '50%' : '0'}"
         >
-        {#if video}
-            <video
-                style={`transform: translateX(-50%) translateY(-50%) rotate(${
-                    value.rotation || 0
-                }deg);` +
-                    `height: ${(value.scale || 0.0) * 100}px;` +
-                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
-                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+            {#if video}
+                <video
+                    style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                        value.rotation || 0
+                    }deg);` +
+                        `height: ${(value.scale || 0.0) * 100}px;` +
+                        `margin-left: ${
+                            (100 * value.aspect) / 2 + (value.position.x || 0) * 100
+                        }px;` +
+                        `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
                 max-width:none;`}
-                src={media.url}
-                autoPlay
-                loop
-                muted={true}
-            />
+                    src={media.url}
+                    autoPlay
+                    loop
+                    muted={true}
+                />
             {:else}
-            <img
-                style={`transform: translateX(-50%) translateY(-50%) rotate(${
-                    value.rotation || 0
-                }deg);` +
-                    `height: ${(value.scale || 0.0) * 100}px;` +
-                    `margin-left: ${(100 * value.aspect) / 2 + (value.position.x || 0) * 100}px;` +
-                    `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
+                <img
+                    style={`transform: translateX(-50%) translateY(-50%) rotate(${
+                        value.rotation || 0
+                    }deg);` +
+                        `height: ${(value.scale || 0.0) * 100}px;` +
+                        `margin-left: ${
+                            (100 * value.aspect) / 2 + (value.position.x || 0) * 100
+                        }px;` +
+                        `margin-top: ${100 / 2 + (value.position.y || 0) * 100}px;
                 max-width:none;`}
-                src={media.url}
-                alt="result"
-            />
+                    src={media.url}
+                    alt="result"
+                />
             {/if}
         </div>
 
@@ -423,7 +406,7 @@ let value = { ...defaultValue };
                 />
             </li>
             <li>
-                Calculate x,y position of area to extract: <Highlight
+                Calculate top left position of area to extract: <Highlight
                     language={typescript}
                     code={`let left =
     (resized_and_rotated_media.width - target_width) / 2.0

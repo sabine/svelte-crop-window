@@ -21,16 +21,18 @@
         mouse_draggable,
         type MouseDragMoveEvent
     } from '../gestures/mouse_events';
-    import type { CropWindowOptions, Media, CropValue } from '../types';
+    import type { Media, CropValue, OverlayComponent, CropShape } from '../types';
 
     export let media: Media;
     export let value: CropValue;
 
     type OverlayOptions = $$Generic;
-    export let options: CropWindowOptions<OverlayOptions>;
+    export let shape: CropShape;
+    export let overlay: OverlayComponent<OverlayOptions>;
+    export let overlay_options: OverlayOptions;
 
     let outer_el: HTMLDivElement;
-    let crop_media_el: CropMediaView<OverlayOptions>;
+    let crop_media_el: CropMediaView;
 
     export let center_point: Point;
     export let outer_size: Size;
@@ -170,13 +172,15 @@
     <CropMediaView
         bind:this={crop_media_el}
         bind:outer_size
-        {options}
-        bind:gesture_in_progress
+        {shape}
         bind:crop_window_size
         bind:media
         bind:value
         {center_point}
     />
+    <div class="inner">
+        <svelte:component this={overlay} options={overlay_options} {gesture_in_progress} {shape} />
+    </div>
 </div>
 
 <style>
@@ -186,5 +190,15 @@
         overflow: hidden;
         position: relative;
         cursor: crosshair;
+    }
+
+    .inner {
+        overflow: hidden;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 </style>

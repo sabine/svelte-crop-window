@@ -13,15 +13,13 @@
         get_center
     } from './geometry';
     import type { Point } from './geometry';
-    import type { CropWindowOptions, Media, CropValue } from '../types';
+    import type { Media, CropValue, CropShape } from '../types';
     import { AnimatePosition } from './animate_position';
 
     export let media: Media;
 
-    type OverlayOptions = $$Generic;
-    export let options: CropWindowOptions<OverlayOptions>;
+    export let shape: CropShape;
 
-    export let gesture_in_progress = false;
     export let outer_size: Size;
     export let crop_window_size: Size;
 
@@ -202,7 +200,7 @@
     let bottom_right_croparea_rotated: Point;
 
     function calculate_rotated_croparea_points() {
-        if (options.shape == 'rect') {
+        if (shape == 'rect') {
             let left_croparea = (outer_size.width - crop_window_size.width) / 2;
             let right_croparea =
                 (outer_size.width - crop_window_size.width) / 2 + crop_window_size.width;
@@ -443,14 +441,6 @@
         rotation={value.rotation + pending_rotation}
         on:media_size={set_media_size}
     />
-    <div class="inner">
-        <svelte:component
-            this={options.overlay}
-            options={options.overlay_options}
-            {gesture_in_progress}
-            shape={options.shape}
-        />
-    </div>
     <!--
     {#if image_points}
         <div
@@ -524,16 +514,6 @@
 {/if}
 
 <style>
-    .inner {
-        overflow: hidden;
-        position: absolute;
-        margin: auto;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-
     /*
     .p {
         background-color: red;

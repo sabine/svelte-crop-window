@@ -2,15 +2,25 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { type CropValue, type Media, type CropWindowOptions, defaultValue } from '$lib/types';
+    import {
+        type CropValue,
+        type Media,
+        defaultValue,
+        type OverlayComponent,
+        type CropShape,
+        type Options,
+        defaultOptions
+    } from '$lib/types';
+    import Overlay from '$lib/overlay/Overlay.svelte';
+    import { defaultOverlayOptions } from '$lib/overlay/overlay';
 
     export let media: Media;
     export let value: CropValue = defaultValue;
 
     type OverlayOptions = $$Generic;
-    export let options: CropWindowOptions<OverlayOptions>;
 
-    if (options.shape == 'round' && value.aspect != 1) throw 'round crops must be circles!';
+    //@ts-ignore
+    export let options: Options<OverlayOptions> = defaultOptions;
 
     let outer_size: Size;
     let crop_window_size: Size;
@@ -78,7 +88,9 @@
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             bind:this={gesture_el}
-            {options}
+            shape={options.shape}
+            overlay={options.overlay}
+            overlay_options={options.overlay_options}
             bind:value
             {media}
             {crop_window_size}
