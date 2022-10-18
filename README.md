@@ -10,32 +10,66 @@ If you can do code-review, that's very welcome.
 
 Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 
-## Props
+## `CropWindow.svelte` Component
 
-| name                 | type                                                                    | required |purpose                                                                                                                                                                                                                                                            |
-| -------------------- | ----------------------------------------------------------------------- | -- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `media`              | `{ url: string, content_type: 'image' \| 'video' }`                     | ✓ |image or video to be cropped                                                                                                                                                                                                                                       |
-| `value`              | `{ position: Point; aspect: number; rotation: number; scale: number; }` | ✓ | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop)                                                                                                                                                                                                                                   |
-| `shape`              | `'rect' \| 'round'`                                                     | | shape of the crop area                                                                                                                                                                                                                                             |
-| `crop_window_margin` | `number`                                                                | |Margin of the crop window, in pixels. The crop window will always scale to the maximum possible size in its containing element.                                                                                                                                    |
-| `overlay`            | a Svelte component                                                      | |The overlay component which visually highlights the crop area. You can pass your own Svelte component with props `options: T, gesture_in_progress: boolean, shape: 'rect' \| 'round'` here, or use the included [Overlay.svelte](/src/lib/overlay/Overlay.svelte). |
-| `overlay_options`    | `T`                                                                     | |Options for your overlay component. The included overlay allows you to set the color of the overlay (`overlay_color: string`), the color of the lines (`line_color: string`), and whether to show third lines or not (`show_third_lines: boolean`).                |
+### Props
+
+| name      | type                                                                    | required | purpose                                                                                      |
+| --------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- |
+| `media`   | `Media`                     | ✓        | image or video to be cropped                                                                 |
+| `value`   | `CropValue` | ✓        | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop) |
+| `options` | `Options`                                                               |          | options for the crop window and overlay, see below                                           |
+
+```typescript
+type Media = {
+    content_type: 'image' | 'video';
+    url: string;
+}
+
+type CropValue = {
+    position: { x: number; y: number };
+    aspect: number;
+    rotation: number;
+    scale: number; }
+}
+```
+
+### Options
+
+| name                 | type                | purpose                                                                                                                                                                                                                                                            |
+| -------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `shape`              | `'rect' \| 'round'` | shape of the crop area                                                                                                                                                                                                                                             |
+| `crop_window_margin` | `number`            | Margin of the crop window, in pixels. The crop window will always scale to the maximum possible size in its containing element.                                                                                                                                    |
+| `overlay`            | a Svelte component  | The overlay component which visually highlights the crop area. You can pass your own Svelte component with props `options: T, gesture_in_progress: boolean, shape: 'rect' \| 'round'` here, or use the included [Overlay.svelte](/src/lib/overlay/Overlay.svelte). |
+| `overlay_options`    | `T`                 | Options for your overlay component. See below for the options of the included overlay component.                                                                                                                                                                   |
+
+## `Overlay.svelte` Component
+
+### Options
+
+| name               | type      | purpose                                                              |
+| ------------------ | --------- | -------------------------------------------------------------------- |
+| `overlay_color`    | `string`  | the color of the overlay that covers everything except the crop area |
+| `line_color`       | `string`  | the color of the lines                                               |
+| `show_third_lines` | `boolean` | whether to show third lines or not when a gesture is in progress     |
 
 ## How to Crop
 
 ### Display in HTML Without Actually Cropping:
 
 ```html
-<div style="position:relative; overflow:hidden;
+<div
+    style="position:relative; overflow:hidden;
         height:{HEIGHT}px; width:{value.aspect * HEIGHT}px;
-        border-radius: {options.shape == 'round' ? '50%' : '0'}">
+        border-radius: {options.shape == 'round' ? '50%' : '0'}"
+>
     <video
         style="transform: translateX(-50%) translateY(-50%) rotate({value.rotation}deg);
     height: {value.scale * HEIGHT}px;
     margin-left: {HEIGHT * value.aspect / 2 + value.position.x * HEIGHT}px;
     margin-top: {HEIGHT / 2 + value.position.y * HEIGHT}px;
     max-width:none"
-        src={url}
+        src="{url}"
     />
 </div>
 ```
@@ -45,36 +79,40 @@ Note: You must choose a `HEIGHT`, because the crop value is normalized against t
 ### Pseudo Code to Crop
 
 1. Choose a `target_height` and calculate the `target_width` for the cropped image:
+
 ```javascript
-let target_width = target_height * value.aspect;
+let target_width = value.aspect * target_height;
 ```
+
 2. Calculate factor `s` by which to scale:
+
 ```javascript
-let s = value.scale * target_height / media.height;
+let s = (value.scale * target_height) / media.height;
 ```
+
 3. Scale media by `s`:
+
 ```javascript
 let resized_media = scale(media, s);
 ```
+
 4. Rotate media by `value.rotation`:
+
 ```javascript
-let resized_and_rotated_media =
-    rotate(resized_media, value.rotation);
+let resized_and_rotated_media = rotate(resized_media, value.rotation);
 ```
-5. Calculate top left position of area to extract:
+
+5. Calculate top left position of the area to extract:
+
 ```javascript
-let left =
-    (resized_and_rotated_media.width - target_width) / 2.0
-    - value.x * target_height;
-let top =
-    (resized_and_rotated_media.height - target_height) / 2.0
-    - value.y * target_height;
+let left = (resized_and_rotated_media.width - target_width) / 2.0 - value.x * target_height;
+let top = (resized_and_rotated_media.height - target_height) / 2.0 - value.y * target_height;
 ```
+
 6. Extract area:
+
 ```javascript
-let cropped_media =
-    extract_area(resized_and_rotated_media, left, top,
-                 target_width, target_height);
+let cropped_media = extract_area(resized_and_rotated_media, left, top, target_width, target_height);
 ```
 
 ## Developing

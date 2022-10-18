@@ -7,7 +7,9 @@
         type Media,
         defaultValue,
         type OverlayComponent,
-        type CropShape
+        type CropShape,
+        type Options,
+        defaultOptions
     } from '$lib/types';
     import Overlay from '$lib/overlay/Overlay.svelte';
     import { defaultOverlayOptions } from '$lib/overlay/overlay';
@@ -17,21 +19,8 @@
 
     type OverlayOptions = $$Generic;
 
-    /* shape of the crop area */
-    export let shape: CropShape = 'rect';
-
-    /* margin of the crop window wrt to its containing HTMLElement, in pixels */
-    export let crop_window_margin: number = 10;
-
-    /* The overlay which visually highlights the crop area.
-    You can pass your own Svelte component here, for a custom overlay.
-    Look at the included Overlay.svelte to see how to create your own. */
     //@ts-ignore
-    export let overlay: OverlayComponent<OverlayOptions> = Overlay;
-
-    /* The options for the overlay depend on the overlay component you use. */
-    //@ts-ignore
-    export let overlay_options: OverlayOptions = defaultOverlayOptions;
+    export let options: Options<OverlayOptions> = defaultOptions;
 
     let outer_size: Size;
     let crop_window_size: Size;
@@ -69,12 +58,12 @@
         crop_window_size =
             outer_size.width / outer_size.height > value.aspect
                 ? {
-                      height: outer_size.height - 2 * crop_window_margin,
-                      width: (outer_size.height - 2 * crop_window_margin) * value.aspect
+                      height: outer_size.height - 2 * options.crop_window_margin,
+                      width: (outer_size.height - 2 * options.crop_window_margin) * value.aspect
                   }
                 : {
-                      height: (outer_size.width - 2 * crop_window_margin) / value.aspect,
-                      width: outer_size.width - 2 * crop_window_margin
+                      height: (outer_size.width - 2 * options.crop_window_margin) / value.aspect,
+                      width: outer_size.width - 2 * options.crop_window_margin
                   };
     }
 
@@ -99,9 +88,9 @@
     {#if crop_window_size && outer_size && center_point}
         <GestureMediaView
             bind:this={gesture_el}
-            {shape}
-            {overlay}
-            {overlay_options}
+            shape={options.shape}
+            overlay={options.overlay}
+            overlay_options={options.overlay_options}
             bind:value
             {media}
             {crop_window_size}
