@@ -2,7 +2,7 @@
 
 A crop window component for images and videos that supports touch gestures (pinch zoom, rotate, pan), as well as mousewheel zoom, mouse-dragging the image, and rotating on right mouse button.
 
-Currently looking for contributors and feedback to help improve this component.
+Currently looking for contributors / feature requests / feedback to help improve this component.
 
 ![video cropper](/static/videocrop.gif)
 
@@ -18,7 +18,7 @@ Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 | --------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- |
 | `media`   | `Media`                     | ✓        | image or video to be cropped                                                                 |
 | `value`   | `CropValue` | ✓        | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop) |
-| `options` | `Options`                                                               |          | options for the crop window and overlay, see below                                           |
+| `options` | [`Options`](https://github.com/sabine/svelte-crop-window#options)                                                               |          | options for the crop window and overlay, see below                                           |
 
 ```typescript
 type Media = {
@@ -32,6 +32,13 @@ type CropValue = {
     rotation: number;
     scale: number; }
 }
+
+const defaultValue: CropValue = {
+    position: { x: 0, y: 0 },
+    aspect: 1.0,
+    rotation: 0,
+    scale: 0
+};
 ```
 
 ### Options

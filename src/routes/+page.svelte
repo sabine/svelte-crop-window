@@ -268,7 +268,7 @@
             <Highlight
                 language={typescript}
                 code={`// in script tag
-import { CropWindow } from 'svelte-crop-window';
+import { CropWindow, defaultValue } from 'svelte-crop-window';
 
 let media: Media = {
     content_type: '${video ? 'video' : 'image'}',
@@ -303,19 +303,26 @@ let value = { ...defaultValue };
 
         <Highlight
             language={typescript}
-            code={`const defaultOverlayOptions = {
+            code={`const defaultOverlayOptions: OverlayOptions = {
     overlay_color: '#222222',
     line_color: '#FFFFFF',
     show_third_lines: true,
 };
 
-const defaultOptions = {
+const defaultOptions: Options<OverlayOptions> = {
     shape: 'rect',
     crop_window_margin: 10,
 
     overlay: Overlay,
     overlay_options: defaultOverlayOptions,
 }
+
+const defaultValue: CropValue = {
+    position: { x: 0, y: 0 },
+    aspect: 1.0,
+    rotation: 0,
+    scale: 0
+};
 `}
         />
     </div>
