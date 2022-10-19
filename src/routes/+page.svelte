@@ -1,19 +1,18 @@
 <script lang="ts">
     import { base } from '$app/paths';
-    import { CropWindow } from '../lib';
-    import type { Point } from '../lib/types';
-
     import { Highlight, HighlightSvelte } from 'svelte-highlight';
     import { atomOneDark } from 'svelte-highlight/styles';
     import typescript from 'svelte-highlight/languages/typescript';
     import {
-        defaultOptions,
+        CropWindow,
         defaultValue,
+        defaultOptions,
+        type Point,
         type CropValue,
         type Media,
         type Options,
-    } from '../lib/types';
-    import type { OverlayOptions } from '../lib';
+        type OverlayOptions
+    } from '../lib';
 
     const VIDEO: Media = {
         content_type: 'video',
@@ -264,6 +263,8 @@
         <div style="height:20em; background: #222">
             <CropWindow bind:value={value2} {media} />
         </div>
+        Note: You must wrap the component with an element that has a determined height (and width), as
+        the component will always take up 100% of the available width and height.
         <div>
             <Highlight
                 language={typescript}

@@ -2,7 +2,7 @@
     import type { Point, Size } from './geometry';
     import GestureMediaView from './GestureMediaView.svelte';
     import { onMount } from 'svelte';
-    import { defaultValue, type CropValue, type Media } from '../types';
+    import { defaultOptions, defaultValue, type CropValue, type Media } from '../types';
 
     export let media: Media;
     export let value: CropValue = defaultValue;
