@@ -43,7 +43,7 @@ You must wrap the `CropWindow` component with an Element that determines the hei
 | name      | type                                                                    | required | purpose                                                                                      |
 | --------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- |
 | `media`   | `Media`                     | ✓        | image or video to be cropped                                                                 |
-| `value`   | `CropValue` | ✓        | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop) |
+| `value`   | `CropValue` |          | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop) - will be initialized if undefined |
 | `options` | [`Options`](https://github.com/sabine/svelte-crop-window#options)                                                               |          | options for the crop window and overlay, see below                                           |
 
 ```typescript
