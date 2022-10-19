@@ -171,6 +171,11 @@ let cropped_media =
                  left, top, target_width, target_height);
 ```
 
+## What this component doesn't do
+
+1. Does not modify/crop the image, you have to do that by whatever means make sense for your application. Doesn't (yet) provide usable controls. Currently, you need to implement your own.
+2. Similar to the overlay, it would be nice to include some controls to make this more usable out of the box. Contributions are very welcome.
+
 ## Developing
 
 Once you've cloned the project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
