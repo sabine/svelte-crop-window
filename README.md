@@ -10,6 +10,32 @@ If you can do code-review, that's very welcome.
 
 Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 
+## Installation
+
+```bash
+npm install svelte-crop-window
+```
+
+## Basic use
+
+You must wrap the `CropWindow` component with an Element that determines the height.
+```html
+<script>
+    import { CropWindow, defaultValue } from 'svelte-crop-window';
+
+    let media = {
+        content_type: 'image',
+        url: '/svelte-crop-window/hintersee-3601004.jpg'
+    };
+
+    let value = { ...defaultValue };
+</script>
+
+<div style="height:20em">
+    <CropWindow bind:value {media} />
+</div>
+```
+
 ## `CropWindow.svelte` Component
 
 ### Props
