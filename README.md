@@ -189,9 +189,9 @@ One big inspiration for this component was the Android library
 valuable is that the developers shared their thought process in
 [this blog post](https://yalantis.com/blog/how-we-created-ucrop-our-own-image-cropping-library-for-android/).
 
-Another very helpful resource was [svelte-easy-crop](https://github.com/ValentinH/svelte-easy-crop)
+Another very helpful resource was [svelte-easy-crop](https://www.npmjs.com/package/svelte-easy-crop)
 which gave me a basic understanding of how to implement a crop window component in Svelte
 (and HTML/JS in general).
 
-There's no code being reused between either of these components and this one (all
-calculations had to be recreated from textbook math).
+There's no code reuse between either of these components and this one. All
+calculations had to be recreated from textbook math.
