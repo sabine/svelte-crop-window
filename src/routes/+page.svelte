@@ -11,7 +11,7 @@
         defaultValue,
         type CropValue,
         type Media,
-        type Options,
+        type Options
     } from '../lib/types';
     import type { OverlayOptions } from '../lib';
 
@@ -264,6 +264,8 @@
         <div style="height:20em; background: #222">
             <CropWindow bind:value={value2} {media} />
         </div>
+        Note: You must wrap the component with an element that has a determined height (and width), as
+        the component will always take up 100% of the available width and height.
         <div>
             <Highlight
                 language={typescript}
