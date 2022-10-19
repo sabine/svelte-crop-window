@@ -1,7 +1,8 @@
-import { Overlay } from '$lib';
 import type { SvelteComponentTyped } from 'svelte';
 import type { Point } from './crop_window/geometry';
 import { defaultOverlayOptions, type OverlayOptions } from './overlay/overlay';
+import Overlay from './overlay/Overlay.svelte';
+export { type Point } from './crop_window/geometry';
 
 type IWantToAcceptAComponent<T extends Record<string, any>> = new (
     ...args: any

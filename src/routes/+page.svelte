@@ -1,7 +1,7 @@
 <script lang="ts">
     import { base } from '$app/paths';
-    import CropWindow from '$lib/crop_window/CropWindow.svelte';
-    import type { Point } from '$lib/crop_window/geometry';
+    import { CropWindow } from '../lib';
+    import type { Point } from '../lib/types';
 
     import { Highlight, HighlightSvelte } from 'svelte-highlight';
     import { atomOneDark } from 'svelte-highlight/styles';
@@ -12,8 +12,8 @@
         type CropValue,
         type Media,
         type Options,
-    } from '$lib/types';
-    import type { OverlayOptions } from '$lib';
+    } from '../lib/types';
+    import type { OverlayOptions } from '../lib';
 
     const VIDEO: Media = {
         content_type: 'video',

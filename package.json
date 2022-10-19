@@ -9,6 +9,14 @@
     },
     "author": "Sabine Schmaltz <info@sabineschmaltz.de>",
     "license": "MIT",
+    "keywords": [
+        "cropper",
+        "crop window",
+        "image crop",
+        "video crop",
+        "svelte",
+        "svelte component"
+    ],
     "scripts": {
         "dev": "vite dev --port 3000 --host",
         "gh-pages": "vite build && node gh-pages.cjs",
