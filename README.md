@@ -10,6 +10,32 @@ If you can do code-review, that's very welcome.
 
 Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 
+## Installation
+
+```bash
+npm install svelte-crop-window
+```
+
+## Basic use
+
+You must wrap the `CropWindow` component with an Element that determines the height.
+```html
+<script>
+    import { CropWindow, defaultValue } from 'svelte-crop-window';
+
+    let media = {
+        content_type: 'image',
+        url: '/svelte-crop-window/hintersee-3601004.jpg'
+    };
+
+    let value = { ...defaultValue };
+</script>
+
+<div style="height:20em">
+    <CropWindow bind:value {media} />
+</div>
+```
+
 ## `CropWindow.svelte` Component
 
 ### Props
@@ -50,6 +76,15 @@ const defaultValue: CropValue = {
 | `overlay`            | a Svelte component  | The overlay component which visually highlights the crop area. You can pass your own Svelte component with props `options: T, gesture_in_progress: boolean, shape: 'rect' \| 'round'` here, or use the included [Overlay.svelte](/src/lib/overlay/Overlay.svelte). |
 | `overlay_options`    | `T`                 | Options for your overlay component. See below for the options of the included overlay component.                                                                                                                                                                   |
 
+```typescript
+const defaultOptions: Options<OverlayOptions> = {
+    shape: 'rect',
+    crop_window_margin: 10,
+    overlay: Overlay,
+    overlay_options: defaultOverlayOptions
+};
+```
+
 ## `Overlay.svelte` Component
 
 ### Options
@@ -60,18 +95,28 @@ const defaultValue: CropValue = {
 | `line_color`       | `string`  | the color of the lines                                               |
 | `show_third_lines` | `boolean` | whether to show third lines or not when a gesture is in progress     |
 
+```typescript
+const defaultOverlayOptions: OverlayOptions = {
+    overlay_color: 'rgb(11, 11, 11)',
+    line_color: 'rgb(167, 167, 167)',
+    show_third_lines: true
+};
+```
+
 ## How to Crop
 
 ### Display in HTML Without Actually Cropping:
 
 ```html
 <div
-    style="position:relative; overflow:hidden;
+    style="
+        position:relative; overflow:hidden;
         height:{HEIGHT}px; width:{value.aspect * HEIGHT}px;
         border-radius: {options.shape == 'round' ? '50%' : '0'}"
 >
     <video
-        style="transform: translateX(-50%) translateY(-50%) rotate({value.rotation}deg);
+        style="
+    transform: translateX(-50%) translateY(-50%) rotate({value.rotation}deg);
     height: {value.scale * HEIGHT}px;
     margin-left: {HEIGHT * value.aspect / 2 + value.position.x * HEIGHT}px;
     margin-top: {HEIGHT / 2 + value.position.y * HEIGHT}px;
@@ -112,14 +157,18 @@ let resized_and_rotated_media = rotate(resized_media, value.rotation);
 5. Calculate top left position of the area to extract:
 
 ```javascript
-let left = (resized_and_rotated_media.width - target_width) / 2.0 - value.x * target_height;
-let top = (resized_and_rotated_media.height - target_height) / 2.0 - value.y * target_height;
+let left = (resized_and_rotated_media.width - target_width) / 2.0 
+            - value.x * target_height;
+let top = (resized_and_rotated_media.height - target_height) / 2.0
+           - value.y * target_height;
 ```
 
 6. Extract area:
 
 ```javascript
-let cropped_media = extract_area(resized_and_rotated_media, left, top, target_width, target_height);
+let cropped_media =
+    extract_area(resized_and_rotated_media,
+                 left, top, target_width, target_height);
 ```
 
 ## Developing
