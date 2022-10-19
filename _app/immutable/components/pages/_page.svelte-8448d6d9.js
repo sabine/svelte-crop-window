@@ -36,19 +36,26 @@ let value = { ...defaultValue };
         {options}
     />
 </div>
-`}}),Xt=new xt({props:{language:Lt,code:`const defaultOverlayOptions = {
+`}}),Xt=new xt({props:{language:Lt,code:`const defaultOverlayOptions: OverlayOptions = {
     overlay_color: '#222222',
     line_color: '#FFFFFF',
     show_third_lines: true,
 };
 
-const defaultOptions = {
+const defaultOptions: Options<OverlayOptions> = {
     shape: 'rect',
     crop_window_margin: 10,
 
     overlay: Overlay,
     overlay_options: defaultOverlayOptions,
 }
+
+const defaultValue: CropValue = {
+    position: { x: 0, y: 0 },
+    aspect: 1.0,
+    rotation: 0,
+    scale: 0
+};
 `}});function Jo(U,Y){return U[0]?uu:cu}let ds=Jo(e),Qe=ds(e);return qt=new Ir({props:{code:`<div style={\`position:relative; overflow:hidden;
         height:{HEIGHT}px; width:{value.aspect * HEIGHT}px;
         border-radius: { options.shape == 'round' ? '50%' : '0' }\`}>
