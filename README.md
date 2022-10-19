@@ -166,7 +166,9 @@ let top = (resized_and_rotated_media.height - target_height) / 2.0
 6. Extract area:
 
 ```javascript
-let cropped_media = extract_area(resized_and_rotated_media, left, top, target_width, target_height);
+let cropped_media =
+    extract_area(resized_and_rotated_media,
+                 left, top, target_width, target_height);
 ```
 
 ## Developing
