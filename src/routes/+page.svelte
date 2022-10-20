@@ -32,8 +32,8 @@
         shape: 'round',
         crop_window_margin: 30,
         overlay_options: {
-            line_color: '#f3f5e8',
-            overlay_color: '#167676',
+            overlay_color: '#167676AA',
+            line_color: '#f3f5e866',
             show_third_lines: true
         }
     };
@@ -271,7 +271,7 @@
                 code={`// in script tag
 import { CropWindow, defaultValue } from 'svelte-crop-window';
 
-let media: Media = {
+let media = {
     content_type: '${video ? 'video' : 'image'}',
     url: '${video ? VIDEO.url : IMAGE.url}'
 };
@@ -305,9 +305,11 @@ let value = { ...defaultValue };
         <Highlight
             language={typescript}
             code={`const defaultOverlayOptions: OverlayOptions = {
-    overlay_color: '#222222',
-    line_color: '#FFFFFF',
-    show_third_lines: true,
+    overlay_color: 'rgb(11, 11, 11, 0.7)',
+    line_color: 'rgba(167, 167, 167, 0.5)',
+    show_third_lines: true
+};
+
 };
 
 const defaultOptions: Options<OverlayOptions> = {

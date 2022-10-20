@@ -43,7 +43,6 @@
         top: calc((var(--outer-height) - var(--crop-window-height)) / 2);
         box-shadow: 0 0 0 9999em;
         color: var(--overlay-color);
-        opacity: 0.7;
     }
 
     .outline {
@@ -54,7 +53,6 @@
         top: 0;
         box-sizing: border-box;
         border: 2px solid var(--outline-color);
-        opacity: 0.5;
     }
 
     .lines-wrapper {
@@ -75,7 +73,6 @@
         box-sizing: border-box;
         height: 33%;
         width: 100%;
-        opacity: 0.5;
     }
 
     .vertical-lines {
@@ -83,6 +80,5 @@
         border-right: 1px solid var(--outline-color);
         height: 100%;
         width: 33%;
-        opacity: 0.5;
     }
 </style>

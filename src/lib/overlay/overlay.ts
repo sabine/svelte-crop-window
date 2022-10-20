@@ -5,7 +5,7 @@ export type OverlayOptions = {
 };
 
 export const defaultOverlayOptions: OverlayOptions = {
-    overlay_color: 'rgb(11, 11, 11)',
-    line_color: 'rgb(167, 167, 167)',
+    overlay_color: 'rgb(11, 11, 11, 0.7)',
+    line_color: 'rgba(167, 167, 167, 0.5)',
     show_third_lines: true
 };

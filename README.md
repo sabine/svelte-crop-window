@@ -10,6 +10,8 @@ If you can do code-review, that's very welcome.
 
 Here's a [demo page](https://sabine.github.io/svelte-crop-window/).
 
+And here's a [minimal REPL where you can play with the code](https://svelte.dev/repl/2db644efd08841958f2dd3209f00bf51?version=3.52.0) and a [fancier REPL](https://svelte.dev/repl/c246300e4ffd42a0b01ff318f7abd91d?version=3.52.0).
+
 ## Installation
 
 ```bash
@@ -43,8 +45,8 @@ You must wrap the `CropWindow` component with an Element that determines the hei
 | name      | type                                                                    | required | purpose                                                                                      |
 | --------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- |
 | `media`   | `Media`                     | ✓        | image or video to be cropped                                                                 |
-| `value`   | `CropValue` |          | value that describes [how to crop](https://github.com/sabine/svelte-crop-window#how-to-crop) - will be initialized if undefined |
-| `options` | [`Options`](https://github.com/sabine/svelte-crop-window#options)                                                               |          | options for the crop window and overlay, see below                                           |
+| `value`   | `CropValue` |          | value that describes [how to crop](#how-to-crop) - will be initialized if undefined |
+| `options` | [`Options`](#options)                                                               |          | options for the crop window and overlay, see below                                           |
 
 ```typescript
 type Media = {
@@ -97,8 +99,8 @@ const defaultOptions: Options<OverlayOptions> = {
 
 ```typescript
 const defaultOverlayOptions: OverlayOptions = {
-    overlay_color: 'rgb(11, 11, 11)',
-    line_color: 'rgb(167, 167, 167)',
+    overlay_color: 'rgb(11, 11, 11, 0.7)',
+    line_color: 'rgba(167, 167, 167, 0.5)',
     show_third_lines: true
 };
 ```
