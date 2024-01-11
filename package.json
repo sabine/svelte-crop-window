@@ -1,6 +1,6 @@
 {
     "name": "svelte-crop-window",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "A Svelte component to crop images and videos with touch and mouse gestures",
     "homepage": "https://sabine.github.io/svelte-crop-window",
     "repository": {
@@ -20,32 +20,141 @@
     "scripts": {
         "dev": "vite dev --port 3000 --host",
         "gh-pages": "vite build && node gh-pages.cjs",
-        "build": "svelte-kit sync && svelte-package && node clean-dependencies.js",
+        "build": "svelte-kit sync && svelte-package -o package && node create-package-json.js",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "lint": "prettier --plugin-search-dir . --check . && eslint .",
         "format": "prettier --plugin-search-dir . --write ."
     },
+    "peerDependencies": {
+        "svelte": "^3.0.0"
+    },
     "devDependencies": {
-        "@sveltejs/kit": "1.0.0-next.511",
-        "@sveltejs/package": "1.0.0-next.1",
         "@sveltejs/adapter-static": "1.0.0-next.44",
+        "@sveltejs/kit": "1.0.0-next.511",
+        "@sveltejs/package": "^2.0.0",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-svelte3": "^4.0.0",
+        "gh-pages": "^4.0.0",
         "prettier": "^2.6.2",
         "prettier-plugin-svelte": "^2.7.0",
-        "svelte": "^3.44.0",
         "svelte-check": "^2.7.1",
         "svelte-highlight": "^6.2.1",
         "svelte-preprocess": "^4.10.6",
         "tslib": "^2.3.1",
         "typescript": "^4.7.4",
-        "vite": "^3.1.0",
-        "gh-pages": "^4.0.0"
+        "vite": "^3.1.0"
     },
     "type": "module",
-    "dependencies": {}
+    "exports": {
+        "./package.json": "./package.json",
+        "./crop_window/CropMediaView.svelte": {
+            "types": "./package/crop_window/CropMediaView.svelte.d.ts",
+            "svelte": "./package/crop_window/CropMediaView.svelte",
+            "default": "./package/crop_window/CropMediaView.svelte"
+        },
+        "./crop_window/CropWindow.svelte": {
+            "types": "./package/crop_window/CropWindow.svelte.d.ts",
+            "svelte": "./package/crop_window/CropWindow.svelte",
+            "default": "./package/crop_window/CropWindow.svelte"
+        },
+        "./crop_window/GestureMediaView.svelte": {
+            "types": "./package/crop_window/GestureMediaView.svelte.d.ts",
+            "svelte": "./package/crop_window/GestureMediaView.svelte",
+            "default": "./package/crop_window/GestureMediaView.svelte"
+        },
+        "./crop_window/TransformMediaView.svelte": {
+            "types": "./package/crop_window/TransformMediaView.svelte.d.ts",
+            "svelte": "./package/crop_window/TransformMediaView.svelte",
+            "default": "./package/crop_window/TransformMediaView.svelte"
+        },
+        "./crop_window/animate_position": {
+            "types": "./package/crop_window/animate_position.d.ts",
+            "default": "./package/crop_window/animate_position.js"
+        },
+        "./crop_window/geometry": {
+            "types": "./package/crop_window/geometry.d.ts",
+            "default": "./package/crop_window/geometry.js"
+        },
+        "./gestures/mouse_events": {
+            "types": "./package/gestures/mouse_events.d.ts",
+            "default": "./package/gestures/mouse_events.js"
+        },
+        "./gestures/touch_scale_pan_rotate": {
+            "types": "./package/gestures/touch_scale_pan_rotate.d.ts",
+            "default": "./package/gestures/touch_scale_pan_rotate.js"
+        },
+        ".": {
+            "types": "./package/index.d.ts",
+            "svelte": "./package/index.js",
+            "default": "./package/index.js"
+        },
+        "./overlay/Overlay.svelte": {
+            "types": "./package/overlay/Overlay.svelte.d.ts",
+            "svelte": "./package/overlay/Overlay.svelte",
+            "default": "./package/overlay/Overlay.svelte"
+        },
+        "./overlay/overlay": {
+            "types": "./package/overlay/overlay.d.ts",
+            "default": "./package/overlay/overlay.js"
+        },
+        "./types": {
+            "types": "./package/types.d.ts",
+            "default": "./package/types.js"
+        },
+        "./utils/throttle": {
+            "types": "./package/utils/throttle.d.ts",
+            "default": "./package/utils/throttle.js"
+        }
+    },
+    "files": [
+        "package"
+    ],
+    "svelte": "./package/index.js",
+    "typesVersions": {
+        ">4.0": {
+            "crop_window/CropMediaView.svelte": [
+                "./package/crop_window/CropMediaView.svelte.d.ts"
+            ],
+            "crop_window/CropWindow.svelte": [
+                "./package/crop_window/CropWindow.svelte.d.ts"
+            ],
+            "crop_window/GestureMediaView.svelte": [
+                "./package/crop_window/GestureMediaView.svelte.d.ts"
+            ],
+            "crop_window/TransformMediaView.svelte": [
+                "./package/crop_window/TransformMediaView.svelte.d.ts"
+            ],
+            "crop_window/animate_position": [
+                "./package/crop_window/animate_position.d.ts"
+            ],
+            "crop_window/geometry": [
+                "./package/crop_window/geometry.d.ts"
+            ],
+            "gestures/mouse_events": [
+                "./package/gestures/mouse_events.d.ts"
+            ],
+            "gestures/touch_scale_pan_rotate": [
+                "./package/gestures/touch_scale_pan_rotate.d.ts"
+            ],
+            "index.d.ts": [
+                "./package/index.d.ts"
+            ],
+            "overlay/Overlay.svelte": [
+                "./package/overlay/Overlay.svelte.d.ts"
+            ],
+            "overlay/overlay": [
+                "./package/overlay/overlay.d.ts"
+            ],
+            "types": [
+                "./package/types.d.ts"
+            ],
+            "utils/throttle": [
+                "./package/utils/throttle.d.ts"
+            ]
+        }
+    }
 }
