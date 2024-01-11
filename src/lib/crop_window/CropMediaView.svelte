@@ -512,14 +512,3 @@
     {/if}
     -->
 {/if}
-
-<style>
-    /*
-    .p {
-        background-color: red;
-        width: 5px;
-        height: 5px;
-        box-sizing: border-box;
-    }
-    */
-</style>
